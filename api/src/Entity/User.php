@@ -14,36 +14,30 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
+use App\Controller\MeController;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-// #[ApiResource(
-//     security: 'is_granted("ROLE_USER")',
-//     itemOperations: [
-//         'me' => [
-//             'method' => 'GET',
-//             'path' => '/users/me',
-//             'security' => 'is_granted("ROLE_USER")',
-//             'security_message' => 'Only authenticated users can access this resource.',
-//             'openapi_context' => [
-//                 'openapi_context' => [
-//                     'security' => [
-//                         [
-//                             'bearerAuth' => [],
-//                         ],
-//                     ],
-//                 ],
-//             ],
-//         ],
-//     ],
-//     normalizationContext: ['groups' => ['user:read']],
-// )]
+#[ApiResource(
+    security: 'is_granted("ROLE_USER")',
+    operations: [
+        new Get(
+            paginationEnabled: false,
+            uriTemplate: '/users/me',
+            controller: MeController::class,
+            read: false,
+            name: 'me',
+        ),
+    ],
+    normalizationContext: ['groups' => ['user:read']],
+)]
 #[Post(
     uriTemplate: '/users/reset-password',
     controller: ResetPasswordController::class,
     name: 'reset-password'
 )]
-#[Get]
+#[Get()]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
