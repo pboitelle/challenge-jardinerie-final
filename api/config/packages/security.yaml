@@ -34,10 +34,10 @@ security:
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
         - { path: ^/users, methods: POST, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
-            
-    role_hierarchy:
-        ROLE_ADMIN: ROLE_COACH
-        ROLE_COACH: ROLE_CUSTOMER
+
+    # role_hierarchy:
+    #     ROLE_ADMIN: ROLE_COACH
+    #     ROLE_COACH: ROLE_CUSTOMER
         
 when@test:
     security:

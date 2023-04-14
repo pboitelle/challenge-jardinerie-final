@@ -12,10 +12,31 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[ApiResource]
+#[ApiResource(
+    security: 'is_granted("ROLE_USER")',
+    itemOperations: [
+        'me' => [
+            'method' => 'GET',
+            'path' => '/users/me',
+            'security' => 'is_granted("ROLE_USER")',
+            'security_message' => 'Only authenticated users can access this resource.',
+            'openapi_context' => [
+                'openapi_context' => [
+                    'security' => [
+                        [
+                            'bearerAuth' => [],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+    normalizationContext: ['groups' => ['user:read']],
+)]
 #[Post(
     uriTemplate: '/users/reset-password',
     controller: ResetPasswordController::class,
@@ -42,15 +63,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\ManyToMany(targetEntity: Hackathon::class, mappedBy: 'participants')]
-    private Collection $hackathons;
-
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $token = null;
 
     public function __construct()
     {
-        $this->hackathons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -121,33 +138,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection<int, Hackathon>
-     */
-    public function getHackathons(): Collection
-    {
-        return $this->hackathons;
-    }
-
-    public function addHackathon(Hackathon $hackathon): self
-    {
-        if (!$this->hackathons->contains($hackathon)) {
-            $this->hackathons[] = $hackathon;
-            $hackathon->addParticipant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHackathon(Hackathon $hackathon): self
-    {
-        if ($this->hackathons->removeElement($hackathon)) {
-            $hackathon->removeParticipant($this);
-        }
-
-        return $this;
     }
 
     public function getToken(): ?string

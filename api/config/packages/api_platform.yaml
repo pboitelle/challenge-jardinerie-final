@@ -6,11 +6,6 @@ api_platform:
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:
-        versions: [3]
-        api_keys:
-            JWT:
-                name: Authorization
-                type: header
     # Mercure integration, remove if unwanted
     mercure: ~
     # Good cache defaults for REST APIs
