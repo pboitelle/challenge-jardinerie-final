@@ -41,12 +41,12 @@ final class JwtDecorator implements OpenApiFactoryInterface
             ],
         ]);
 
-        $schemas = $openApi->getComponents()->getSecuritySchemes() ?? [];
-        $schemas['bearerAuth'] = new \ArrayObject([
-            'type' => 'http',
-            'scheme' => 'bearer',
-            'bearerFormat' => 'JWT',
-        ]);
+        // $schemas = $openApi->getComponents()->getSecuritySchemes() ?? [];
+        // $schemas['JWT'] = new \ArrayObject([
+        //     'type' => 'http',
+        //     'scheme' => 'bearer',
+        //     'bearerFormat' => 'JWT',
+        // ]);
 
         $pathItem = new Model\PathItem(
             ref: 'JWT Token',

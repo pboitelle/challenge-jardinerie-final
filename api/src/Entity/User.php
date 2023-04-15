@@ -13,27 +13,22 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
+use App\Controller\MeController;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
     security: 'is_granted("ROLE_USER")',
-    itemOperations: [
-        'me' => [
-            'method' => 'GET',
-            'path' => '/users/me',
-            'security' => 'is_granted("ROLE_USER")',
-            'security_message' => 'Only authenticated users can access this resource.',
-            'openapi_context' => [
-                'openapi_context' => [
-                    'security' => [
-                        [
-                            'bearerAuth' => [],
-                        ],
-                    ],
-                ],
-            ],
-        ],
+    operations: [
+        new Get(
+            paginationEnabled: false,
+            uriTemplate: '/users/me',
+            controller: MeController::class,
+            read: false,
+            name: 'me',
+        ),
     ],
     normalizationContext: ['groups' => ['user:read']],
 )]
@@ -42,19 +37,23 @@ use Doctrine\DBAL\Types\Types;
     controller: ResetPasswordController::class,
     name: 'reset-password'
 )]
-#[Get]
+#[Get()]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column()]
-    private ?int $id = null;
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['user:read'])]
+    private ?Uuid $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['user:read'])]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Groups(['user:read'])]
     private array $roles = [];
 
     /**
@@ -70,7 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
     }
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
