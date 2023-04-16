@@ -14,6 +14,8 @@ const isAuthenticated = async (to, from, next) => {
             }
         })
         localStorage.setItem('email', response.data.email)
+        localStorage.setItem('firstname', response.data.firstname)
+        localStorage.setItem('lastname', response.data.lastname)
         localStorage.setItem('roles', response.data.roles)
 
         // if response is successful, user is authenticated

@@ -5,7 +5,9 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
 use App\Controller\ResetPasswordController;
+use App\Controller\ChangePasswordController;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,7 +22,7 @@ use App\Controller\MeController;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
-    security: 'is_granted("ROLE_USER")',
+    // security: 'is_granted("ROLE_USER")',
     operations: [
         new Get(
             paginationEnabled: false,
@@ -29,15 +31,24 @@ use App\Controller\MeController;
             read: false,
             name: 'me',
         ),
+        new Post(
+            uriTemplate: '/users/reset-password',
+            controller: ResetPasswordController::class,
+            name: 'reset-password',
+            denormalizationContext: ['groups' => 'reset-password'],
+        ),
+        new Patch(
+            uriTemplate: '/users/change-password/{id}',
+            controller: ChangePasswordController::class,
+            name: 'change-password',
+            denormalizationContext: ['groups' => 'change-password']
+        ),
     ],
     normalizationContext: ['groups' => ['user:read']],
 )]
-#[Post(
-    uriTemplate: '/users/reset-password',
-    controller: ResetPasswordController::class,
-    name: 'reset-password'
-)]
+#[Post()]
 #[Get()]
+#[Patch()]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -49,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'reset-password'])]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -60,6 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Groups(['change-password'])]
     private ?string $password = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
