@@ -5,6 +5,8 @@ import RegisterView from '../views/RegisterView.vue'
 import GardenView from '../views/GardenView.vue'
 import AchatCoinsView from '../views/AchatCoinsView.vue'
 import MarketView from '../views/MarketView.vue'
+import ResetPasswordView from '../views/ResetPasswordView.vue'
+import SendEmailResetPasswordView from '../views/SendEmailResetPasswordView.vue'
 
 import { isAuthenticated } from '../middleware/userAuth'
 
@@ -23,6 +25,16 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: RegisterView
+    },
+    {
+      path: '/reset-password/:token',
+      name: 'reset-password',
+      component: ResetPasswordView,
+    },
+    {
+      path: '/send-email-password',
+      name: 'send-email-password',
+      component: SendEmailResetPasswordView,
     },
     {
       path: '/blog',

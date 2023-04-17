@@ -14,7 +14,7 @@ class UserFixtures extends Fixture
         $pwd = '$2y$13$vutypgho4k1jIlDm94YL1.JDdCSqzZv8HqtWtQC5BlMOK6I.HfUc6';
 
         $user = (new User())
-            ->setEmail('user@user.fr')
+            ->setEmail('pi.boitelle@gmail.com')
             ->setRoles(['ROLE_USER'])
             ->setLastname('Boitelle')
             ->setFirstname('Pierre')

@@ -14,6 +14,8 @@ const isAuthenticated = async (to, from, next) => {
             }
         })
         localStorage.setItem('email', response.data.email)
+        localStorage.setItem('firstname', response.data.firstname)
+        localStorage.setItem('lastname', response.data.lastname)
         localStorage.setItem('roles', response.data.roles)
 
         // if response is successful, user is authenticated
@@ -23,6 +25,19 @@ const isAuthenticated = async (to, from, next) => {
         next({ name: 'login' })
     }
   }
+}
+
+const getUserByToken = async (token) => {
+    try {
+        const response = await axios.get('https://localhost/users/me', {
+              headers: {
+              Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch (error) {
+        return null
+    }
 }
 
 const user = () => {

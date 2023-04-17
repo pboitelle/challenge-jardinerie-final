@@ -13,6 +13,8 @@ export default {
             localStorage.removeItem('token_jwt')
             localStorage.removeItem('email')
             localStorage.removeItem('roles')
+            localStorage.removeItem('firstname')
+            localStorage.removeItem('lastname')
 
             window.location.href = '/'
         }
