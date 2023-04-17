@@ -6,7 +6,6 @@ import Popup from '@/components/Popup.vue';
 
 export default {
     name: 'SendEmailResetPasswordView',
-
     components: {
         Popup
     },
@@ -66,13 +65,13 @@ export default {
                     <label for="password" class="form__label">Saisissez le mail de votre compte</label>
                     <input v-model="email" type="email" id="email" class="form__input" placeholder="john.doe@gmail.com" />
                 </div>
-                
+
                 <button class="btn btn-secondary">Rechercher</button>
 
                 <div>
                     <p>Already have an account? <router-link to="/">Login</router-link></p>
                 </div>
-                
+
             </form>
 
         </div>

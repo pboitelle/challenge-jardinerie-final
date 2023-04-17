@@ -19,6 +19,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
 use App\Controller\MeController;
 
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
@@ -37,8 +38,8 @@ use App\Controller\MeController;
             name: 'reset-password',
             denormalizationContext: ['groups' => 'reset-password'],
         ),
-        new Patch(
-            uriTemplate: '/users/change-password/{id}',
+        new Post(
+            uriTemplate: '/users/change-password',
             controller: ChangePasswordController::class,
             name: 'change-password',
             denormalizationContext: ['groups' => 'change-password']
@@ -75,6 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['change-password'])]
     private ?string $token = null;
 
     #[ORM\Column(length: 255)]

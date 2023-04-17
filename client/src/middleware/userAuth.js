@@ -27,6 +27,19 @@ const isAuthenticated = async (to, from, next) => {
   }
 }
 
+const getUserByToken = async (token) => {
+    try {
+        const response = await axios.get('https://localhost/users/me', {
+              headers: {
+              Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch (error) {
+        return null
+    }
+}
+
 const user = () => {
     if(isAuthenticated) {
         return {

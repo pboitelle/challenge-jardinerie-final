@@ -1,5 +1,5 @@
 <template>
-    <div class="alert alert-success" role="alert">
+    <div :class="alertClass" role="alert">
         <h2>{{ title }}</h2>
         <button class="btn" @click="close">
             <i class="fa-sharp fa-regular fa-circle-xmark fa-2x"></i>
@@ -13,7 +13,11 @@
         props: {
             title: String,
             onClose: Function,
-            autoClose: Number
+            autoClose: Number,
+            type: {
+                type: String,
+                default: 'success'
+            }
         },
         methods: {
             close() {
@@ -25,6 +29,11 @@
                 setTimeout(() => {
                     this.close()
                 }, this.autoClose)
+            }
+        },
+        computed: {
+            alertClass() {
+                return `alert alert-${this.type}`
             }
         }
     }

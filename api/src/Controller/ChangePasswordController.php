@@ -24,18 +24,20 @@ class ChangePasswordController extends AbstractController
         private UserPasswordHasherInterface $passwordEncoder
     ) {}
 
-    public function __invoke(string $token)
+    public function __invoke()
     {
         $request = $this->requestStack->getCurrentRequest();
-        
+
+        $password = json_decode($request->getContent())->password;
+        $token = json_decode($request->getContent())->token;
+
         $em = $this->managerRegistry->getManager();
         /** @var User $user */
         if (!$user = $em->getRepository(User::class)->findOneBy(['token' => $token])) {
-            return new Response('Invalid token', Response::HTTP_BAD_REQUEST);
+            return new Response('Le lien de réinitialisation de mot de passe a expiré, veuillez quitter cette page !', Response::HTTP_BAD_REQUEST);
         }
 
         // Update the user's password
-        $password = json_decode($request->getContent())->password;
         $password_hashed = $this->passwordEncoder->hashPassword($user, $password);
         $user->setPassword($password_hashed);
         $user->setToken(null);
@@ -57,6 +59,6 @@ class ChangePasswordController extends AbstractController
         $this->mailer->send($message);
 
 
-        return $this->json($email);
+        return new Response('Password changed', Response::HTTP_OK);
     }
 }

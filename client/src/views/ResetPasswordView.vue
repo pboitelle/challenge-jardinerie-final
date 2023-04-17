@@ -3,11 +3,20 @@ import {ref} from 'vue'
 import axios from 'axios';
 import { useRoute } from 'vue-router'
 
+import Popup from '@/components/Popup.vue';
+
 export default {
+    name: 'ResetPasswordView',
+    components: {
+        Popup
+    },
     setup () {
+        const popupType = ref('success')
         const password = ref('')
         const confirm_password = ref('')
         const route = useRoute()
+        const popupVisible = ref(false)
+        const popupTitle = ref('Votre mot de passe a bien été modifié, vous allez être redirigé vers la page de connexion !')
 
         const submitForm = async () => {
 
@@ -18,24 +27,43 @@ export default {
 
             try {
 
-                const response = await axios.post(`https://localhost/users/change-password/${route.params.token}`, JSON.stringify({
-                    password: password.value
+                const response = await axios.post(`https://localhost/users/change-password`, JSON.stringify({
+                    password: password.value,
+                    token: route.params.token
                 }), {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 })
-                console.log(response)
+                console.log(response.response)
+                if (response.status === 200) {
+                    popupVisible.value = true
+                    setTimeout(() => {
+                        window.location.href = '/'
+                    }, 5000)
+                }
 
             } catch (error) {
-                console.error(error);
+                if(error.response.status === 400) {
+                    popupTitle.value = error.response.data;
+                    popupType.value = 'danger'
+                    popupVisible.value = true
+                }
             }
+        }
+
+        const closePopup = () => {
+            popupVisible.value = false
         }
 
         return {
             submitForm,
             password,
-            confirm_password
+            confirm_password,
+            closePopup,
+            popupVisible,
+            popupTitle,
+            popupType
         }
     }
 }
@@ -44,6 +72,10 @@ export default {
 <template>
     
     <div class="main">
+
+        <div>
+            <popup :type="popupType" :title="popupTitle" v-if="popupVisible" @close="closePopup" />
+        </div>
 
         <form class="form" @submit.prevent="submitForm">
             <div class="form__group">
@@ -55,9 +87,13 @@ export default {
                 <label for="confirm-password" class="form__label">Confirm Password</label>
                 <input v-model="confirm_password" type="password" id="confirm-password" class="form__input" />
             </div>
-            
+
             <button class="btn btn-primary">Réinitialiser mon mot de passe</button>
-            
+
+            <div>
+                <p>Go back to <router-link to="/">Login</router-link></p>
+            </div>
+
         </form>
 
     </div>
