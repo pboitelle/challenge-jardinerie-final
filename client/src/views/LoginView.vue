@@ -59,6 +59,9 @@ export default {
         <div>
             <p>Don't have an account? <router-link to="/register">Register</router-link></p>
         </div>
+        <div>
+            <p>Forgot your password? <router-link to="/send-email-password">Reset password</router-link></p>
+        </div>
     </form>
   </div>
 </template>

@@ -9,6 +9,7 @@
     "test:unit": "vitest --environment jsdom --root src/"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0",
     "axios": "^1.2.2",
     "bootstrap": "^5.2.3",
     "vue": "^3.2.45",
