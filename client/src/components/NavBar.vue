@@ -2,12 +2,10 @@
 import { RouterLink } from 'vue-router'
 import { ref, computed  } from 'vue'
 
-import { user } from '../middleware/userAuth'
-
 export default {
     setup() {
         
-        const currentUser = computed(() => user())
+        const currentUser = localStorage.getItem('email')
 
         const logout = () => {
             localStorage.removeItem('token_jwt')
@@ -45,7 +43,7 @@ export default {
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ currentUser.email }}
+                            {{ currentUser }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <RouterLink to="/garden" class="dropdown-item">Mon Jardin</RouterLink>

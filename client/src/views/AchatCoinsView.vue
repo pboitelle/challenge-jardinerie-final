@@ -2,6 +2,9 @@
 import NavBar from '@/components/NavBar.vue'
 import ListCards from '@/components/ListCards.vue'
 import axios from 'axios';
+import { watchEffect, ref } from 'vue'
+
+import { userConnected } from '@/middleware/userAuth.js'
 
 export default {
   name: 'AchatCoinsView',
@@ -9,32 +12,41 @@ export default {
     NavBar,
     ListCards
   },
-  data () {
-    return {
-      title: 'Achat de coins',
-      items: [
-        { id: 1, text: "Achat de 10 coins", img: "/src/assets/img/coin.png" },
-        { id: 2, text: "Achat de 20 coins", img: "/src/assets/img/coin.png" },
-        { id: 3, text: "Achat de 30 coins", img: "/src/assets/img/coin.png" }
-      ],
-    }
-  },
-  methods: {
-    handleAchatCoins: async function (item) {
-      console.log(item.id)
+  setup () {
+
+    const user = ref(null)
+
+    watchEffect(async () => {
+      user.value = await userConnected()
+    })
+
+    const handleAchatCoins = async (item) => {
       try {
-        const response = await axios.patch('https://localhost/users/achat-coins/' + 1, {
+        const response = await axios.patch('https://localhost/users/achat-coins/' + user.id, {
           'headers': {
-            'Content-Type': 'application/json',
-            'accept': 'application/json'
+            'Content-Type': 'application/merge-patch+json',
           }
         }, JSON.stringify({
-          'item': item.id
+          'coins': item.nb_coins
         }));
         console.log(response.data);
       } catch (error) {
         console.error(error);
       }
+    }
+
+    return {
+      handleAchatCoins
+    }
+  },
+  data () {
+    return {
+      title: 'Achat de coins',
+      items: [
+        { id: 1, text: "Achat de 10 coins", img: "/src/assets/img/coin.png", nb_coins: 10 },
+        { id: 2, text: "Achat de 50 coins", img: "/src/assets/img/coin.png", nb_coins: 50 },
+        { id: 3, text: "Achat de 100 coins", img: "/src/assets/img/coin.png", nb_coins: 100 }
+      ],
     }
   }
 }

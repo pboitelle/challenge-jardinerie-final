@@ -6,8 +6,11 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
+
 use App\Controller\ResetPasswordController;
 use App\Controller\ChangePasswordController;
+use App\Controller\AchatCoinsController;
+
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -44,6 +47,15 @@ use App\Controller\MeController;
             name: 'change-password',
             denormalizationContext: ['groups' => 'change-password']
         ),
+        new Patch(
+            uriTemplate: '/users/achat-coins/{id}',
+            controller: AchatCoinsController::class,
+            name: 'user_achat_coins',
+            normalizationContext: ['groups' => ['read']],
+            denormalizationContext: ['groups' => ['write']],
+            inputFormats: ['json' => ['application/json']],
+            outputFormats: ['json' => ['application/json']],
+        )
     ],
     normalizationContext: ['groups' => ['user:read']],
 )]
