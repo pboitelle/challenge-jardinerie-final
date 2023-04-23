@@ -1,13 +1,11 @@
 <script>
 import { RouterLink } from 'vue-router'
-import { ref, computed  } from 'vue'
-
-import { user } from '../middleware/userAuth'
 
 export default {
     setup() {
-        
-        const currentUser = computed(() => user())
+
+        const user_email= localStorage.getItem('email')
+        const user_coins= localStorage.getItem('nb_coins')
 
         const logout = () => {
             localStorage.removeItem('token_jwt')
@@ -15,12 +13,14 @@ export default {
             localStorage.removeItem('roles')
             localStorage.removeItem('firstname')
             localStorage.removeItem('lastname')
+            localStorage.removeItem('nb_coins')
 
             window.location.href = '/'
         }
 
         return {
-            currentUser,
+            user_email,
+            user_coins,
             logout
         }
     }
@@ -45,17 +45,22 @@ export default {
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ currentUser.email }}
+                            {{ user_email }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <RouterLink to="/garden" class="dropdown-item">Mon Jardin</RouterLink>
                             <li><hr class="dropdown-divider"></li>
-                            <RouterLink to="/reset-password" class="dropdown-item">Modifier mon mot de passe</RouterLink>
-                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" @click="logout">Me déconnecter</a></li>
                         </ul>
                     </li>
-                 
+                    <li id="nb_coins" class="nav-item">
+                        <a class="nav-link" href="#">
+                            <img src="../assets/img/coin.png">
+                            <span id="number_coins">
+                                {{ user_coins }}
+                            </span>
+                        </a>
+                    </li>
                 </ul>
 
                 <!-- afficher le bouton se connecter ou le bouton deconnexion -->
@@ -130,7 +135,19 @@ export default {
         background-color: #28a745;
     }
 
-
-
-
+    #nb_coins{
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+    }
+    #nb_coins img{
+        width: 30px;
+        
+    }
+    #number_coins{
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+        
+    }
 </style>
