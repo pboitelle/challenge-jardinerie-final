@@ -5,6 +5,11 @@ export default {
     return {
     };
   },
+  methods: {
+    selectItem(item) {
+      this.$emit("itemSelected", item);
+    }
+  },
   props: {
     items: {
       type: Array,
@@ -23,7 +28,7 @@ export default {
             <div class="card-body">
                 <h5 class="card-title">{{ item.title }}</h5>
                 <p class="card-text">{{ item.text }}</p>
-                <button class="btn btn-primary" @click="$emit('click', item)">Acheter</button>
+                <button class="btn btn-primary" @click="selectItem(item)">Acheter</button>
             </div>
         </div>
       </div>
@@ -32,28 +37,28 @@ export default {
 
 <style scoped>
 .row{
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 .card{
-    border: none;
-    border-radius: 0;
-    margin: 0;
-    padding: 0;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 .card-img-top{
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
 .card-body{
-    padding: 0.5rem;
+  padding: 0.5rem;
 }
 .card-title{
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 .card-text{
-    font-size: 1.2rem;
+  font-size: 2rem;
 }
-
 </style>

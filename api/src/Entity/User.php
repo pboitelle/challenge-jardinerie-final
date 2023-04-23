@@ -9,7 +9,7 @@ use ApiPlatform\Metadata\Patch;
 
 use App\Controller\ResetPasswordController;
 use App\Controller\ChangePasswordController;
-use App\Controller\AchatCoinsController;
+use App\Controller\MailAchatCoinsController;
 
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -48,13 +48,11 @@ use App\Controller\MeController;
             denormalizationContext: ['groups' => 'change-password']
         ),
         new Patch(
-            uriTemplate: '/users/achat-coins/{id}',
-            controller: AchatCoinsController::class,
+            uriTemplate: '/users/achat-coins/{id}/{coins}',
+            controller: MailAchatCoinsController::class,
             name: 'user_achat_coins',
-            normalizationContext: ['groups' => ['read']],
-            denormalizationContext: ['groups' => ['write']],
-            inputFormats: ['json' => ['application/json']],
-            outputFormats: ['json' => ['application/json']],
+            denormalizationContext: ['groups' => 'achat-coins'],
+            read: false,
         )
     ],
     normalizationContext: ['groups' => ['user:read']],
@@ -100,6 +98,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $firstname = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['user:read', 'achat-coins'])]
     private ?int $nb_coins = null;
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Item::class)]

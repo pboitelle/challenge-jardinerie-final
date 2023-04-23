@@ -7,6 +7,8 @@ import AchatCoinsView from '../views/AchatCoinsView.vue'
 import MarketView from '../views/MarketView.vue'
 import ResetPasswordView from '../views/ResetPasswordView.vue'
 import SendEmailResetPasswordView from '../views/SendEmailResetPasswordView.vue'
+import SuccessAchatView from '../views/SuccessAchatView.vue'
+import ErrorAchatView from '../views/ErrorAchatView.vue'
 
 import { isAuthenticated } from '../middleware/userAuth'
 
@@ -35,6 +37,18 @@ const router = createRouter({
       path: '/send-email-password',
       name: 'send-email-password',
       component: SendEmailResetPasswordView,
+    },
+    {
+      path: '/success-achat',
+      name: 'success-achat',
+      component: SuccessAchatView,
+      beforeEnter: isAuthenticated
+    },
+    {
+      path: '/error-achat',
+      name: 'error-achat',
+      component: ErrorAchatView,
+      beforeEnter: isAuthenticated
     },
     {
       path: '/blog',
