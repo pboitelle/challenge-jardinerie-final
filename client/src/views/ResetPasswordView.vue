@@ -35,7 +35,6 @@ export default {
                         'Content-Type': 'application/json'
                     }
                 })
-                console.log(response.response)
                 if (response.status === 200) {
                     popupVisible.value = true
                     setTimeout(() => {

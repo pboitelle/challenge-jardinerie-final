@@ -6,6 +6,9 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\GetCollection;
 
 use App\Controller\ResetPasswordController;
 use App\Controller\ChangePasswordController;
@@ -26,7 +29,6 @@ use App\Controller\MeController;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
-    // security: 'is_granted("ROLE_USER")',
     operations: [
         new Get(
             paginationEnabled: false,
@@ -60,6 +62,35 @@ use App\Controller\MeController;
 #[Post()]
 #[Get()]
 #[Patch()]
+#[Put(
+    uriTemplate: '/users/{id}',
+    name: 'user_put',
+    openapiContext: [
+        'summary' => 'Modifier un utilisateur',
+        'description' => 'Modifie un utilisateur',
+    ],
+    denormalizationContext: ['groups' => 'user:write'],
+    security: 'is_granted("ROLE_ADMIN")',
+)]
+#[Delete(
+    uriTemplate: '/users/{id}',
+    name: 'user_delete',
+    openapiContext: [
+        'summary' => 'Supprimer un utilisateur',
+        'description' => 'Supprime un utilisateur',
+    ],
+    security: 'is_granted("ROLE_ADMIN")',
+)]
+#[GetCollection(
+    paginationEnabled: false,
+    uriTemplate: '/users',
+    name: 'user_list',
+    openapiContext: [
+        'summary' => 'Liste des utilisateurs',
+        'description' => 'Retourne la liste des utilisateurs',
+    ],
+    security: 'is_granted("ROLE_ADMIN")',
+)]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -71,11 +102,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user:read', 'reset-password'])]
+    #[Groups(['user:read', 'user:write', 'reset-password'])]
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write'])]
     private array $roles = [];
 
     /**
@@ -90,11 +121,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $token = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write'])]
     private ?string $firstname = null;
 
     #[ORM\Column(nullable: true)]

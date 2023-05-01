@@ -13,9 +13,11 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
-.blog{
-  background-image: url('../assets/img/bgi.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100%;
-} 
+
+@media screen and (max-width: 768px) {
+
+  .main{
+      display: flex;
+      flex-direction: column;
+  }
+}
