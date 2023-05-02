@@ -17,6 +17,7 @@ const isAuthenticated = async (to, from, next) => {
         localStorage.setItem('firstname', response.data.firstname)
         localStorage.setItem('lastname', response.data.lastname)
         localStorage.setItem('roles', response.data.roles)
+        localStorage.setItem('nb_coins', response.data.nb_coins)
 
         // if response is successful, user is authenticated
         next()
@@ -27,26 +28,22 @@ const isAuthenticated = async (to, from, next) => {
   }
 }
 
-const getUserByToken = async (token) => {
+const userConnected = async () => {
+    const token = localStorage.getItem('token_jwt')
     try {
         const response = await axios.get('https://localhost/users/me', {
               headers: {
-              Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`
             }
         })
-        return response.data
+        if(response.status === 200) {
+            return response.data
+        }else{
+            return null
+        }
     } catch (error) {
         return null
     }
 }
 
-const user = () => {
-    if(isAuthenticated) {
-        return {
-            email: localStorage.getItem('email'),
-        }
-    }
-}
-
-
-export { isAuthenticated, user }
+export { isAuthenticated, userConnected }
