@@ -9,8 +9,22 @@ import ResetPasswordView from '../views/ResetPasswordView.vue'
 import SendEmailResetPasswordView from '../views/SendEmailResetPasswordView.vue'
 import SuccessAchatView from '../views/SuccessAchatView.vue'
 import ErrorAchatView from '../views/ErrorAchatView.vue'
+import DevenirBloggerView from '../views/DevenirBloggerView.vue'
 
-import { isAuthenticated } from '../middleware/userAuth'
+import AdminUsersView from '../views/admin/Users/AdminUsersView.vue';
+import AdminUsersEditView from '../views/admin/Users/AdminUsersEditView.vue';
+
+import AdminPlantesView from '../views/admin/Plantes/AdminPlantesView.vue';
+import AdminPlantesEditView from '../views/admin/Plantes/AdminPlantesEditView.vue';
+
+import AdminValidationBlogView from '../views/admin/AdminValidationBlogView.vue';
+
+import AdminDemandeBloggersView from '../views/admin/DemandeBloggers/AdminDemandeBloggersView.vue';
+
+import BaseRouterView from '../views/admin/BaseRouterView.vue';
+import AdminView from '../views/admin/AdminView.vue';
+
+import { isAuthenticated, isAuthenticatedAdmin } from '../middleware/userAuth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,6 +83,12 @@ const router = createRouter({
       beforeEnter: isAuthenticated
     },
     {
+      path: '/devenir-blogger',
+      name: 'devenir-blogger',
+      component: DevenirBloggerView,
+      beforeEnter: isAuthenticated
+    },
+    {
       path: '/blog/:id',
       name: 'blog-post',
       component: () => import('../views/BlogPostView.vue'),
@@ -79,6 +99,76 @@ const router = createRouter({
       name: 'market',
       component: MarketView,
       beforeEnter: isAuthenticated
+    },
+    {
+      path: '/admin',
+      component: BaseRouterView,
+      beforeEnter: isAuthenticatedAdmin,
+      children: [
+        {
+          path: '',
+          name: 'admin',
+          component: AdminView,
+        },
+      ],
+    },
+    {
+      path: '/admin/users',
+      component: BaseRouterView,
+      beforeEnter: isAuthenticatedAdmin,
+      children: [
+        {
+          path: '',
+          name: 'admin-users',
+          component: AdminUsersView,
+        },
+        {
+          name: 'admin-users-edit',
+          path: 'edit/:id',
+          component: AdminUsersEditView,
+        }
+      ],
+    },
+    {
+      path: '/admin/plantes',
+      component: BaseRouterView,
+      beforeEnter: isAuthenticatedAdmin,
+      children: [
+        {
+          path: '',
+          name: 'admin-plantes',
+          component: AdminPlantesView,
+        },
+        {
+          name: 'admin-plantes-edit',
+          path: 'edit/:id',
+          component: AdminPlantesEditView,
+        }
+      ],
+    },
+    {
+      path: '/admin/validation-blog',
+      component: BaseRouterView,
+      beforeEnter: isAuthenticatedAdmin,
+      children: [
+        {
+          path: '',
+          name: 'admin-validation-blog',
+          component: AdminValidationBlogView,
+        },
+      ],
+    },
+    {
+      path: '/admin/demande-bloggers',
+      component: BaseRouterView,
+      beforeEnter: isAuthenticatedAdmin,
+      children: [
+        {
+          path: '',
+          name: 'admin-demande-bloggers',
+          component: AdminDemandeBloggersView,
+        }
+      ],
     },
   ]
 })

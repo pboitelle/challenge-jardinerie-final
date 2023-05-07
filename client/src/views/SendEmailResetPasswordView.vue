@@ -12,7 +12,7 @@ export default {
     setup() {
         const email = ref('')
         const popupVisible = ref(false)
-        const popupTitle = 'Un email vous a été envoyé !'
+        const popupTitle = 'Votre demande pour devenir Blogger a bien été prise en compte !'
 
         const submitForm = async () => {
 
