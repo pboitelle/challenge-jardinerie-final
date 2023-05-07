@@ -39,7 +39,7 @@ class CreateDemandeBloggerController
             $interval = $now->diff($last_demande_date);
 
             if($interval->days < 3){
-                return new JsonResponse(['message' => 'Vous avez déjà fait une demande pour devenir blogger il y a moins de 3 jours.'], 400);
+                return new JsonResponse(['message' => 'Vous avez déjà fait une demande pour devenir blogger il y a moins de 3 jours. Votre demande est en cours d\'analyse par un administrateur.'], 400);
             }
         }
 

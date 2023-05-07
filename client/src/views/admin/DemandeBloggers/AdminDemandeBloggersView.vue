@@ -1,6 +1,7 @@
 <script>
 import { ref, watchEffect } from 'vue'
 import { getDemandeBloggers, deleteDemandeBloggers } from '@/services/demande_bloggers'
+import { updateRole } from '@/services/users'
 import moment from 'moment'
 
 export default {
@@ -28,11 +29,35 @@ export default {
         alert('Une erreur est survenue')
       }
     }
+
+
+    const handleAccept = async (id_demande, user_id) => {
+
+      try {
+        const response = await updateRole(user_id, {
+          roles: ['ROLE_BLOGER']
+        })
+
+        console.log(response)
+
+        if (response.status === 200) {
+          handleDelete(id_demande)
+          window.location.reload()
+        }else{
+          alert('Une erreur est survenue')
+        }
+          
+      }
+      catch (error) {
+        alert('Une erreur est survenue')
+      }
+    }
     
     return {
       demandes,
       moment,
-      handleDelete
+      handleDelete,
+      handleAccept
     }
   }
 }
@@ -60,7 +85,7 @@ export default {
           <td>{{ demande.motif }}</td>
           <td>{{ moment(demande.created_at).format('DD/MM/YYYY HH:mm') }}</td>
           <td>
-            <button class="btn btn-success">
+            <button class="btn btn-success" @click="handleAccept(demande.id, demande.user_id.id)">
               <i class="fa-sharp fa-regular fa-square-check"></i> Accepter
             </button>
             <button class="btn btn-danger" @click="handleDelete(demande.id)">

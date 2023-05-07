@@ -53,7 +53,7 @@
         flex-direction: row;
         align-items: center;
         position: fixed;
-        top: 50px;
+        top: 100px;
         text-align: center;
         width: 50%;
         left: 25%;

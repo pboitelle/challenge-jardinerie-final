@@ -37,6 +37,7 @@ export default {
                 console.log(response)
                 if (response.status === 201) {
                     popupVisible.value = true
+                    window.location.reload()
                 }
                 else {
                     alert('Une erreur est survenue lors de l\'envoi de votre demande.')
@@ -80,7 +81,7 @@ export default {
 
     <NavBar />
 
-    <div v-if="user.roles.includes('ROLE_BLOGER') || user.roles.includes('ROLE_ADMIN')" class="main">
+    <div v-if="user && (user.roles.includes('ROLE_BLOGER') || user.roles.includes('ROLE_ADMIN'))" class="main">
 
         <div id="informations">
             <h1 class="form__title">Vous êtes déja Blogger !</h1>

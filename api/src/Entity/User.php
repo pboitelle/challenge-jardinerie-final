@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\GetCollection;
 use App\Controller\ResetPasswordController;
 use App\Controller\ChangePasswordController;
 use App\Controller\MailAchatCoinsController;
+use App\Controller\UpdateRoleController;
 
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -55,6 +56,14 @@ use App\Controller\MeController;
             name: 'user_achat_coins',
             denormalizationContext: ['groups' => 'achat-coins'],
             read: false,
+        ),
+        new Patch(
+            uriTemplate: '/users/{id}/role',
+            controller: UpdateRoleController::class,
+            name: 'user_role_edit',
+            denormalizationContext: ['groups' => 'user:role'],
+            read: false,
+            security: 'is_granted("ROLE_ADMIN")',
         )
     ],
     normalizationContext: ['groups' => ['user:read']],
@@ -106,7 +115,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:role'])]
     private array $roles = [];
 
     /**
