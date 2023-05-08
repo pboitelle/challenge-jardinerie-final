@@ -4,37 +4,49 @@ import { userConnected } from '@/middleware/userAuth.js'
 import { watchEffect, ref } from 'vue'
 
 export default {
-    setup() {
+  setup() {
 
-        const user = ref(null)
+    const user = ref(null)
 
-        watchEffect(async () => {
-            user.value = await userConnected()
-        })
+    watchEffect(async () => {
+      user.value = await userConnected()
+    })
 
-        const user_email = localStorage.getItem('email')
-        const user_coins = localStorage.getItem('nb_coins')
-        const user_roles = localStorage.getItem('roles')
+    const user_email = localStorage.getItem('email')
+    const user_coins = localStorage.getItem('nb_coins')
+    const user_roles = localStorage.getItem('roles')
 
-        const logout = () => {
-            localStorage.removeItem('token_jwt')
-            localStorage.removeItem('email')
-            localStorage.removeItem('firstname')
-            localStorage.removeItem('lastname')
-            localStorage.removeItem('nb_coins')
-            localStorage.removeItem('roles')
+    let user_role = user_roles.split(',')[0]
 
-            window.location.href = '/'
-        }
-
-        return {
-            user_email,
-            user_coins,
-            user_roles,
-            logout,
-            user
-        }
+    if (user_role == 'ROLE_ADMIN') {
+      user_role = 'Noble'
+    } else if (user_role == 'ROLE_USER') {
+      user_role = 'Gueux'
+    } else if (user_role == 'ROLE_BLOGER') {
+      user_role = 'Paysan'
+    } else {
+      user_role = 'Gueux'
     }
+
+    const logout = () => {
+      localStorage.removeItem('token_jwt')
+      localStorage.removeItem('email')
+      localStorage.removeItem('firstname')
+      localStorage.removeItem('lastname')
+      localStorage.removeItem('nb_coins')
+      localStorage.removeItem('roles')
+
+      window.location.href = '/'
+    }
+
+    return {
+      user_email,
+      user_coins,
+      user_role,
+      logout,
+      user
+    }
+  }
 }
 
 </script>
@@ -53,7 +65,10 @@ export default {
                         <RouterLink to="/market" class="nav-link">Marché des plantes</RouterLink>
                     </li>
                     <li class="nav-item">
-                        <RouterLink to="/blog" class="nav-link">Blog</RouterLink>
+                        <RouterLink to="/blogs" class="nav-link">Blog</RouterLink>
+                    </li>
+                    <li v-if="user && (user.roles.includes('ROLE_BLOGER') || user.roles.includes('ROLE_ADMIN'))" class="nav-item">
+                        <RouterLink to="/plantes" class="nav-link">Plantes</RouterLink>
                     </li>
                     <li class="nav-item">
                         <RouterLink to="/coins" class="nav-link" style="color: yellow;">Acheter des coins</RouterLink>
@@ -61,12 +76,14 @@ export default {
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ user_email }} ({{ user_roles.split(',')[0] }})
+                            {{ user_email }} ({{ user_role }})
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <RouterLink v-if="user && user.roles.includes('ROLE_ADMIN')" to="/admin" class="dropdown-item">Administration</RouterLink>
-                            <RouterLink v-if="user && !user.roles.includes('ROLE_ADMIN')" to="/garden" class="dropdown-item">Mon jardin</RouterLink>
-                            <li><hr class="dropdown-divider"></li>
+                            <RouterLink v-if="user && user.roles.includes('ROLE_ADMIN')" to="/admin" class="dropdown-item">Administration<li><hr class="dropdown-divider"></li></RouterLink>
+                            <RouterLink v-if="user && !user.roles.includes('ROLE_ADMIN')" to="/garden" class="dropdown-item">Mon jardin<li><hr class="dropdown-divider"></li></RouterLink>
+                            
+                            <RouterLink v-if="user && user.roles.includes('ROLE_BLOGER')" to="/mes-blogs" class="dropdown-item">Mes blogs<li><hr class="dropdown-divider"></li></RouterLink>
+                            
                             <li><a class="dropdown-item" @click="logout">Me déconnecter</a></li>
                         </ul>
                     </li>

@@ -14,6 +14,7 @@ use App\Controller\ResetPasswordController;
 use App\Controller\ChangePasswordController;
 use App\Controller\MailAchatCoinsController;
 use App\Controller\UpdateRoleController;
+use App\Controller\GetBlogsController;
 
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -64,7 +65,26 @@ use App\Controller\MeController;
             denormalizationContext: ['groups' => 'user:role'],
             read: false,
             security: 'is_granted("ROLE_ADMIN")',
-        )
+        ),
+        new Get(
+            paginationEnabled: false,
+            uriTemplate: '/users/{id}/blogs',
+            controller: GetBlogsController::class,
+            read: false,
+            name: 'get_blogs',
+            openapiContext: [
+                'summary' => 'Récupère les blogs d\'un utilisateur',
+                'description' => 'Récupère les blogs d\'un utilisateur',
+            ],
+            normalizationContext: [
+                'groups' => ['user:read', 'user:read:plante'],
+                'openapi_definition_name' => 'Detail<plantes>',
+                'skip_null_values' => true,
+                'include_user_id' => true,
+                'max_depth' => 1,
+             ]
+            // security: 'is_granted("ROLE_BLOGER")',
+        ),
     ],
     normalizationContext: ['groups' => ['user:read']],
 )]

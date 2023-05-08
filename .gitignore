@@ -10,3 +10,5 @@ docker-compose.prod.yml
 
 api/.env
 .env
+
+/api/migrations/*

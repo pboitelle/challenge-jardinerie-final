@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const getUsers = async () => {
+const getBlogsValidate = async () => {
 
     const token = localStorage.getItem('token_jwt')
     
     try {
-        const response = await axios.get('https://localhost/users', {
+        const response = await axios.get('https://localhost/blogs-validate', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -21,12 +21,33 @@ const getUsers = async () => {
     }
 }
 
-const getUser = async (id) => {
+const getBlogs = async () => {
+
+    const token = localStorage.getItem('token_jwt')
+    
+    try {
+        const response = await axios.get('https://localhost/blogs', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        if(response.status === 200) {
+            return response.data['hydra:member']
+        }else{
+            return null
+        }
+    } catch (error) {
+        return null
+    }
+}
+
+const getBlog = async (id) => {
 
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.get('https://localhost/users/'+id, {
+        const response = await axios.get('https://localhost/blogs/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -43,37 +64,40 @@ const getUser = async (id) => {
 
 }
 
-const getBlogsUser = async (id) => {
-
-    const token = localStorage.getItem('token_jwt')
+const createBlog = async (data) => {
     
+    const token = localStorage.getItem('token_jwt')
+
     try {
-        const response = await axios.get('https://localhost/users/'+id+'/blogs', {
+        const response = await axios.post('https://localhost/blogs', 
+        data, 
+        {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
             }
         })
 
-        console.log(response.data['hydra:member'])
+        console.log(response)
 
-        if(response.status === 200) {
-            return response.data['hydra:member']
+        if(response.status === 201) {
+            return response.data
         }else{
             return null
         }
     } catch (error) {
         return null
     }
+    
 }
 
-const editUser = async (id, data) => {
+const editBlog = async (id, data) => {
     
     const token = localStorage.getItem('token_jwt')
 
-    console.log(data)
-
     try {
-        const response = await axios.put('https://localhost/users/'+id, 
+        const response = await axios.put('https://localhost/blogs/'+id, 
         data, 
         {
             headers: {
@@ -81,7 +105,7 @@ const editUser = async (id, data) => {
             }
         })
 
-        console.log(response)
+        console.log(response.data)
 
         if(response.status === 200) {
             return response.data
@@ -94,12 +118,12 @@ const editUser = async (id, data) => {
     
 }
 
-const deleteUser = async (id) => {
+const deleteBlog = async (id) => {
 
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.delete('https://localhost/users/'+id, {
+        const response = await axios.delete('https://localhost/blogs/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -118,29 +142,4 @@ const deleteUser = async (id) => {
 
 }
 
-const updateRole = async (id, data) => {
-
-    const token = localStorage.getItem('token_jwt')
-
-    try {
-        const response = await axios.patch('https://localhost/users/'+id+'/role',
-        data,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/merge-patch+json'
-            }
-        })
-
-        if(response.status === 200) {
-            return response
-        }else{
-            return null
-        }
-    } catch (error) {
-        return null
-    }
-
-}
-
-export { getUsers, getUser, getBlogsUser, editUser, deleteUser, updateRole }
+export { getBlogs, getBlogsValidate, getBlog, createBlog, editBlog, deleteBlog }

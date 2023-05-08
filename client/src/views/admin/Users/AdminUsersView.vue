@@ -24,8 +24,8 @@ export default {
 
     <h1>Liste des utilisateurs</h1>
 
-    <table class="table">
-      <thead>
+    <table class="table table-success table-striped table-hover">
+      <thead class="table-dark">
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Nom</th>
@@ -35,7 +35,7 @@ export default {
           <th scope="col">Action</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="table-group-divider">
         <tr v-for="user in users" :key="user.id">
           <td>{{ user.id }}</td>
           <td>{{ user.lastname }}</td>

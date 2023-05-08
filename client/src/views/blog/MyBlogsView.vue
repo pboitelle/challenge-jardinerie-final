@@ -1,20 +1,25 @@
 <script>
-import NavBar from '../components/NavBar.vue';
-import {ref, computed} from 'vue';
+import NavBar from '@/components/NavBar.vue'
+import {ref, computed, watchEffect} from 'vue';
+import { getBlogsUser } from '@/services/users.js'
+import { userConnected } from '@/middleware/userAuth.js'
+
 
 export default {
   components: { NavBar },
+  name: 'BlogsView',
 
   setup() {
     const searchTerm = ref("");
-    const blogs = ref([]);
+    const user = ref(null)
 
-    for (let i = 1; i <= 9; i++) {
-      blogs.value.push({
-        title: `Blog ${i}`,
-        content: `Contenu du blog ${i}`
-      });
-    }
+    const blogs = ref([])
+
+    watchEffect(async () => {
+        user.value = await userConnected()
+        blogs.value = await getBlogsUser(user.value.id)
+    })
+
 
     const searchResults = computed(() => {
       // Filtrer les résultats selon le searchTerm
@@ -54,6 +59,7 @@ export default {
     return {
       searchTerm,
       blogs,
+      user,
       displayedBlogs,
       currentPage,
       blogsPerPage,
@@ -74,27 +80,32 @@ export default {
 
     <div class="bg-blog">
 
-      <RouterLink id="devenir-bloger" to="/devenir-blogger" class="btn btn-info">
-        <i class="fa-solid fa-newspaper"></i> Devenir Blogger ?
-      </RouterLink>
+        <RouterLink id="devenir-bloger" to="/plantes" class="btn btn-info">
+            <i class="fa-solid fa-newspaper"></i> Soumettre un blog
+        </RouterLink>
 
-      <div class="search-bar text-center">
-          <input type="text" placeholder="Rechercher un blog" v-model="searchTerm" @input="searchBlogs" />
-          <button @click="searchBlogs" class="button">Rechercher</button>
-      </div>
+        <div class="search-bar text-center">
+            <input type="text" placeholder="Rechercher un de mes blogs" v-model="searchTerm" @input="searchBlogs" />
+            <button @click="searchBlogs" class="button">Rechercher</button>
+        </div>
 
-      <div class="blogs-container">
-          <div class="blog-item" v-for="(blog, index) in displayedBlogs" :key="index">
-              <img src="../assets/img/logo.png" alt="Blog Image" />
-              <h2>Bonjour</h2>
-              <p>Bonjour</p>
-          </div>
-      </div>
-      
-      <div class="pagination">
-        <button v-if="currentPage > 1" @click="prevPage">Page précédente</button>
-        <button v-if="currentPage < totalPages" @click="nextPage">Page suivante</button>
-      </div>
+        <div class="blogs-container">
+            <div class="blog-item" v-for="blog in displayedBlogs" :key="blog.id">
+                <img :src="blog.plante.image_url" alt="Blog Image" />
+                <h2>{{ blog.title }}</h2>
+                <p>{{ blog.description }}</p>
+                <div class="btn-group">
+                    <RouterLink :to="{ name: 'blogs-post', params: { id: blog.id } }" class="btn btn-info">
+                        <i class="fa-solid fa-newspaper"></i> Lire
+                    </RouterLink>
+                </div>             
+            </div>
+        </div>
+
+        <div class="pagination">
+            <button v-if="currentPage > 1" @click="prevPage">Page précédente</button>
+            <button v-if="currentPage < totalPages" @click="nextPage">Page suivante</button>
+        </div>
     </div>
 
   </main>
@@ -104,6 +115,7 @@ export default {
 <style>
 
 .bg-blog {
+    width: 100%;
     height: 100%;
 }
 .search-bar {
@@ -111,6 +123,7 @@ export default {
 }
 
 .search-bar input {
+    width: 30%;
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
@@ -129,6 +142,12 @@ export default {
 .search-bar button:hover {
     background-color: white;
     color: #28a745;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 
 .pagination {
@@ -154,6 +173,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    width: 100%;
 }
 
 .blog-item {
@@ -167,8 +187,9 @@ export default {
 }
 .blog-item img {
     width: 100%;
-    height: auto;
+    height: 400px;
     margin-bottom: 10px;
+    object-fit: cover;
 }
 .blog-item h2 {
     margin-bottom: 5px;
@@ -178,10 +199,10 @@ export default {
 }
 
 #devenir-bloger{
-  float: right;
-  color: white;
-  font-size: 20px;
-  margin-right: 20px;
-  margin-top: 20px;
+    float: right;
+    color: white;
+    font-size: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
 }
 </style>
