@@ -31,7 +31,7 @@ export default {
               <div class="list-group list-group-flush">
                   <router-link class="list-group-item list-group-item-action" to="/admin/users">Users</router-link>
                   <router-link class="list-group-item list-group-item-action" to="/admin/plantes">Plantes</router-link>
-                  <router-link class="list-group-item list-group-item-action" to="/admin/validation-blog">Validation des Blogs</router-link>
+                  <router-link class="list-group-item list-group-item-action" to="/admin/blog">Blogs</router-link>
                   <router-link class="list-group-item list-group-item-action" to="/admin/demande-bloggers">Demandes pour devenir Blogger</router-link>
                   
               </div>

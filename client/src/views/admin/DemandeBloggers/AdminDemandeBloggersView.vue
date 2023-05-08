@@ -68,8 +68,8 @@ export default {
 
     <h1>Liste des demandes pour devenir Blogger</h1>
 
-    <table class="table">
-      <thead>
+    <table class="table table-success table-striped table-hover">
+      <thead class="table-dark">
         <tr>
           <th scope="col">ID</th>
           <th scope="col">User</th>
@@ -78,7 +78,7 @@ export default {
           <th scope="col">Actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="table-group-divider">
         <tr v-for="demande in demandes" :key="demande.id">
           <td>{{ demande.id }}</td>
           <td>{{ demande.user_id.email }}</td>

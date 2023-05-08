@@ -9,7 +9,15 @@ import ResetPasswordView from '../views/ResetPasswordView.vue'
 import SendEmailResetPasswordView from '../views/SendEmailResetPasswordView.vue'
 import SuccessAchatView from '../views/SuccessAchatView.vue'
 import ErrorAchatView from '../views/ErrorAchatView.vue'
+
 import DevenirBloggerView from '../views/DevenirBloggerView.vue'
+
+import BlogView from '../views/blog/BlogView.vue'
+import MyBlogsView from '../views/blog/MyBlogsView.vue'
+import BlogPostView from '../views/blog/BlogPostView.vue'
+import BlogCreateView from '../views/blog/BlogCreateView.vue'
+
+import PlanteView from '../views/PlanteView.vue'
 
 import AdminUsersView from '../views/admin/Users/AdminUsersView.vue';
 import AdminUsersEditView from '../views/admin/Users/AdminUsersEditView.vue';
@@ -17,7 +25,8 @@ import AdminUsersEditView from '../views/admin/Users/AdminUsersEditView.vue';
 import AdminPlantesView from '../views/admin/Plantes/AdminPlantesView.vue';
 import AdminPlantesEditView from '../views/admin/Plantes/AdminPlantesEditView.vue';
 
-import AdminValidationBlogView from '../views/admin/AdminValidationBlogView.vue';
+import AdminValidationBlogView from '../views/admin/Blogs/AdminValidationBlogView.vue';
+import AdminBlogsView from '../views/admin/Blogs/AdminBlogsView.vue';
 
 import AdminDemandeBloggersView from '../views/admin/DemandeBloggers/AdminDemandeBloggersView.vue';
 
@@ -65,10 +74,34 @@ const router = createRouter({
       beforeEnter: isAuthenticated
     },
     {
-      path: '/blog',
-      name: 'blog',
-      component: () => import('../views/BlogView.vue'),
+      path: '/plantes',
+      name: 'plantes',
+      component: PlanteView,
+      beforeEnter: isAuthenticated,
+    },
+    {
+      path: '/plantes/:id',
+      name: 'plantes-create-blog',
+      component: BlogCreateView,
+      beforeEnter: isAuthenticated,
+    },
+    {
+      path: '/blogs',
+      name: 'blogs',
+      component: BlogView,
+      beforeEnter: isAuthenticated,
+    },
+    {
+      path: '/blogs/:id',
+      name: 'blogs-post',
+      component: BlogPostView,
       beforeEnter: isAuthenticated
+    },
+    {
+      path: '/mes-blogs',
+      name: 'mes-blogs',
+      component: MyBlogsView,
+      beforeEnter: isAuthenticated,
     },
     {
       path: '/garden',
@@ -86,12 +119,6 @@ const router = createRouter({
       path: '/devenir-blogger',
       name: 'devenir-blogger',
       component: DevenirBloggerView,
-      beforeEnter: isAuthenticated
-    },
-    {
-      path: '/blog/:id',
-      name: 'blog-post',
-      component: () => import('../views/BlogPostView.vue'),
       beforeEnter: isAuthenticated
     },
     {
@@ -147,15 +174,20 @@ const router = createRouter({
       ],
     },
     {
-      path: '/admin/validation-blog',
+      path: '/admin/blog',
       component: BaseRouterView,
       beforeEnter: isAuthenticatedAdmin,
       children: [
         {
           path: '',
+          name: 'admin-blog',
+          component: AdminBlogsView,
+        },
+        {
+          path: 'edit/:id',
           name: 'admin-validation-blog',
           component: AdminValidationBlogView,
-        },
+        }
       ],
     },
     {

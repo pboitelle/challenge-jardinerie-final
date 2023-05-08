@@ -38,7 +38,12 @@ security:
         - { path: ^/users, methods: GET, roles: PUBLIC_ACCESS }
         - { path: ^/users/me, roles: ROLE_USER }
 
-        - { path: ^/plantes, roles: ROLE_ADMIN }
+        - { path: ^/plantes, methods: [PUT, POST, PATCH, DELETE], roles: ROLE_ADMIN }
+        - { path: ^/plantes, methods: GET, roles: ROLE_BLOGER }
+
+        - { path: ^/blogs, methods: [PATCH, PUT, DELETE], roles: ROLE_ADMIN }
+        - { path: ^/blogs, methods: POST, roles: ROLE_BLOGER }
+        - { path: ^/blogs, methods: GET, roles: ROLE_USER }
 
         - { path: ^/demande_bloggers, methods: GET, roles: ROLE_ADMIN }
         - { path: ^/demande_bloggers, methods: POST, roles: ROLE_USER }

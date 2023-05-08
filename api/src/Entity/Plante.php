@@ -18,9 +18,7 @@ use App\Repository\PlanteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlanteRepository::class)]
-#[ApiResource(
-    security: 'is_granted("ROLE_ADMIN")',
-)]
+#[ApiResource()]
 #[Post()]
 #[Get()]
 #[Patch()]
@@ -28,36 +26,60 @@ use Doctrine\ORM\Mapping as ORM;
 #[Put(
     denormalizationContext: ['groups' => 'plante:write'],
     normalizationContext: ['groups' => 'plante:read'],
+    security: 'is_granted("ROLE_ADMIN")',
+    openapiContext: [
+        'summary' => 'Modifier une plante',
+        'description' => 'Modifier une plante',
+    ],
 )]
 #[GetCollection(
     paginationEnabled: false,
     uriTemplate: '/plantes',
     name: 'plantes_list',
+    security: 'is_granted("ROLE_BLOGER")',
     openapiContext: [
         'summary' => 'Liste des plantes',
         'description' => 'Retourne la liste des plantes',
     ],
+    denormalizationContext: [
+        'groups' => ['user:read', 'user:read:plante'],
+        'openapi_definition_name' => 'List<plantes>',
+        'skip_null_values' => false,
+        'max_depth' => 1,
+    ],
+    normalizationContext: [
+        'groups' => ['user:read:plante'],
+        'openapi_definition_name' => 'Detail<blogs>',
+        'skip_null_values' => false,
+        'max_depth' => 1,
+    ]
 )]
 class Plante
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user:read', 'user:read:plante'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['plante:write'])]
+    #[Groups(['plante:write', 'user:read', 'user:read:plante'])]
     private ?string $espece = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['plante:write'])]
+    #[Groups(['plante:write', 'user:read', 'user:read:plante'])]
     private ?string $genre = null;
 
     #[ORM\OneToOne(mappedBy: 'plante', cascade: ['persist', 'remove'])]
+    #[Groups(['user:read', 'user:read:plante'])]
     private ?Blog $blog = null;
 
     #[ORM\OneToMany(mappedBy: 'plante', targetEntity: Item::class, orphanRemoval: true)]
     private Collection $items;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user:write', 'user:read', 'user:read:plante'])]
+    private ?string $image_url = null;
 
     public function __construct()
     {
@@ -106,6 +128,18 @@ class Plante
         }
 
         $this->blog = $blog;
+
+        return $this;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        return $this->image_url;
+    }
+
+    public function setImageUrl(?string $image_url): self
+    {
+        $this->image_url = $image_url;
 
         return $this;
     }
