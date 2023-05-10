@@ -91,14 +91,19 @@ export default {
 
         <div class="blogs-container">
             <div class="blog-item" v-for="blog in displayedBlogs" :key="blog.id">
+              <div class="image-container" :style="{ '--ma-couleur': blog.isValidate ? '#17a2b8' : '#ffc107' }">
                 <img :src="blog.plante.image_url" alt="Blog Image" />
+                <div>
+                  <div class="btn-publish" v-if="blog.isValidate">Publié</div>
+                  <div class="btn-notpublish" v-else>En <br/> attente</div>
+                </div>
+              </div>
+
                 <h2>{{ blog.title }}</h2>
                 <p>{{ blog.description }}</p>
-                <div class="btn-group">
-                    <RouterLink :to="{ name: 'blogs-post', params: { id: blog.id } }" class="btn btn-info">
-                        <i class="fa-solid fa-newspaper"></i> Lire
-                    </RouterLink>
-                </div>             
+                <RouterLink :to="{ name: 'blogs-post', params: { id: blog.id } }" class="btn btn-info">
+                    <i class="fa-solid fa-newspaper"></i> Lire
+                </RouterLink>
             </div>
         </div>
 
@@ -170,27 +175,72 @@ export default {
 }
 
 .blogs-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
 }
 
 .blog-item {
-    width: 25%;
-    padding: 20px;
-    border: 1px solid black;
-    box-shadow: 2px 2px 10px 2px rgba(0,0,0,0.75);
-    margin: 40px; 
-    border-radius: 10px;
-    background-color: white;
+  width: 25%;
+  padding: 0;
+  border: 1px solid black;
+  box-shadow: 2px 2px 10px 2px rgba(0,0,0,0.75);
+  margin: 40px; 
+  border-radius: 10px;
+  background-color: white;
 }
 .blog-item img {
-    width: 100%;
-    height: 400px;
-    margin-bottom: 10px;
-    object-fit: cover;
+  width: 100%;
+  height: 400px;
+  margin-bottom: 10px;
+  object-fit: cover;
+  position: relative;
+  border-radius: 10px 10px 0 0;
 }
+.image-container {
+  position: relative;
+}
+.image-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 70px solid var(--ma-couleur);
+  border-left: 70px solid transparent;
+  border-right: 70px solid var(--ma-couleur);
+  border-bottom: 70px solid transparent;
+  border-radius: 0 10px 0 0;
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  text-align: left;
+}
+.image-container .btn-publish{
+  position: absolute;
+  top: 28px;
+  right: 12px;
+  padding: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: transparent;
+  z-index: 10;
+}
+.image-container .btn-notpublish{
+  position: absolute;
+  top: 12px;
+  right: 7px;
+  padding: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: transparent;
+  z-index: 10;
+}
+
 .blog-item h2 {
     margin-bottom: 5px;
 }

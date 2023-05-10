@@ -109,7 +109,7 @@ export default {
 <style scoped>
   /* Add styles here for large screens */
   .navbar {
-    height: 8vh;
+    height: 7vh;
   }
 
   #navbarDropdown {

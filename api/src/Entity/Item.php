@@ -3,30 +3,57 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\GetCollection;
+
+use Symfony\Component\Serializer\Annotation\Groups;
+
 use App\Repository\ItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    denormalizationContext: ['groups' => ['item:write']],
+    normalizationContext: ['groups' => ['item:read']]
+)]
+#[Patch(
+    uriTemplate: '/items/{id}',
+    name: 'item_patch',
+    openapiContext: [
+        'summary' => 'Modifier un item',
+        'description' => 'Modifier un item',
+    ],
+    denormalizationContext: ['groups' => 'item:write'],
+    security: 'is_granted("ROLE_USER") and object.getUserId() == user',
+)]
 class Item
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['item:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['item:read', 'item:write'])]
     private ?bool $isPlanted = null;
 
     #[ORM\Column]
+    #[Groups(['item:read'])]
     private ?bool $hasGrown = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['item:read'])]
     private ?Niveau $niveau = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['item:read'])]
     private ?Plante $plante = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]

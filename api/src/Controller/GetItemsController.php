@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 #[AsController]
-class GetBlogsController extends AbstractController
+class GetItemsController extends AbstractController
 {
     public function __construct(
         private ManagerRegistry $managerRegistry,
@@ -38,7 +38,16 @@ class GetBlogsController extends AbstractController
         }
 
         if ($user === $userAuth){
-            return $user->getBlogs();
+            $items = $user->getItems();
+            //trier les items par nom decroissant
+            $items = $items->toArray();
+            usort($items, function($a, $b) {
+                if ($a->getNiveau() == $b->getNiveau()) {
+                    return $b->getPlante() <=> $a->getPlante(); // si les niveaux sont égaux, trier par ordre décroissant de plante
+                }
+                return $b->getNiveau() <=> $a->getNiveau(); // trier par ordre décroissant de niveau
+            });
+            return $items;
         }
 
         return [];

@@ -1,27 +1,26 @@
 <?php
-// api/src/Security/Voter/BookVoter.php
 
 namespace App\Security\Voter;
 
-use App\Entity\Hackathon;
+use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class HackathonVoter extends Voter
+class UserVoter extends Voter
 {
     protected function supports($attribute, $subject): bool
     {
-        $supportsAttribute = in_array($attribute, ['HACKATHON_GET']);
-        $supportsSubject = $subject instanceof Hackathon;
+        $supportsAttribute = in_array($attribute, ['USER_GET']);
+        $supportsSubject = $subject instanceof User;
 
         return $supportsAttribute && $supportsSubject;
     }
 
     /**
      * @param string $attribute
-     * @param Hackathon $subject
+     * @param User $subject
      * @param TokenInterface $token
      * @return bool
      */
@@ -30,10 +29,10 @@ class HackathonVoter extends Voter
         $user = $token->getUser();
 
         switch ($attribute) {
-            case 'HACKATHON_GET':
-                return $subject->getParticipants()->contains($user);
+            case 'USER_GET':
+                return $subject->getBlogs()->contains($user);
                 break;
-            case 'HACKATHON_OTHER':
+            case 'USER_OTHER':
         }
 
         return false;

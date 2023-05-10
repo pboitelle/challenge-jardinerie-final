@@ -63,22 +63,22 @@ class Plante
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['plante:write', 'user:read', 'user:read:plante'])]
+    #[Groups(['plante:write', 'user:read', 'user:read:plante', 'item:read'])]
     private ?string $espece = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['plante:write', 'user:read', 'user:read:plante'])]
+    #[Groups(['plante:write', 'user:read', 'user:read:plante', 'item:read'])]
     private ?string $genre = null;
 
     #[ORM\OneToOne(mappedBy: 'plante', cascade: ['persist', 'remove'])]
-    #[Groups(['user:read', 'user:read:plante'])]
+    #[Groups(['user:read', 'user:read:plante', 'item:read'])]
     private ?Blog $blog = null;
 
     #[ORM\OneToMany(mappedBy: 'plante', targetEntity: Item::class, orphanRemoval: true)]
     private Collection $items;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['user:write', 'user:read', 'user:read:plante'])]
+    #[Groups(['user:write', 'user:read', 'user:read:plante', 'item:read'])]
     private ?string $image_url = null;
 
     public function __construct()

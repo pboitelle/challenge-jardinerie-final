@@ -2,7 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
-import GardenView from '../views/GardenView.vue'
+
+import GardenView from '../views/garden/GardenView.vue'
+
 import AchatCoinsView from '../views/AchatCoinsView.vue'
 import MarketView from '../views/MarketView.vue'
 import ResetPasswordView from '../views/ResetPasswordView.vue'

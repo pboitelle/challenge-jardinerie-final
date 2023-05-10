@@ -66,6 +66,27 @@ const getBlogsUser = async (id) => {
     }
 }
 
+const getItemsUser = async (id) => {
+
+    const token = localStorage.getItem('token_jwt')
+    
+    try {
+        const response = await axios.get('https://localhost/users/'+id+'/items', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        if(response.status === 200) {
+            return response.data['hydra:member']
+        }else{
+            return null
+        }
+    } catch (error) {
+        return null
+    }
+}
+
 const editUser = async (id, data) => {
     
     const token = localStorage.getItem('token_jwt')
@@ -143,4 +164,4 @@ const updateRole = async (id, data) => {
 
 }
 
-export { getUsers, getUser, getBlogsUser, editUser, deleteUser, updateRole }
+export { getUsers, getUser, getBlogsUser, getItemsUser, editUser, deleteUser, updateRole }

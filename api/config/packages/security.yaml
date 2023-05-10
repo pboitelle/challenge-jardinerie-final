@@ -45,6 +45,8 @@ security:
         - { path: ^/blogs, methods: POST, roles: ROLE_BLOGER }
         - { path: ^/blogs, methods: GET, roles: ROLE_USER }
 
+        - { path: ^/items, roles: PUBLIC_ACCESS }
+
         - { path: ^/demande_bloggers, methods: GET, roles: ROLE_ADMIN }
         - { path: ^/demande_bloggers, methods: POST, roles: ROLE_USER }
 
