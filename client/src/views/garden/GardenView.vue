@@ -20,6 +20,7 @@ export default {
     const showModal = ref(false)
     const popupVisible = ref(false)
     const popupTitle = ref('L\'item a été planté !')
+    const popupType = ref('success')
 
     const itemSelected = ref(null)
     const items = ref([])
@@ -55,6 +56,9 @@ export default {
     const plantItem = async (item) => {
       if (itemsPlanted.value.length === 4) {
         closeModal()
+        popupType.value = 'danger'
+        popupTitle.value = 'Vous avez déjà 4 plantes en cours de croissance !'
+        popupVisible.value = true
         return
       }
 
@@ -105,6 +109,7 @@ export default {
       popupVisible,
       closePopup,
       popupTitle,
+      popupType,
       arroser
     }
   }
@@ -114,7 +119,7 @@ export default {
 <template>
 
   <div>
-      <popup :title="popupTitle" v-if="popupVisible" @close="closePopup" :autoClose="3000" />
+      <popup :title="popupTitle" v-if="popupVisible" @close="closePopup" :autoClose="3000" :type="popupType" />
   </div>
 
   <NavBar />

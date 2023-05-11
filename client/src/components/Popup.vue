@@ -57,5 +57,6 @@
         text-align: center;
         width: 50%;
         left: 25%;
+        z-index: 100000;
     }
 </style>
