@@ -59,9 +59,14 @@ import { getBlog } from '@/services/blogs'
 
           </div>
       </div>
+      
+      <div class="container">
+        <div class="btn-group">
+          <RouterLink to="/blogs" class="btn btn-light btn-lg">Liste des blogs</RouterLink>
 
-      <RouterLink to="/blogs" class="btn btn-primary">Liste des blogs</RouterLink>
-
+          <RouterLink v-if="blog.user_id.roles.includes('ROLE_BLOGER')" to="/mes-blogs" class="btn btn-outline-light btn-lg">Liste de mes blogs</RouterLink>
+        </div>
+      </div>
     </div>
 
   </div>

@@ -18,11 +18,11 @@ defineProps({
 <template>
 
 <div class="modal" tabindex="-1" :class="{ show: showModal }">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">{{ title }}</h5>
-                <button type="button" class="btn-reduire" data-bs-dismiss="modal" aria-label="Close" @click="close">-</button>
+                <button class="btn-reduire" data-bs-dismiss="modal" aria-label="Close" @click="close"><i class="fa-regular fa-rectangle-xmark"></i></button>
             </div>
             <div class="modal-body">
                 <slot></slot>
@@ -35,34 +35,27 @@ defineProps({
 
 <style scoped>
 .modal {
-    display: none;
     position: fixed;
-    top: auto;
-    left: auto;
-    bottom: 80px;
-    right: 20px;
-    width: 400px;
-    height: 400px;
-    overflow: hidden;
-    outline: 0;
-    border-radius: 10px;
-    border: 1px solid #000;
-}
-
-.modal .modal-dialog {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
     width: 100%;
     height: 100%;
-    margin: 0;
+    overflow: hidden;
+    outline: 0;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal .modal-content {
-    height: 100%;
-    border: 0;
-    border-radius: 0;
-    background-color: #fdfdfd;
+.modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+    transform: translate(0, -50px);
+    max-width: 800px;
+}
+
+.modal.show .modal-dialog {
+    transform: translate(0, 0);
+    max-width: 800px;
 }
 
 .modal .modal-header {
@@ -74,6 +67,9 @@ defineProps({
     background-color: #fff;
     border-color: #fff;
     border-radius: 5px;
+    width: 20%;
+    height: 30px;
+    margin: 0;
 }
 .modal .modal-header .btn-reduire:hover {
     color: #fff;
@@ -87,8 +83,10 @@ defineProps({
 }
 
 .modal .modal-body {
+    width: 100%;
     height: calc(100% - 100px);
     overflow-y: auto;
+    color: #000;
 }
 
 .show {

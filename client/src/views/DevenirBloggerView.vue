@@ -87,7 +87,7 @@ export default {
             <h1 class="form__title">Vous êtes déja Blogger !</h1>
             <p>
                 Vous êtes déja Blogger, vous pouvez donc créer des articles et les publier sur le site.
-                <RouterLink id="devenir-bloger" to="/devenir-blogger" class="btn btn-info">
+                <RouterLink id="devenir-bloger" to="/plantes" class="btn btn-info">
                     <i class="fa-sharp fa-solid fa-file-plus"></i> Créer un article
                 </RouterLink>
             </p>
@@ -127,7 +127,6 @@ export default {
 #informations{
     text-align: center;
     margin-bottom: 2rem;
-    margin-left: 10%;
 }
 
 @media screen and (max-width: 768px) {

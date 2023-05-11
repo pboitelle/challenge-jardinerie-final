@@ -15,6 +15,7 @@ use App\Controller\ChangePasswordController;
 use App\Controller\MailAchatCoinsController;
 use App\Controller\UpdateRoleController;
 use App\Controller\GetBlogsController;
+use App\Controller\GetItemsController;
 
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -66,7 +67,7 @@ use App\Controller\MeController;
             read: false,
             security: 'is_granted("ROLE_ADMIN")',
         ),
-        new Get(
+        new GetCollection(
             paginationEnabled: false,
             uriTemplate: '/users/{id}/blogs',
             controller: GetBlogsController::class,
@@ -82,8 +83,27 @@ use App\Controller\MeController;
                 'skip_null_values' => true,
                 'include_user_id' => true,
                 'max_depth' => 1,
-             ]
-            // security: 'is_granted("ROLE_BLOGER")',
+            ],
+            security: 'is_granted("ROLE_BLOGER") and id == user.getId()',
+        ),
+        new GetCollection(
+            paginationEnabled: false,
+            uriTemplate: '/users/{id}/items',
+            controller: GetItemsController::class,
+            read: false,
+            name: 'get_items',
+            openapiContext: [
+                'summary' => 'Récupère les items d\'un utilisateur',
+                'description' => 'Récupère les items d\'un utilisateur',
+            ],
+            normalizationContext: [
+                'groups' => ['item:read'],
+                'openapi_definition_name' => 'Detail<plantes>',
+                'skip_null_values' => true,
+                'include_user_id' => true,
+                'max_depth' => 1,
+            ],
+            security: 'is_granted("ROLE_USER") and id == user.getId()',
         ),
     ],
     normalizationContext: ['groups' => ['user:read']],
