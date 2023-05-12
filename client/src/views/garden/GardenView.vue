@@ -4,7 +4,7 @@ import Popup from '@/components/Popup.vue'
 import Modal from '@/components/Modal.vue'
 import {ref, computed, watchEffect} from 'vue';
 
-import { getItemsUser } from '@/services/users.js'
+import { getItemsUser, getItemsMarketUser } from '@/services/users.js'
 import { updateIsPlantedItem } from '@/services/items.js'
 import { userConnected } from '@/middleware/userAuth.js'
 
@@ -26,10 +26,12 @@ export default {
     const items = ref([])
     const itemsPlanted = ref([])
     const itemsInventory = ref([])
+    const itemsMarket = ref([])
 
     watchEffect(async () => {
       user.value = await userConnected()
       items.value = await getItemsUser(user.value.id)
+      itemsMarket.value = await getItemsMarketUser(user.value.id)
       itemsInventory.value = items.value.filter(item => !item.isPlanted)
       itemsPlanted.value = items.value.filter(item => item.isPlanted)
     })
@@ -98,6 +100,7 @@ export default {
 
     return {
       user,
+      itemsMarket,
       itemsInventory,
       itemsPlanted,
       openModal,
@@ -129,8 +132,8 @@ export default {
     <div class="plantations">
       <div class="list-plants">
 
-          <div class="item-plant" :style="{ 'border-color': itemsPlanted[0] ? itemsPlanted[0].niveau.color : 'grey' }">
-            <a class="img-planted" @click="openModal(itemsPlanted[0])" data-toggle="modal" data-target="#exampleModalCenter">
+          <div class="item-plant">
+            <a class="img-planted" @click="openModal(itemsPlanted[0])" data-toggle="modal" data-target="#exampleModalCenter" :style="{ 'border-color': itemsPlanted[0] ? itemsPlanted[0].niveau.color : 'grey' }">
               <img :src="itemsPlanted[0] ? itemsPlanted[0].plante.image_url : 'src/assets/img/truelle.png' " alt="Plante" />
             </a>
             <img src="src/assets/img/arrosoir.gif" alt="arrosoir1" id="arrosoir1" />
@@ -138,17 +141,19 @@ export default {
               <p>
                 {{ itemsPlanted[0] ? itemsPlanted[0].plante.espece : '' }}
               </p>
-              <a class="btn btn-outline-primary" @click="arroser('#arrosoir1')">
-                <i class="fa-solid fa-droplet"></i>
-              </a>
-              <a @click="openModal(itemsPlanted[0])" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-light">
-                <i class="fa-solid fa-info"></i>
-              </a>
+              <div class="btn-group">
+                  <a class="btn btn-outline-primary" @click="arroser('#arrosoir1')">
+                    <i class="fa-solid fa-droplet"></i>
+                  </a>
+                  <a @click="openModal(itemsPlanted[0])" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-light">
+                    <i class="fa-solid fa-info"></i>
+                  </a>
+              </div>
             </div>
           </div>
 
-          <div class="item-plant" :style="{ 'border-color': itemsPlanted[1] ? itemsPlanted[1].niveau.color : 'grey' }">
-            <a class="img-planted" @click="openModal(itemsPlanted[1])" data-toggle="modal" data-target="#exampleModalCenter">
+          <div class="item-plant">
+            <a class="img-planted" @click="openModal(itemsPlanted[1])" data-toggle="modal" data-target="#exampleModalCenter" :style="{ 'border-color': itemsPlanted[1] ? itemsPlanted[1].niveau.color : 'grey' }">
               <img :src="itemsPlanted[1] ? itemsPlanted[1].plante.image_url : 'src/assets/img/truelle.png' " alt="Plante" />
             </a>
             <img src="src/assets/img/arrosoir.gif" alt="arrosoir2" id="arrosoir2" />
@@ -156,17 +161,19 @@ export default {
               <p>
                 {{ itemsPlanted[1] ? itemsPlanted[1].plante.espece : '' }}
               </p>
-              <a class="btn btn-outline-primary" @click="arroser('#arrosoir2')">
-                <i class="fa-solid fa-droplet"></i>
-              </a>
-              <a @click="openModal(itemsPlanted[1])" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-light">
-                <i class="fa-solid fa-info"></i>
-              </a>
+              <div class="btn-group">
+                  <a class="btn btn-outline-primary" @click="arroser('#arrosoir2')">
+                    <i class="fa-solid fa-droplet"></i>
+                  </a>
+                  <a @click="openModal(itemsPlanted[1])" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-light">
+                    <i class="fa-solid fa-info"></i>
+                  </a>
+              </div>
             </div>
           </div>
 
-          <div class="item-plant" :style="{ 'border-color': itemsPlanted[2] ? itemsPlanted[2].niveau.color : 'grey' }">
-            <a class="img-planted" @click="openModal(itemsPlanted[2])" data-toggle="modal" data-target="#exampleModalCenter">
+          <div class="item-plant">
+            <a class="img-planted" @click="openModal(itemsPlanted[2])" data-toggle="modal" data-target="#exampleModalCenter" :style="{ 'border-color': itemsPlanted[2] ? itemsPlanted[2].niveau.color : 'grey' }">
               <img :src="itemsPlanted[2] ? itemsPlanted[2].plante.image_url : 'src/assets/img/truelle.png' " alt="Plante" />
             </a>
             <img src="src/assets/img/arrosoir.gif" alt="arrosoir3" id="arrosoir3" />
@@ -174,17 +181,19 @@ export default {
               <p>
                 {{ itemsPlanted[2] ? itemsPlanted[2].plante.espece : '' }}
               </p>
-              <a class="btn btn-outline-primary" @click="arroser('#arrosoir3')">
-                <i class="fa-solid fa-droplet"></i>
-              </a>
-              <a @click="openModal(itemsPlanted[2])" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-light">
-                <i class="fa-solid fa-info"></i>
-              </a>
+              <div class="btn-group">
+                  <a class="btn btn-outline-primary" @click="arroser('#arrosoir3')">
+                    <i class="fa-solid fa-droplet"></i>
+                  </a>
+                  <a @click="openModal(itemsPlanted[2])" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-light">
+                    <i class="fa-solid fa-info"></i>
+                  </a>
+              </div>
             </div>
           </div>
 
-          <div class="item-plant" :style="{ 'border-color': itemsPlanted[3] ? itemsPlanted[3].niveau.color : 'grey' }">
-            <a class="img-planted" @click="openModal(itemsPlanted[3])" data-toggle="modal" data-target="#exampleModalCenter">
+          <div class="item-plant">
+            <a class="img-planted" @click="openModal(itemsPlanted[3])" data-toggle="modal" data-target="#exampleModalCenter" :style="{ 'border-color': itemsPlanted[3] ? itemsPlanted[3].niveau.color : 'grey' }">
               <img :src="itemsPlanted[3] ? itemsPlanted[3].plante.image_url : 'src/assets/img/truelle.png' " alt="Plante" />
             </a>
             <img src="src/assets/img/arrosoir.gif" alt="arrosoir4" id="arrosoir4" />
@@ -192,12 +201,14 @@ export default {
               <p>
                 {{ itemsPlanted[3] ? itemsPlanted[3].plante.espece : '' }}
               </p>
-              <a class="btn btn-outline-primary" @click="arroser('#arrosoir4')">
-                <i class="fa-solid fa-droplet"></i>
-              </a>
-              <a @click="openModal(itemsPlanted[3])" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-light">
-                <i class="fa-solid fa-info"></i>
-              </a>
+              <div class="btn-group">
+                  <a class="btn btn-block btn-outline-primary" @click="arroser('#arrosoir4')">
+                    <i class="fa-solid fa-droplet"></i>
+                  </a>
+                  <a @click="openModal(itemsPlanted[3])" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-block btn-light">
+                    <i class="fa-solid fa-info"></i>
+                  </a>
+              </div>
             </div>
           </div>
 
@@ -217,6 +228,14 @@ export default {
       </div>
 
       <h1>Items en vente</h1>
+
+      <div class="list-ventes">
+        <div class="item" v-for="market in itemsMarket" :key="market.id" :style="{ 'border-color': market.item_id.niveau.color ? market.item_id.niveau.color : 'grey' }">
+          <a @click="openModal(item)" data-toggle="modal" data-target="#exampleModalCenter">
+            <img :src="market.item_id.plante.image_url" alt="Plante" />
+          </a>
+        </div>
+      </div>
 
       <Modal :title="itemSelected ? 'Détails item n° '+itemSelected.id : '' " :showModal="showModal" :close="closeModal">
 
@@ -289,14 +308,13 @@ export default {
 .garden h1{
   text-align: center;
   margin-top: 10px;
-  font-size: 32px;
+  font-size: 36px;
 }
 
 .plantations{
-  width: 70%;
+  width: 40%;
   height: 93vh;
   color: white;
-
 }
 
 .list-plants{
@@ -306,46 +324,57 @@ export default {
   height: 100%;
 }
 .item-plant{
-  width: 100%;
+  width: 380px;
   height: 100%;
   background-color: rgb(62, 97, 43);
-  border: 1px black solid;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 5px solid;
 }
 
 .item-plant .img-planted{
   width: 100%;
+  border: 5px solid;
 }
 .item-plant img{
-  width: 100%;
-  max-height: 370px;
+  width: 370px;
+  height: 370px;
   object-fit: cover;
 }
 .item-plant img:hover{
   cursor: pointer;
+  opacity: 0.9;
 }
 
 .details-plant{
   width: 100%;
-  height: auto;
+  height: 52px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   background-color: #3b2804;
 }
 
 .details-plant p{
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
+  margin-right: 20px;
+  width: 70%;
+}
+.details-plant a{
+  width: 100%;
+}
+
+.btn-group{
+  width: 30%;
+  margin-top: 0;
+  margin-right: 5px;
 }
 
 .inventory{
-  width: 30%;
+  width: 100%;
   height: 93vh;
   background-color: #3b2804;
   color : white;
@@ -357,14 +386,14 @@ export default {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  height: 500px;
+  height: 400px;
   flex-wrap: wrap;
   overflow-y: scroll;
 }
 
 .item{
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   background-color: rgb(56, 54, 54);
   cursor: grab;
   border: 5px solid;
@@ -405,6 +434,16 @@ export default {
   cursor: pointer;
 }
 
+.list-ventes{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  height: 200px;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+}
+
 #arrosoir1, 
 #arrosoir2, 
 #arrosoir3, 
@@ -418,5 +457,28 @@ export default {
   position: absolute;
   z-index: 100000;
   display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .garden{
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100vh;
+  }
+  .plantations{
+    width: 100%;
+    height: 80vh;
+  }
+  .inventory{
+    width: 100%;
+    height: 20vh;
+  }
+  .list-plants{
+    display: flex;
+    flex-direction: column;
+  }
+  .item-plant{
+    width: 100%;
+  }
 }
 </style>

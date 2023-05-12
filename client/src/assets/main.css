@@ -14,10 +14,25 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+.main-dark{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  min-height: 100vh;
+  background-color: #000;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 @media screen and (max-width: 768px) {
 
   .main{
+      display: flex;
+      flex-direction: column;
+  }
+
+  .main-dark{
       display: flex;
       flex-direction: column;
   }

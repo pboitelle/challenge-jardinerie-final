@@ -16,6 +16,7 @@ use App\Controller\MailAchatCoinsController;
 use App\Controller\UpdateRoleController;
 use App\Controller\GetBlogsController;
 use App\Controller\GetItemsController;
+use App\Controller\GetItemsMarketController;
 
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -99,6 +100,25 @@ use App\Controller\MeController;
             normalizationContext: [
                 'groups' => ['item:read'],
                 'openapi_definition_name' => 'Detail<plantes>',
+                'skip_null_values' => false,
+                'include_user_id' => true,
+                'max_depth' => 1,
+            ],
+            security: 'is_granted("ROLE_USER") and id == user.getId()',
+        ),
+        new GetCollection(
+            paginationEnabled: false,
+            uriTemplate: '/users/{id}/markets',
+            controller: GetItemsMarketController::class,
+            read: false,
+            name: 'get_items_market',
+            openapiContext: [
+                'summary' => 'Récupère les items d\'un utilisateur en ventes',
+                'description' => 'Récupère les items d\'un utilisateur en ventes',
+            ],
+            normalizationContext: [
+                'groups' => ['item:read'],
+                'openapi_definition_name' => 'Detail<plantes>',
                 'skip_null_values' => true,
                 'include_user_id' => true,
                 'max_depth' => 1,
@@ -170,11 +190,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $token = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write', 'market:read'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write', 'market:read'])]
     private ?string $firstname = null;
 
     #[ORM\Column(nullable: true)]

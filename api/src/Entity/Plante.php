@@ -63,7 +63,7 @@ class Plante
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['plante:write', 'user:read', 'user:read:plante', 'item:read'])]
+    #[Groups(['plante:write', 'user:read', 'user:read:plante', 'item:read', 'market:read'])]
     private ?string $espece = null;
 
     #[ORM\Column(length: 255)]
@@ -78,7 +78,7 @@ class Plante
     private Collection $items;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['user:write', 'user:read', 'user:read:plante', 'item:read'])]
+    #[Groups(['user:write', 'user:read', 'user:read:plante', 'item:read', 'market:read'])]
     private ?string $image_url = null;
 
     public function __construct()

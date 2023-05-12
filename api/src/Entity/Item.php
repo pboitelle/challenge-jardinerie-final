@@ -48,12 +48,12 @@ class Item
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['item:read'])]
+    #[Groups(['item:read', 'market:read'])]
     private ?Niveau $niveau = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['item:read'])]
+    #[Groups(['item:read', 'market:read'])]
     private ?Plante $plante = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
