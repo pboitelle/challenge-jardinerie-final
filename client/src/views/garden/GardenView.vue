@@ -132,12 +132,12 @@ export default {
     <div class="plantations">
       <div class="list-plants">
 
-          <div class="item-plant">
+          <div class="item-plant" v-if="itemsPlanted[0]">
             <a class="img-planted" @click="openModal(itemsPlanted[0])" data-toggle="modal" data-target="#exampleModalCenter" :style="{ 'border-color': itemsPlanted[0] ? itemsPlanted[0].niveau.color : 'grey' }">
               <img :src="itemsPlanted[0] ? itemsPlanted[0].plante.image_url : 'src/assets/img/truelle.png' " alt="Plante" />
             </a>
             <img src="src/assets/img/arrosoir.gif" alt="arrosoir1" id="arrosoir1" />
-            <div class="details-plant" v-if="itemsPlanted[0]">
+            <div class="details-plant">
               <p>
                 {{ itemsPlanted[0] ? itemsPlanted[0].plante.espece : '' }}
               </p>
@@ -151,13 +151,24 @@ export default {
               </div>
             </div>
           </div>
+          <div class="item-plant" v-else>
+            <a class="img-planted" data-toggle="modal" data-target="#exampleModalCenter" style="border-color: grey">
+              <img src="@/assets/img/truelle.png" alt="Plante" />
+            </a>
+            <img src="src/assets/img/arrosoir.gif" alt="arrosoir4" id="arrosoir4" />
+            <div class="details-plant">
+              <p>
+                Aucune plante
+              </p>
+            </div>
+          </div>
 
-          <div class="item-plant">
+          <div class="item-plant" v-if="itemsPlanted[1]">
             <a class="img-planted" @click="openModal(itemsPlanted[1])" data-toggle="modal" data-target="#exampleModalCenter" :style="{ 'border-color': itemsPlanted[1] ? itemsPlanted[1].niveau.color : 'grey' }">
               <img :src="itemsPlanted[1] ? itemsPlanted[1].plante.image_url : 'src/assets/img/truelle.png' " alt="Plante" />
             </a>
             <img src="src/assets/img/arrosoir.gif" alt="arrosoir2" id="arrosoir2" />
-            <div class="details-plant" v-if="itemsPlanted[1]">
+            <div class="details-plant">
               <p>
                 {{ itemsPlanted[1] ? itemsPlanted[1].plante.espece : '' }}
               </p>
@@ -171,13 +182,24 @@ export default {
               </div>
             </div>
           </div>
+          <div class="item-plant" v-else>
+            <a class="img-planted" data-toggle="modal" data-target="#exampleModalCenter" style="border-color: grey">
+              <img src="@/assets/img/truelle.png" alt="Plante" />
+            </a>
+            <img src="src/assets/img/arrosoir.gif" alt="arrosoir4" id="arrosoir4" />
+            <div class="details-plant">
+              <p>
+                Aucune plante
+              </p>
+            </div>
+          </div>
 
-          <div class="item-plant">
+          <div class="item-plant" v-if="itemsPlanted[2]">
             <a class="img-planted" @click="openModal(itemsPlanted[2])" data-toggle="modal" data-target="#exampleModalCenter" :style="{ 'border-color': itemsPlanted[2] ? itemsPlanted[2].niveau.color : 'grey' }">
               <img :src="itemsPlanted[2] ? itemsPlanted[2].plante.image_url : 'src/assets/img/truelle.png' " alt="Plante" />
             </a>
             <img src="src/assets/img/arrosoir.gif" alt="arrosoir3" id="arrosoir3" />
-            <div class="details-plant" v-if="itemsPlanted[2]">
+            <div class="details-plant">
               <p>
                 {{ itemsPlanted[2] ? itemsPlanted[2].plante.espece : '' }}
               </p>
@@ -191,13 +213,24 @@ export default {
               </div>
             </div>
           </div>
+          <div class="item-plant" v-else>
+            <a class="img-planted" data-toggle="modal" data-target="#exampleModalCenter" style="border-color: grey">
+              <img src="@/assets/img/truelle.png" alt="Plante" />
+            </a>
+            <img src="src/assets/img/arrosoir.gif" alt="arrosoir4" id="arrosoir4" />
+            <div class="details-plant">
+              <p>
+                Aucune plante
+              </p>
+            </div>
+          </div>
 
-          <div class="item-plant">
+          <div class="item-plant" v-if="itemsPlanted[3]">
             <a class="img-planted" @click="openModal(itemsPlanted[3])" data-toggle="modal" data-target="#exampleModalCenter" :style="{ 'border-color': itemsPlanted[3] ? itemsPlanted[3].niveau.color : 'grey' }">
               <img :src="itemsPlanted[3] ? itemsPlanted[3].plante.image_url : 'src/assets/img/truelle.png' " alt="Plante" />
             </a>
             <img src="src/assets/img/arrosoir.gif" alt="arrosoir4" id="arrosoir4" />
-            <div class="details-plant" v-if="itemsPlanted[3]">
+            <div class="details-plant">
               <p>
                 {{ itemsPlanted[3] ? itemsPlanted[3].plante.espece : '' }}
               </p>
@@ -209,6 +242,17 @@ export default {
                     <i class="fa-solid fa-info"></i>
                   </a>
               </div>
+            </div>
+          </div>
+          <div class="item-plant" v-else>
+            <a class="img-planted" data-toggle="modal" data-target="#exampleModalCenter" style="border-color: grey">
+              <img src="@/assets/img/truelle.png" alt="Plante" />
+            </a>
+            <img src="src/assets/img/arrosoir.gif" alt="arrosoir4" id="arrosoir4" />
+            <div class="details-plant">
+              <p>
+                Aucune plante
+              </p>
             </div>
           </div>
 
@@ -231,9 +275,9 @@ export default {
 
       <div class="list-ventes">
         <div class="item" v-for="market in itemsMarket" :key="market.id" :style="{ 'border-color': market.item_id.niveau.color ? market.item_id.niveau.color : 'grey' }">
-          <a @click="openModal(item)" data-toggle="modal" data-target="#exampleModalCenter">
+          <router-link to="/garden">
             <img :src="market.item_id.plante.image_url" alt="Plante" />
-          </a>
+          </router-link>
         </div>
       </div>
 

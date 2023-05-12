@@ -1,3 +1,7 @@
+*{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 #app{
   width: 100%;
   height: auto;
