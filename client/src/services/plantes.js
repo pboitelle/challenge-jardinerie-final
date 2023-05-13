@@ -32,13 +32,10 @@ const getPlante = async (id) => {
             }
         })
 
-        if(response.status === 200) {
-            return response.data
-        }else{
-            return null
-        }
+        return response
+
     } catch (error) {
-        return null
+        return error.response
     }
 
 }

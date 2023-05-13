@@ -105,8 +105,6 @@ const editBlog = async (id, data) => {
             }
         })
 
-        console.log(response.data)
-
         if(response.status === 200) {
             return response.data
         }else{
@@ -128,8 +126,6 @@ const deleteBlog = async (id) => {
                 Authorization: `Bearer ${token}`
             }
         })
-
-        console.log(response)
 
         if(response.status === 204) {
             return response

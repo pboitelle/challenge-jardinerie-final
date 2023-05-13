@@ -23,74 +23,93 @@ const getMarkets = async () => {
     }
 }
 
-const getPlante = async (id) => {
+const getMarket = async (id) => {
 
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.get('https://localhost/plantes/'+id, {
+        const response = await axios.get('https://localhost/markets/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
 
         if(response.status === 200) {
-            return response.data
+            return response
         }else{
-            return null
+            return response
         }
     } catch (error) {
-        return null
+        return error.response
     }
 
 }
 
-const editPlante = async (id, data) => {
+const createMarket = async (data) => {
     
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.put('https://localhost/plantes/'+id, 
+        const response = await axios.post('https://localhost/markets', 
         data, 
         {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
             }
         })
 
-        if(response.status === 200) {
-            return response.data
+        if(response.status === 201) {
+            return response
         }else{
-            return null
+            return response
         }
     } catch (error) {
-        return null
+        return error.response
     }
     
 }
 
-const deletePlante = async (id) => {
+const editMarket = async (id, data) => {
+    
+    const token = localStorage.getItem('token_jwt')
+
+    try {
+        const response = await axios.patch('https://localhost/markets/'+id, 
+        data, 
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/merge-patch+json'
+            }
+        })
+
+        return response
+        
+    } catch (error) {
+        return error.response
+    }
+    
+}
+
+const deleteMarket = async (id) => {
 
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.delete('https://localhost/plantes/'+id, {
+        const response = await axios.delete('https://localhost/markets/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
 
-        console.log(response)
-
-        if(response.status === 204) {
-            return response
-        }else{
-            return null
-        }
+        return response
+        
     } catch (error) {
-        return null
+        return error.response
     }
 
 }
 
-export { getMarkets }
+export { getMarkets, getMarket, createMarket, editMarket, deleteMarket }

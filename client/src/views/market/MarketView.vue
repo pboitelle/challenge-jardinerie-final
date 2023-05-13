@@ -102,8 +102,8 @@ export default {
                             <span class="badge" :style="{ 'background-color': market ? market.item_id.niveau.color : 'grey' }">
                                 {{ market.item_id.niveau.niveau }}
                             </span>
-                            <span class="price">
-                                {{ market.price }}
+                            <span class="prix">
+                                {{ market.prix }}
                                 <img src="@/assets/img/coin.png" alt="coin" />
                             </span>
                             <router-link class="btn btn-dark" to="/blogs">
@@ -134,6 +134,7 @@ export default {
 .search-bar {
     margin-top: 20px;
     margin-bottom: 15px;
+    width: 100%;
 }
 
 .search-bar input {
@@ -186,6 +187,7 @@ export default {
 .market-container {
     width: 100%;
     height: 100%;
+    color: black;
 }
 .market-item {
     width: 80%;
@@ -253,11 +255,11 @@ export default {
     padding: 0 10px;
     margin-bottom: 5px;
 }
-.info-item .footer-item .price{
+.info-item .footer-item .prix{
     font-size: 24px;
     font-weight: bold;
 }
-.info-item .footer-item .price img{
+.info-item .footer-item .prix img{
     width: 50px;
     vertical-align: middle;
 }

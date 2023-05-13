@@ -19,8 +19,16 @@ export default {
     const description = ref(null)
     const area = ref(null)
 
+
     watchEffect(async () => {
-      plante.value = await getPlante(route.params.id)
+        const response = await getPlante(route.params.id)
+
+        if (response.status === 200) {
+          plante.value = response.data
+        }
+        else if (response.status === 403){
+          window.location.href = '/plantes'
+        }
     })
 
 
@@ -113,14 +121,6 @@ img{
   background-color: rgb(86, 145, 81);
   padding: 20px;
   border-radius: 10px;
-}
-
-#delete{
-  float: right;
-  color: white;
-  font-size: 20px;
-  margin-top: 0;
-  margin-right: 0;
 }
 
 h1 {

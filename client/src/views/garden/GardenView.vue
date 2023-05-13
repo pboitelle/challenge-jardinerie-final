@@ -18,6 +18,7 @@ export default {
   setup() {
     const user = ref(null)
     const showModal = ref(false)
+    
     const popupVisible = ref(false)
     const popupTitle = ref('L\'item a été planté !')
     const popupType = ref('success')
@@ -48,7 +49,6 @@ export default {
     }
     const arroser = (arrosoir) => {
       const arrosoir_element = document.querySelector(arrosoir)
-      console.log(arrosoir_element)
       arrosoir_element.style.display = 'block'
       setTimeout(() => {
         arrosoir_element.style.display = 'none'
@@ -275,7 +275,7 @@ export default {
 
       <div class="list-ventes">
         <div class="item" v-for="market in itemsMarket" :key="market.id" :style="{ 'border-color': market.item_id.niveau.color ? market.item_id.niveau.color : 'grey' }">
-          <router-link to="/garden">
+          <router-link :to="{ name: 'market-edit', params: { id: market ? market.id : '1' } }">
             <img :src="market.item_id.plante.image_url" alt="Plante" />
           </router-link>
         </div>
@@ -302,7 +302,7 @@ export default {
             </p>
             <p>
               <strong>Vendre : </strong>
-              <router-link to="/garden" class="btn btn-dark">
+              <router-link :to="{ name: 'market-create', params: { id: itemSelected ? itemSelected.id : '1' } }" class="btn btn-dark">
                 <i class="fa-regular fa-handshake"></i> Vendre l'item
               </router-link>
             </p>

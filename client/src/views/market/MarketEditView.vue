@@ -1,24 +1,36 @@
 <script>
 import NavBar from '@/components/NavBar.vue'
+import Popup from '@/components/Popup.vue'
 import { useRoute } from 'vue-router'
 import {ref, computed, watchEffect} from 'vue';
-import { getItem } from '@/services/items.js'
-import { createMarket } from '@/services/markets.js'
+import { getMarket, editMarket, deleteMarket } from '@/services/markets.js'
 
 export default {
-  components: { NavBar },
-  name: 'MarketAddView',
+  components: { NavBar, Popup },
+  name: 'MarketEditView',
 
   setup() {
     const route = useRoute()
-    const prix = ref(50)
-    const item = ref(null)
+    const prix = ref(null)
+    const market = ref(null)
+
+    const popupVisible = ref(false)
+    const popupTitle = ref('L\'item sur le marché a bien été édité !') 
+    const popupType = ref('success')
+
+    const closePopup = () => {
+      popupVisible.value = false
+    }
 
     watchEffect(async () => {
-        const response = await getItem(route.params.id)
+        const response = await getMarket(route.params.id)
 
         if (response.status === 200) {
-            item.value = response.data
+            market.value = response.data
+            prix.value = market.value.prix
+        }
+        else if (response.status === 404){
+            window.location.href = '/garden'
         }
         else if (response.status === 403){
             window.location.href = '/garden'
@@ -26,18 +38,37 @@ export default {
 
     })
 
-    const handleCreate = async () => {
+    const handleEdit = async () => {
 
         try {
-            const response = await createMarket({
-                item_id: item.value.id,
+            const response = await editMarket(market.value.id, {
                 prix: parseInt(prix.value)
             })
 
-            if (response.status === 201){
+            if (response.status === 200){
+                popupVisible.value = true
+            }else{
+                popupTitle.value = 'Une erreur est survenue'
+                popupType.value = 'danger'
+                popupVisible.value = true
+            }             
+        }
+        catch (error) {
+            alert('Une erreur est survenue')
+        }
+    }
+
+    const handleDelete = async () => {
+
+        try {
+            const response = await deleteMarket(market.value.id)
+
+            if (response.status === 204){
                 window.location.href = '/garden'
             }else{
-                window.location.href = '/garden'
+                popupTitle.value = 'Une erreur est survenue !'
+                popupType.value = 'danger'
+                popupVisible.value = true
             }             
         }
         catch (error) {
@@ -50,9 +81,14 @@ export default {
     }
 
     return {
-        item,
+        market,
         prix,
-        handleCreate,
+        popupTitle,
+        popupType,
+        popupVisible,
+        closePopup,
+        handleEdit,
+        handleDelete,
         showValue
     }
   }
@@ -61,20 +97,24 @@ export default {
 
 <template>
 
+    <div>
+        <popup :title="popupTitle" v-if="popupVisible" @close="closePopup" :autoClose="3000" :type="popupType" />
+    </div>
+
     <NavBar />
 
     <main class="main-dark">
 
         <div class="container bg-market bg-dark">
 
-            <h1 class="title">Mettre en vente</h1>
+            <h1 class="title">Gérer la vente de l'item n° {{ market ? market.item_id.id : '' }}</h1>
 
             <div class="market-item col-md-6 col-xs-12">
-                <a class="img-planted" :style="{ 'border-color': item ? item.niveau.color : 'grey' }">
-                    <img :src="item ? item.plante.image_url : '' " alt="plante Image" />
+                <a class="img-planted" :style="{ 'border-color': market ? market.item_id.niveau.color : 'grey' }">
+                    <img :src="market ? market.item_id.plante.image_url : '' " alt="plante Image" />
                 </a>
 
-                <form class="form" @submit.prevent="handleCreate">
+                <form class="form" @submit.prevent="handleEdit">
 
                     <div class="form__group">
                         <label for="prix" class="form__label">Prix</label>
@@ -86,16 +126,17 @@ export default {
                                 <img src="@/assets/img/coin.png" alt="coin" />
                             </div>
                         </div>
-                        
                     </div>
 
                     <div class="buttons">
                         <RouterLink to="/garden" class="btn btn-primary">Retour</RouterLink>
-                        <button class="btn btn-light"><i class="fa-regular fa-circle-check"></i> Mettre en vente</button>
+                        <button class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i> Modifier le prix</button>
                     </div>
 
                 </form>
             </div>
+
+            <a id="delete" @click="handleDelete" class="btn btn-danger"><i class="fa-solid fa-square-minus"></i> Retirer du marché</a>
 
         </div>
 
@@ -178,6 +219,12 @@ export default {
 .coins img{
     width: 20px;
     height: 20px;
+}
+
+#delete{
+    margin-top: 0;
+    margin-right: 0;
+    width: 50%;
 }
 
 </style>

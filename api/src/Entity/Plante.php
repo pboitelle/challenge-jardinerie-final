@@ -20,7 +20,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: PlanteRepository::class)]
 #[ApiResource()]
 #[Post()]
-#[Get()]
+#[Get(
+    uriTemplate: '/plantes/{id}',
+    name: 'plante_get',
+    openapiContext: [
+        'summary' => 'Récupérer une plante',
+        'description' => 'Récupérer une plante',
+    ],
+    security: 'is_granted("ROLE_BLOGER") and object.getBlog() == null',
+)]
 #[Patch()]
 #[Delete()]
 #[Put(

@@ -26,7 +26,7 @@ class MarketFixtures extends Fixture implements DependentFixtureInterface
             $market = new Market();
             $market->setUserId($faker->randomElement($users));
             $market->setItemId($faker->unique()->randomElement($items));
-            $market->setPrice($faker->numberBetween(1, 50));
+            $market->setPrix($faker->numberBetween(1, 50));
 
             $manager->persist($market);
         }

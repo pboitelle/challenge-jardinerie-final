@@ -77,8 +77,6 @@ const getItemsUser = async (id) => {
             }
         })
 
-        console.log(response.data['hydra:member'])
-
         if(response.status === 200) {
             return response.data['hydra:member']
         }else{
