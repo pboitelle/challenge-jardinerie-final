@@ -44,7 +44,7 @@ class Item
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['item:read', 'market:write'])]
+    #[Groups(['item:read', 'market:write', 'market:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
@@ -73,6 +73,7 @@ class Item
     private ?Market $market = null;
 
     #[ORM\OneToOne(mappedBy: 'item', cascade: ['persist', 'remove'])]
+    #[Groups(['vente:read', 'vente:write'])]
     private ?Vente $vente = null;
 
     public function getId(): ?int

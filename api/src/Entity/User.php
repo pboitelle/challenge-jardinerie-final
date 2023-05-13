@@ -14,6 +14,7 @@ use App\Controller\ResetPasswordController;
 use App\Controller\ChangePasswordController;
 use App\Controller\MailAchatCoinsController;
 use App\Controller\UpdateRoleController;
+use App\Controller\UpdateCoinsController;
 use App\Controller\GetBlogsController;
 use App\Controller\GetItemsController;
 use App\Controller\GetItemsMarketController;
@@ -67,6 +68,14 @@ use App\Controller\MeController;
             denormalizationContext: ['groups' => 'user:role'],
             read: false,
             security: 'is_granted("ROLE_ADMIN")',
+        ),
+        new Patch(
+            uriTemplate: '/users/{id}/coins',
+            controller: UpdateCoinsController::class,
+            name: 'user_coins_edit',
+            denormalizationContext: ['groups' => 'user:coin'],
+            read: false,
+            security: 'is_granted("ROLE_USER") and id == user.getId()',
         ),
         new GetCollection(
             paginationEnabled: false,
@@ -167,7 +176,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'market:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
@@ -198,7 +207,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $firstname = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['user:read', 'achat-coins'])]
+    #[Groups(['user:read', 'achat-coins', 'user:coin'])]
     private ?int $nb_coins = null;
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Item::class)]
@@ -211,6 +220,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $markets;
 
     #[ORM\OneToMany(mappedBy: 'vendeur', targetEntity: Vente::class, orphanRemoval: true)]
+    #[Groups(['vente:write', 'vente:read'])]
     private Collection $ventes;
 
     #[ORM\OneToMany(mappedBy: 'acheteur', targetEntity: Vente::class, orphanRemoval: true)]

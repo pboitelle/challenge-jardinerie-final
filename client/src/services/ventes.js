@@ -1,4 +1,5 @@
 import axios from "axios";
+import { updateCoins } from "./users";
 
 const getMarkets = async () => {
 
@@ -10,6 +11,8 @@ const getMarkets = async () => {
                 Authorization: `Bearer ${token}`
             }
         })
+
+        console.log(response.data['hydra:member'])
 
         if(response.status === 200) {
             return response.data['hydra:member']
@@ -43,12 +46,12 @@ const getMarket = async (id) => {
 
 }
 
-const createMarket = async (data) => {
+const createVente = async (user_id, data) => {
     
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.post('https://localhost/markets', 
+        const response = await axios.post('https://localhost/ventes', 
         data, 
         {
             headers: {
@@ -58,11 +61,18 @@ const createMarket = async (data) => {
             }
         })
 
-        if(response.status === 201) {
-            return response
-        }else{
-            return response
+        if (response.status === 200){
+            const response2 = await updateCoins(user_id, {
+                nbCoins: data.prix
+            })
+            
+            if (response2.status === 200){
+                return response
+            } else {
+                return response2
+            }
         }
+
     } catch (error) {
         return error.response
     }
@@ -110,4 +120,4 @@ const deleteMarket = async (id) => {
 
 }
 
-export { getMarkets, getMarket, createMarket, editMarket, deleteMarket }
+export { getMarkets, getMarket, createVente, editMarket, deleteMarket }

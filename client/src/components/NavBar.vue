@@ -28,6 +28,16 @@ export default {
       user_role = 'Gueux'
     }
 
+    const formatNumber = (number) => {
+      if (number >= 1000000) {
+        return (number/1000000).toFixed(Number.isInteger(number/1000000) ? 0 : 1) + 'M';
+      } else if (number >= 1000) {
+        return (number/1000).toFixed(Number.isInteger(number/1000) ? 0 : 1) + 'K';
+      } else {
+        return number.toString();
+      }
+    }
+
     const logout = () => {
       localStorage.removeItem('token_jwt')
       localStorage.removeItem('email')
@@ -44,7 +54,8 @@ export default {
       user_coins,
       user_role,
       logout,
-      user
+      user,
+      formatNumber
     }
   }
 }
@@ -92,7 +103,7 @@ export default {
                         <a class="nav-link" href="#">
                             <img src="../assets/img/coin.png">
                             <span id="number_coins">
-                                {{ user_coins }}
+                                {{ formatNumber(user_coins) }}
                             </span>
                         </a>
                     </li>

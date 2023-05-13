@@ -185,4 +185,26 @@ const updateRole = async (id, data) => {
 
 }
 
-export { getUsers, getUser, getBlogsUser, getItemsUser, getItemsMarketUser, editUser, deleteUser, updateRole }
+const updateCoins = async (id, data) => {
+
+    const token = localStorage.getItem('token_jwt')
+
+    try {
+        const response = await axios.patch('https://localhost/users/'+id+'/coins',
+        data,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/merge-patch+json'
+            }
+        })
+
+        return response
+        
+    } catch (error) {
+        return error.response
+    }
+
+}
+
+export { getUsers, getUser, getBlogsUser, getItemsUser, getItemsMarketUser, editUser, deleteUser, updateRole, updateCoins }
