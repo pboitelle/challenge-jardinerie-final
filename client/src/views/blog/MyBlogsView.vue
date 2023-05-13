@@ -122,6 +122,7 @@ export default {
 .bg-blog {
     width: 100%;
     height: 100%;
+    min-height: 100vh;
 }
 .search-bar {
     margin-top: 20px;

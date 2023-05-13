@@ -63,12 +63,11 @@ export default {
 <template>
   
   <NavBar />
- 
+
   <div class="container">
     <h1>{{ title }}</h1>
     <ListCards :items="items" @itemSelected="handleAchatCoins"/>
   </div>
-
 
 </template>
 

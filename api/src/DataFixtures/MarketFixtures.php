@@ -21,12 +21,12 @@ class MarketFixtures extends Fixture implements DependentFixtureInterface
         $users = $manager->getRepository(User::class)->findAll();
 
 
-        for ($i = 0; $i < 2; $i++) {
+        for ($i = 0; $i < 20; $i++) {
 
             $market = new Market();
             $market->setUserId($faker->randomElement($users));
-            $market->setItemId($faker->randomElement($items));
-            $market->setPrice($faker->numberBetween(1, 50));
+            $market->setItemId($faker->unique()->randomElement($items));
+            $market->setPrix($faker->numberBetween(1, 50));
 
             $manager->persist($market);
         }

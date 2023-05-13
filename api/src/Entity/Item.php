@@ -30,12 +30,21 @@ use Doctrine\ORM\Mapping as ORM;
     denormalizationContext: ['groups' => 'item:write'],
     security: 'is_granted("ROLE_USER") and object.getUserId() == user',
 )]
+#[Get(
+    uriTemplate: '/items/{id}',
+    name: 'item_get',
+    openapiContext: [
+        'summary' => 'Récupérer un item de l\'utilisateur connecté',
+        'description' => 'Récupérer un item de l\'utilisateur connecté',
+    ],
+    security: 'is_granted("ROLE_USER") and object.getUserId() == user and object.getMarket() == null',
+)]
 class Item
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['item:read'])]
+    #[Groups(['item:read', 'market:write'])]
     private ?int $id = null;
 
     #[ORM\Column]
@@ -48,18 +57,19 @@ class Item
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['item:read'])]
+    #[Groups(['item:read', 'market:read'])]
     private ?Niveau $niveau = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['item:read'])]
+    #[Groups(['item:read', 'market:read'])]
     private ?Plante $plante = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
     private ?User $user_id = null;
 
     #[ORM\OneToOne(mappedBy: 'item_id', cascade: ['persist', 'remove'])]
+    #[Groups(['item:read'])]
     private ?Market $market = null;
 
     #[ORM\OneToOne(mappedBy: 'item', cascade: ['persist', 'remove'])]

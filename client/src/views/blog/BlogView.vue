@@ -113,6 +113,7 @@ export default {
 
 .bg-blog {
   width: 100%;
+  min-height: 100vh;
   height: 100%;
 }
 .search-bar {

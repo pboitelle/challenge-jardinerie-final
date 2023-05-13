@@ -6,7 +6,6 @@ import RegisterView from '../views/RegisterView.vue'
 import GardenView from '../views/garden/GardenView.vue'
 
 import AchatCoinsView from '../views/AchatCoinsView.vue'
-import MarketView from '../views/MarketView.vue'
 import ResetPasswordView from '../views/ResetPasswordView.vue'
 import SendEmailResetPasswordView from '../views/SendEmailResetPasswordView.vue'
 import SuccessAchatView from '../views/SuccessAchatView.vue'
@@ -20,6 +19,10 @@ import BlogPostView from '../views/blog/BlogPostView.vue'
 import BlogCreateView from '../views/blog/BlogCreateView.vue'
 
 import PlanteView from '../views/PlanteView.vue'
+
+import MarketView from '../views/market/MarketView.vue'
+import MarketAddView from '../views/market/MarketAddView.vue'
+import MarketEditView from '../views/market/MarketEditView.vue'
 
 import AdminUsersView from '../views/admin/Users/AdminUsersView.vue';
 import AdminUsersEditView from '../views/admin/Users/AdminUsersEditView.vue';
@@ -127,6 +130,18 @@ const router = createRouter({
       path: '/market',
       name: 'market',
       component: MarketView,
+      beforeEnter: isAuthenticated
+    },
+    {
+      path: '/market/add/:id',
+      name: 'market-create',
+      component: MarketAddView,
+      beforeEnter: isAuthenticated
+    },
+    {
+      path: '/market/edit/:id',
+      name: 'market-edit',
+      component: MarketEditView,
       beforeEnter: isAuthenticated
     },
     {

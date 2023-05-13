@@ -116,6 +116,7 @@ export default {
 .bg-plante {
     width: 100%;
     height: 100%;
+    min-height: 100vh;
 }
 .search-bar {
     margin-top: 20px;
@@ -192,7 +193,7 @@ export default {
     object-fit: cover;
 }
 .plante-item .espece {
-    font-size: 22px;
+    font-size: 18px;
     margin-bottom: 5px;
 }
 .plante-item .genre {

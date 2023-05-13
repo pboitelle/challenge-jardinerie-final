@@ -165,7 +165,7 @@ h1 {
   border: 1px solid rgb(86, 145, 81);
 }
 
-.form-check-input{
+.form-switch .form-check-input{
   width: 100px;
   height: 46px;
   margin-left: 0;
