@@ -21,6 +21,7 @@ use App\Controller\GetItemsController;
 use App\Controller\GetItemsMarketController;
 use App\Controller\GetVentesController;
 use App\Controller\GetAchatsController;
+use App\Controller\CreateUserController;
 
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -188,7 +189,16 @@ use App\Controller\MeController;
     ],
     normalizationContext: ['groups' => ['user:read']],
 )]
-#[Post()]
+#[Post(
+    uriTemplate: '/users',
+    name: 'user_add',
+    controller: CreateUserController::class,
+    openapiContext: [
+        'summary' => 'Ajouter un utilisateur',
+        'description' => 'Ajoute un utilisateur',
+    ],
+    denormalizationContext: ['groups' => 'user:register'],
+)]
 #[Get()]
 #[Patch()]
 #[Put(
@@ -231,7 +241,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user:read', 'user:write', 'reset-password'])]
+    #[Groups(['user:read', 'user:write', 'reset-password', 'user:register'])]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -242,7 +252,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Groups(['change-password'])]
+    #[Groups(['change-password', 'user:register'])]
     private ?string $password = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -250,11 +260,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $token = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'user:write', 'market:read', 'user:vente:read'])]
+    #[Groups(['user:read', 'user:write', 'market:read', 'user:register', 'user:vente:read'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'user:write', 'market:read', 'user:vente:read'])]
+    #[Groups(['user:read', 'user:write', 'user:register', 'market:read', 'user:vente:read'])]
     private ?string $firstname = null;
 
     #[ORM\Column(nullable: true)]
@@ -276,6 +286,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'acheteur', targetEntity: Vente::class, orphanRemoval: true)]
     private Collection $achats;
+
+    #[ORM\Column]
+    private ?bool $isValid = null;
 
     public function __construct()
     {
@@ -510,5 +523,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getAchats(): Collection
     {
         return $this->achats;
+    }
+
+    public function isIsValid(): ?bool
+    {
+        return $this->isValid;
+    }
+
+    public function setIsValid(bool $isValid): self
+    {
+        $this->isValid = $isValid;
+
+        return $this;
     }
 }

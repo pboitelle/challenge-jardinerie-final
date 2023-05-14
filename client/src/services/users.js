@@ -150,6 +150,29 @@ const getItemsMarketUser = async (id) => {
     }
 }
 
+const createUser = async (data) => {
+
+    try {
+        const response = await axios.post('https://localhost/users', 
+        data, 
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        })
+
+        if(response.status === 200) {
+            return response.data
+        }else{
+            return null
+        }
+    } catch (error) {
+        return error.response
+    }
+    
+}
+
 const editUser = async (id, data) => {
     
     const token = localStorage.getItem('token_jwt')
@@ -249,4 +272,4 @@ const updateCoins = async (id, data, type) => {
 
 }
 
-export { getUsers, getUser, getBlogsUser, getItemsUser, getVentesUser, getAchatsUser, getItemsMarketUser, editUser, deleteUser, updateRole, updateCoins }
+export { getUsers, getUser, getBlogsUser, getItemsUser, getVentesUser, getAchatsUser, getItemsMarketUser, editUser, createUser, deleteUser, updateRole, updateCoins }

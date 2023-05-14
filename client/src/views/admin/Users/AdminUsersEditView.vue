@@ -142,6 +142,7 @@ export default {
   font-size: 20px;
   margin-top: 0;
   margin-right: 0;
+  width: auto;
 }
 
 h1 {

@@ -10,6 +10,7 @@ import ResetPasswordView from '../views/ResetPasswordView.vue'
 import SendEmailResetPasswordView from '../views/SendEmailResetPasswordView.vue'
 import SuccessAchatView from '../views/SuccessAchatView.vue'
 import ErrorAchatView from '../views/ErrorAchatView.vue'
+import ConfirmationAccountView from '../views/ConfirmationAccountView.vue'
 
 import DevenirBloggerView from '../views/DevenirBloggerView.vue'
 
@@ -67,6 +68,11 @@ const router = createRouter({
       path: '/send-email-password',
       name: 'send-email-password',
       component: SendEmailResetPasswordView,
+    },
+    {
+      path: '/confirmation-account',
+      name: 'confirmation-account',
+      component: ConfirmationAccountView
     },
     {
       path: '/success-achat',

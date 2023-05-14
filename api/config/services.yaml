@@ -26,3 +26,7 @@ services:
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
         arguments: ['@.inner']
+
+    App\EventSubscriber\JWTEventSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
