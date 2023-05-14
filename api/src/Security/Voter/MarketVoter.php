@@ -2,25 +2,25 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\User;
+use App\Entity\Market;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserVoter extends Voter
+class MarketVoter extends Voter
 {
     protected function supports($attribute, $subject): bool
     {
-        $supportsAttribute = in_array($attribute, ['USER_GET']);
-        $supportsSubject = $subject instanceof User;
+        $supportsAttribute = in_array($attribute, ['MARKET_GET']);
+        $supportsSubject = $subject instanceof Market;
 
         return $supportsAttribute && $supportsSubject;
     }
 
     /**
      * @param string $attribute
-     * @param User $subject
+     * @param Market $subject
      * @param TokenInterface $token
      * @return bool
      */
@@ -29,10 +29,10 @@ class UserVoter extends Voter
         $user = $token->getUser();
 
         switch ($attribute) {
-            case 'USER_GET':
-                return $subject->getBlogs()->contains($user);
+            case 'MARKET_GET':
+                return $subject->getUserId() === $user;
                 break;
-            case 'USER_OTHER':
+            case 'MARKET_OTHER':
         }
 
         return false;

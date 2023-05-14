@@ -356,7 +356,7 @@ export default {
 }
 
 .plantations{
-  width: 40%;
+  /* width: 40%; */
   height: 93vh;
   color: white;
 }
@@ -418,7 +418,7 @@ export default {
 }
 
 .inventory{
-  width: 100%;
+  /* width: 100%; */
   height: 93vh;
   background-color: #3b2804;
   color : white;
@@ -522,24 +522,26 @@ export default {
 
 @media screen and (max-width: 768px) {
   .garden{
-    display: flex;
-    flex-direction: column-reverse;
-    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
   }
+
   .plantations{
     width: 100%;
-    height: 80vh;
+    height: 100%;
   }
+
   .inventory{
     width: 100%;
-    height: 20vh;
+    height: 100%;
+    order: -1;
+    border-bottom: #3b2804 10px solid;
   }
+
   .list-plants{
-    display: flex;
-    flex-direction: column;
-  }
-  .item-plant{
-    width: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
   }
 }
 </style>
