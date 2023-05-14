@@ -19,17 +19,34 @@ class BlogFixtures extends Fixture implements DependentFixtureInterface
 
         $plantes = $manager->getRepository(Plante::class)->findAll();
         $user = $manager->getRepository(User::class)->findOneBy(['email' => 'blog@blog.fr']);
+        $user2 = $manager->getRepository(User::class)->findOneBy(['email' => 'blog2@blog2.fr']);
 
-        for ($i = 0; $i < 2; $i++) {
+        for ($i = 0; $i < 3; $i++) {
 
             $blog = new Blog();
             $blog->setTitle($faker->sentence(1));
             $blog->setDescription($faker->paragraph(1));
-            $blog->setArea($faker->paragraph(5));
+            $blog->setArea($faker->paragraph(10));
             $blog->setCreatedAt(new \DateTimeImmutable());
             $blog->setUpdateAt(new \DateTimeImmutable());
             $blog->setPlante($faker->unique()->randomElement($plantes));
             $blog->setUserId($user);
+            $blog->setIsValidate(false);
+
+            $manager->persist($blog);
+        }
+
+        for ($i = 0; $i < 3; $i++) {
+
+            $blog = new Blog();
+            $blog->setTitle($faker->sentence(1));
+            $blog->setDescription($faker->paragraph(1));
+            $blog->setArea($faker->paragraph(10));
+            $blog->setCreatedAt(new \DateTimeImmutable());
+            $blog->setUpdateAt(new \DateTimeImmutable());
+            $blog->setPlante($faker->unique()->randomElement($plantes));
+            $blog->setUserId($user2);
+            $blog->setIsValidate(false);
 
             $manager->persist($blog);
         }

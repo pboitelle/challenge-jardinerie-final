@@ -15,10 +15,11 @@ class PlanteFixtures extends Fixture
 
         $data = json_decode($response, true);
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $object = (new Plante())
-                ->setEspece($data['data'][$i]['family'])
+                ->setEspece($data['data'][$i]['scientific_name'])
                 ->setGenre($data['data'][$i]['genus'])
+                ->setImageUrl($data['data'][$i]['image_url'])
                 ;
             $manager->persist($object);
         }

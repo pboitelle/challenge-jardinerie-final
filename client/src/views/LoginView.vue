@@ -19,7 +19,6 @@ export default {
             'Content-Type': 'application/json'
           }
         })
-        console.log(response)
 
         localStorage.setItem('token_jwt', response.data.token)
         window.location.href = '/garden'
@@ -27,6 +26,9 @@ export default {
       catch (error) {
         if (error.response.status === 401) {
           alert('Invalid email or password')
+
+        }else if (error.response.status === 500) {
+          alert('Votre compte n\'a pas encore été confirmé, veuillez vérifier vos emails.')
         } else {
           alert('An error occurred, please try again later')
         }

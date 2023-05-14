@@ -12,7 +12,7 @@ export default {
     setup() {
         const email = ref('')
         const popupVisible = ref(false)
-        const popupTitle = 'Un email vous a été envoyé !'
+        const popupTitle = 'Un email de réinitialisation vous a été envoyé.'
 
         const submitForm = async () => {
 

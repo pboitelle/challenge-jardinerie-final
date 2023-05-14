@@ -6,8 +6,24 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\GetCollection;
+
 use App\Controller\ResetPasswordController;
 use App\Controller\ChangePasswordController;
+use App\Controller\ConfirmAccountController;
+use App\Controller\MailAchatCoinsController;
+use App\Controller\UpdateRoleController;
+use App\Controller\UpdateCreditCoinsController;
+use App\Controller\UpdateDebitCoinsController;
+use App\Controller\GetBlogsController;
+use App\Controller\GetItemsController;
+use App\Controller\GetItemsMarketController;
+use App\Controller\GetVentesController;
+use App\Controller\GetAchatsController;
+use App\Controller\CreateUserController;
+
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,7 +39,6 @@ use App\Controller\MeController;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
-    // security: 'is_granted("ROLE_USER")',
     operations: [
         new Get(
             paginationEnabled: false,
@@ -44,12 +59,184 @@ use App\Controller\MeController;
             name: 'change-password',
             denormalizationContext: ['groups' => 'change-password']
         ),
+        new Post(
+            uriTemplate: '/users/confirm-account',
+            controller: ConfirmAccountController::class,
+            name: 'confirm-account',
+            denormalizationContext: ['groups' => 'confirm-account']
+        ),
+        new Patch(
+            uriTemplate: '/users/achat-coins/{id}/{coins}',
+            controller: MailAchatCoinsController::class,
+            name: 'user_achat_coins',
+            denormalizationContext: ['groups' => 'achat-coins'],
+            read: false,
+        ),
+        new Patch(
+            uriTemplate: '/users/{id}/role',
+            controller: UpdateRoleController::class,
+            name: 'user_role_edit',
+            denormalizationContext: ['groups' => 'user:role'],
+            read: false,
+            security: 'is_granted("ROLE_ADMIN")',
+        ),
+        new Patch(
+            uriTemplate: '/users/{id}/credit-coins',
+            controller: UpdateCreditCoinsController::class,
+            name: 'user_credit_coins_edit',
+            denormalizationContext: ['groups' => 'user:coin'],
+            read: false,
+            security: 'is_granted("ROLE_USER") and id == user.getId()',
+        ),
+        new Patch(
+            uriTemplate: '/users/{id}/debit-coins',
+            controller: UpdateDebitCoinsController::class,
+            name: 'user_debit_coins_edit',
+            denormalizationContext: ['groups' => 'user:coin'],
+            read: false,
+            security: 'is_granted("ROLE_USER")',
+        ),
+        new GetCollection(
+            paginationEnabled: false,
+            uriTemplate: '/users/{id}/blogs',
+            controller: GetBlogsController::class,
+            read: false,
+            name: 'get_blogs',
+            openapiContext: [
+                'summary' => 'Récupère les blogs d\'un utilisateur',
+                'description' => 'Récupère les blogs d\'un utilisateur',
+            ],
+            normalizationContext: [
+                'groups' => ['user:read', 'user:read:plante'],
+                'openapi_definition_name' => 'Detail<plantes>',
+                'skip_null_values' => true,
+                'include_user_id' => true,
+                'max_depth' => 1,
+            ],
+            security: 'is_granted("ROLE_BLOGER") and id == user.getId()',
+        ),
+        new GetCollection(
+            paginationEnabled: false,
+            uriTemplate: '/users/{id}/items',
+            controller: GetItemsController::class,
+            read: false,
+            name: 'get_items',
+            openapiContext: [
+                'summary' => 'Récupère les items d\'un utilisateur',
+                'description' => 'Récupère les items d\'un utilisateur',
+            ],
+            normalizationContext: [
+                'groups' => ['item:read'],
+                'openapi_definition_name' => 'Detail<plantes>',
+                'skip_null_values' => false,
+                'include_user_id' => true,
+                'max_depth' => 1,
+            ],
+            security: 'is_granted("ROLE_USER") and id == user.getId()',
+        ),
+        new GetCollection(
+            paginationEnabled: false,
+            uriTemplate: '/users/{id}/markets',
+            controller: GetItemsMarketController::class,
+            read: false,
+            name: 'get_items_market',
+            openapiContext: [
+                'summary' => 'Récupère les items d\'un utilisateur en ventes',
+                'description' => 'Récupère les items d\'un utilisateur en ventes',
+            ],
+            normalizationContext: [
+                'groups' => ['item:read'],
+                'openapi_definition_name' => 'Detail<plantes>',
+                'skip_null_values' => true,
+                'include_user_id' => true,
+                'max_depth' => 1,
+            ],
+            security: 'is_granted("ROLE_USER") and id == user.getId()',
+        ),
+        new GetCollection(
+            paginationEnabled: false,
+            uriTemplate: '/users/{id}/ventes',
+            controller: GetVentesController::class,
+            read: false,
+            name: 'get_ventes',
+            openapiContext: [
+                'summary' => 'Récupère les ventes d\'un utilisateur',
+                'description' => 'Récupère les ventes d\'un utilisateur',
+            ],
+            denormalizationContext: ['groups' => ['user:vente:read']],
+            normalizationContext: [
+                'groups' => ['user:vente:read'],
+                'openapi_definition_name' => 'Detail<plantes>',
+                'skip_null_values' => true,
+                'include_user_id' => true,
+                'max_depth' => 1,
+            ],
+            security: 'is_granted("ROLE_USER") and id == user.getId()',
+        ),
+        new GetCollection(
+            paginationEnabled: false,
+            uriTemplate: '/users/{id}/achats',
+            controller: GetAchatsController::class,
+            read: false,
+            name: 'get_achats',
+            openapiContext: [
+                'summary' => 'Récupère les ventes d\'un utilisateur',
+                'description' => 'Récupère les ventes d\'un utilisateur',
+            ],
+            denormalizationContext: ['groups' => ['user:vente:read']],
+            normalizationContext: [
+                'groups' => ['user:vente:read'],
+                'openapi_definition_name' => 'Detail<plantes>',
+                'skip_null_values' => true,
+                'include_user_id' => true,
+                'max_depth' => 1,
+            ],
+            security: 'is_granted("ROLE_USER") and id == user.getId()',
+        ),
     ],
     normalizationContext: ['groups' => ['user:read']],
 )]
-#[Post()]
+#[Post(
+    uriTemplate: '/users',
+    name: 'user_add',
+    controller: CreateUserController::class,
+    openapiContext: [
+        'summary' => 'Ajouter un utilisateur',
+        'description' => 'Ajoute un utilisateur',
+    ],
+    denormalizationContext: ['groups' => 'user:register'],
+)]
 #[Get()]
 #[Patch()]
+#[Put(
+    uriTemplate: '/users/{id}',
+    name: 'user_put',
+    openapiContext: [
+        'summary' => 'Modifier un utilisateur',
+        'description' => 'Modifie un utilisateur',
+    ],
+    denormalizationContext: ['groups' => 'user:write'],
+    security: 'is_granted("ROLE_ADMIN")',
+)]
+#[Delete(
+    uriTemplate: '/users/{id}',
+    name: 'user_delete',
+    openapiContext: [
+        'summary' => 'Supprimer un utilisateur',
+        'description' => 'Supprime un utilisateur',
+    ],
+    security: 'is_granted("ROLE_ADMIN")',
+)]
+#[GetCollection(
+    paginationEnabled: false,
+    uriTemplate: '/users',
+    name: 'user_list',
+    openapiContext: [
+        'summary' => 'Liste des utilisateurs',
+        'description' => 'Retourne la liste des utilisateurs',
+    ],
+    security: 'is_granted("ROLE_ADMIN")',
+)]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -57,22 +244,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'market:read', 'item:write', 'user:vente:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user:read', 'reset-password'])]
+    #[Groups(['user:read', 'user:write', 'reset-password', 'user:register'])]
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:role'])]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Groups(['change-password'])]
+    #[Groups(['change-password', 'user:register'])]
     private ?string $password = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -80,17 +267,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $token = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write', 'market:read', 'user:register', 'user:vente:read'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write', 'user:register', 'market:read', 'user:vente:read'])]
     private ?string $firstname = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['user:read', 'achat-coins', 'user:coin'])]
     private ?int $nb_coins = null;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Item::class)]
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Item::class, orphanRemoval: true)]
     private Collection $items;
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Blog::class, orphanRemoval: true)]
@@ -100,10 +288,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $markets;
 
     #[ORM\OneToMany(mappedBy: 'vendeur', targetEntity: Vente::class, orphanRemoval: true)]
+    #[Groups(['vente:write', 'vente:read'])]
     private Collection $ventes;
 
     #[ORM\OneToMany(mappedBy: 'acheteur', targetEntity: Vente::class, orphanRemoval: true)]
     private Collection $achats;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['confirm-account'])]
+    private ?string $token_account = null;
 
     public function __construct()
     {
@@ -330,13 +523,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->ventes;
     }
 
-
-
     /**
      * @return Collection<int, Vente>
      */
     public function getAchats(): Collection
     {
         return $this->achats;
+    }
+
+    public function getTokenAccount(): ?string
+    {
+        return $this->token_account;
+    }
+
+    public function setTokenAccount(?string $token_account): self
+    {
+        $this->token_account = $token_account;
+
+        return $this;
     }
 }

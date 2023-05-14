@@ -1,0 +1,43 @@
+{% apply inline_css %}
+    <style>
+        h1 {
+            font-size: 28px;
+            margin-top: 0;
+        }
+
+        p{
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 0 20px;
+        }
+
+        a {
+            color: #8BC34A;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #8BC34A;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .coins{
+            font-size: 20px;
+            font-weight: bold;
+            color: #8BC34A;
+        }
+    </style>
+
+    <h1>Bonjour {{ user.firstname }} {{ user.lastname }},</h1>
+    
+    <p>Votre achat de <span class="coins">{{ nb_coins }}</span> coins a bien été effectué.</p>
+    <p>Vous pouvez dès à présent utiliser vos coins pour acheter des items sur le marché.</p>
+
+    <p>Cordialement,</p>
+    <p>Jardinerie Online</p>
+{% endapply %}
