@@ -6,6 +6,7 @@ import Popup from '@/components/Popup.vue'
 
 import { getMarkets } from '@/services/markets.js'
 import { createVente } from '@/services/ventes.js'
+import { getVentesUser, getAchatsUser } from '@/services/users.js'
 import { userConnected } from '@/middleware/userAuth.js'
 
 export default {
@@ -21,10 +22,14 @@ export default {
 
     const user = ref(null)
     const markets = ref([])
+    const ventes = ref([])
+    const achats = ref([])
 
     watchEffect(async () => {
         markets.value = await getMarkets()
         user.value = await userConnected()
+        ventes.value = await getVentesUser(user.value.id)
+        achats.value = await getAchatsUser(user.value.id)
     })
 
     const searchResults = computed(() => {
@@ -109,6 +114,8 @@ export default {
 
     return {
         user,
+        ventes,
+        achats,
         searchTerm,
         markets,
         displayedMarkets,
@@ -139,6 +146,19 @@ export default {
     <main class="main-dark">
 
         <div class="container bg-market bg-dark">
+
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                <router-link to="/market" class="btn btn-outline-light" for="btnradio1">Market ({{ markets.length }})</router-link>
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                <router-link to="/market/achats" class="btn btn-outline-light" for="btnradio2">Mes achats en attente ({{ achats.length }})</router-link>
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                <router-link to="/market/ventes" class="btn btn-outline-light" for="btnradio3">Mes ventes en attente ({{ ventes.length }})</router-link>
+
+            </div>
 
             <div class="search-bar text-center">
                 <input type="text" placeholder="Rechercher une plante" v-model="searchTerm" @input="searchMarkets" />
@@ -196,6 +216,11 @@ export default {
     width: 100%;
     min-height: 100vh;
 }
+.bg-market .btn-group{
+    margin-bottom: 20px;
+    width: 100%;
+}
+
 .search-bar {
     margin-top: 20px;
     margin-bottom: 15px;

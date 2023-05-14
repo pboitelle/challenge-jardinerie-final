@@ -18,11 +18,11 @@ class Niveau
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['item:read', 'market:read'])]
+    #[Groups(['item:read', 'market:read', 'user:vente:read'])]
     private ?string $niveau = null;
 
     #[ORM\Column(length: 7)]
-    #[Groups(['item:read', 'market:read'])]
+    #[Groups(['item:read', 'market:read', 'user:vente:read'])]
     private ?string $color = null;
 
     #[ORM\Column]

@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 #[AsController]
-class UpdateCoinsController extends AbstractController
+class UpdateDebitCoinsController extends AbstractController
 {
     public function __construct(
         private RequestStack $requestStack,
@@ -35,7 +35,7 @@ class UpdateCoinsController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        $user->setNbCoins($user->getNbCoins() - $nb_coins);
+        $user->setNbCoins($user->getNbCoins() + $nb_coins);
         $em->flush();
 
         return $user;

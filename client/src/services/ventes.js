@@ -62,9 +62,10 @@ const createVente = async (user_id, data) => {
         })
 
         if (response.status === 200){
+            //crediter l'acheteur
             const response2 = await updateCoins(user_id, {
                 nbCoins: data.prix
-            })
+            }, 'credit')
             
             if (response2.status === 200){
                 return response
@@ -79,34 +80,12 @@ const createVente = async (user_id, data) => {
     
 }
 
-const editMarket = async (id, data) => {
-    
-    const token = localStorage.getItem('token_jwt')
-
-    try {
-        const response = await axios.patch('https://localhost/markets/'+id, 
-        data, 
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/merge-patch+json'
-            }
-        })
-
-        return response
-        
-    } catch (error) {
-        return error.response
-    }
-    
-}
-
-const deleteMarket = async (id) => {
+const deleteVente = async (id) => {
 
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.delete('https://localhost/markets/'+id, {
+        const response = await axios.delete('https://localhost/ventes/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -120,4 +99,4 @@ const deleteMarket = async (id) => {
 
 }
 
-export { getMarkets, getMarket, createVente, editMarket, deleteMarket }
+export { getMarkets, getMarket, createVente, deleteVente }

@@ -87,6 +87,48 @@ const getItemsUser = async (id) => {
     }
 }
 
+const getVentesUser = async (id) => {
+
+    const token = localStorage.getItem('token_jwt')
+    
+    try {
+        const response = await axios.get('https://localhost/users/'+id+'/ventes', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        if(response.status === 200) {
+            return response.data['hydra:member']
+        }else{
+            return null
+        }
+    } catch (error) {
+        return null
+    }
+}
+
+const getAchatsUser = async (id) => {
+
+    const token = localStorage.getItem('token_jwt')
+    
+    try {
+        const response = await axios.get('https://localhost/users/'+id+'/achats', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        if(response.status === 200) {
+            return response.data['hydra:member']
+        }else{
+            return null
+        }
+    } catch (error) {
+        return null
+    }
+}
+
 const getItemsMarketUser = async (id) => {
 
     const token = localStorage.getItem('token_jwt')
@@ -185,12 +227,12 @@ const updateRole = async (id, data) => {
 
 }
 
-const updateCoins = async (id, data) => {
+const updateCoins = async (id, data, type) => {
 
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.patch('https://localhost/users/'+id+'/coins',
+        const response = await axios.patch('https://localhost/users/'+id+'/'+type+'-coins',
         data,
         {
             headers: {
@@ -207,4 +249,4 @@ const updateCoins = async (id, data) => {
 
 }
 
-export { getUsers, getUser, getBlogsUser, getItemsUser, getItemsMarketUser, editUser, deleteUser, updateRole, updateCoins }
+export { getUsers, getUser, getBlogsUser, getItemsUser, getVentesUser, getAchatsUser, getItemsMarketUser, editUser, deleteUser, updateRole, updateCoins }

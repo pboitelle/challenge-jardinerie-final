@@ -91,7 +91,7 @@ class Market
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['market:read', 'item:read'])]
+    #[Groups(['market:read', 'item:read', 'user:vente:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'markets')]
@@ -99,7 +99,7 @@ class Market
     #[Groups(['market:read'])]
     private ?User $user_id = null;
 
-    #[ORM\OneToOne(inversedBy: 'market', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'market')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['market:read', 'item:read', 'market:write', 'user:read'])]
     private ?Item $item_id = null;

@@ -300,7 +300,7 @@ export default {
                 {{ itemSelected ? itemSelected.niveau.niveau : '' }}
               </span>
             </p>
-            <p>
+            <p v-if="itemSelected && !itemSelected.isPlanted">
               <strong>Vendre : </strong>
               <router-link :to="{ name: 'market-create', params: { id: itemSelected ? itemSelected.id : '1' } }" class="btn btn-dark">
                 <i class="fa-regular fa-handshake"></i> Vendre l'item
@@ -501,6 +501,23 @@ export default {
   position: absolute;
   z-index: 100000;
   display: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 30px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(62, 97, 43);
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 @media screen and (max-width: 768px) {

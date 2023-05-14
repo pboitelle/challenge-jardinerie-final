@@ -33,29 +33,43 @@ use Symfony\Component\Serializer\Annotation\Groups;
     security: 'is_granted("ROLE_USER")',
     denormalizationContext: ['groups' => 'vente:write']
 )]
+#[Delete(
+    uriTemplate: '/ventes/{id}',
+    name: 'vente_delete',
+    openapiContext: [
+        'summary' => 'Supprimer une vente',
+        'description' => 'Supprimer une vente',
+    ],
+    normalizationContext: [
+        'enable_max_depth' => 1,
+    ],
+    security: 'is_granted("ROLE_USER") and (object.getVendeur() == user or object.getAcheteur() == user)'
+)]
 class Vente
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user:vente:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'ventes')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['vente:read', 'vente:write'])]
+    #[Groups(['vente:read', 'vente:write', 'user:vente:read'])]
     private ?User $vendeur = null;
 
     #[ORM\ManyToOne(inversedBy: 'ventes')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['user:vente:read'])]
     private ?User $acheteur = null;
 
-    #[ORM\OneToOne(inversedBy: 'vente', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'vente')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['vente:read', 'vente:write'])]
+    #[Groups(['vente:read', 'vente:write', 'user:vente:read'])]
     private ?Item $item = null;
 
     #[ORM\Column]
-    #[Groups(['vente:write'])]
+    #[Groups(['vente:write', 'user:vente:read'])]
     private ?int $prix = null;
 
     public function getId(): ?int
