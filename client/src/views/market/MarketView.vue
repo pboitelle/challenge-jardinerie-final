@@ -1,19 +1,35 @@
 <script>
-import NavBar from '@/components/NavBar.vue'
 import {ref, computed, watchEffect} from 'vue';
+
+import NavBar from '@/components/NavBar.vue'
+import Popup from '@/components/Popup.vue'
+
 import { getMarkets } from '@/services/markets.js'
+import { createVente } from '@/services/ventes.js'
+import { getVentesUser, getAchatsUser } from '@/services/users.js'
+import { userConnected } from '@/middleware/userAuth.js'
 
 export default {
-  components: { NavBar },
+  components: { NavBar, Popup },
   name: 'MarketView',
 
   setup() {
     const searchTerm = ref("");
 
+    const popupVisible = ref(false)
+    const popupTitle = ref(null) 
+    const popupType = ref('success')
+
+    const user = ref(null)
     const markets = ref([])
+    const ventes = ref([])
+    const achats = ref([])
 
     watchEffect(async () => {
-      markets.value = await getMarkets()
+        markets.value = await getMarkets()
+        user.value = await userConnected()
+        ventes.value = await getVentesUser(user.value.id)
+        achats.value = await getAchatsUser(user.value.id)
     })
 
     const searchResults = computed(() => {
@@ -42,25 +58,78 @@ export default {
       // Mettre à jour la page courante pour afficher le premier page de résultats
       currentPage.value = 1;
     }
-
     const prevPage = () => {
       currentPage.value--;
     }
-
     const nextPage = () => {
       currentPage.value++;
     }
 
+    const closePopup = () => {
+      popupVisible.value = false
+    }
+
+    const handleCreateVente = async (market) => {
+
+        if (user.value.nb_coins < market.prix){
+            popupTitle.value = 'Vous n\'avez pas assez de coins pour acheter cet item.'
+            popupType.value = 'danger'
+            popupVisible.value = true
+            return
+        }
+
+        try {
+            const response = await createVente(user.value.id, {
+                vendeurId: market.user_id.id,
+                prix: market.prix,
+                item: market.item_id
+            })
+
+            console.log(response)
+
+            if (response.status === 200){
+                popupTitle.value = 'L\'item a bien été acheté ! Vous avez été débité de '+ market.prix +' coins en attendant que le vendeur accepte la vente.'
+                popupType.value = 'success'
+                popupVisible.value = true
+                setTimeout(() => {
+                    window.location.reload()
+                }, 2000);
+            }else{
+                popupTitle.value = 'Une erreur est survenue !'
+                popupType.value = 'danger'
+                popupVisible.value = true
+            }             
+        }
+        catch (error) {
+            alert('Une erreur est survenue')
+        }
+    }
+
+    const confirmCreateVente = (market) => {
+        if (confirm('Voulez-vous vraiment acheter cet item ? Vous serez débité de '+ market.prix +' coins en attendant que le vendeur accepte la vente.')){
+            handleCreateVente(market)
+        }
+    }
+
+
     return {
+        user,
+        ventes,
+        achats,
         searchTerm,
         markets,
         displayedMarkets,
         currentPage,
         marketsPerPage,
         totalPages,
+        popupTitle,
+        popupType,
+        popupVisible,
+        closePopup,
         searchMarkets,
         prevPage,
-        nextPage
+        nextPage,
+        confirmCreateVente
     }
   }
 }
@@ -68,11 +137,28 @@ export default {
 
 <template>
 
+    <div>
+        <popup :title="popupTitle" v-if="popupVisible" @close="closePopup" :autoClose="3000" :type="popupType" />
+    </div>
+
     <NavBar />
 
     <main class="main-dark">
 
         <div class="container bg-market bg-dark">
+
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                <router-link to="/market" class="btn btn-outline-light" for="btnradio1">Market ({{ markets.length }})</router-link>
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                <router-link to="/market/achats" class="btn btn-outline-light" for="btnradio2">Mes achats en attente ({{ achats.length }})</router-link>
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                <router-link to="/market/ventes" class="btn btn-outline-light" for="btnradio3">Mes ventes en attente ({{ ventes.length }})</router-link>
+
+            </div>
 
             <div class="search-bar text-center">
                 <input type="text" placeholder="Rechercher une plante" v-model="searchTerm" @input="searchMarkets" />
@@ -106,10 +192,9 @@ export default {
                                 {{ market.prix }}
                                 <img src="@/assets/img/coin.png" alt="coin" />
                             </span>
-                            <router-link class="btn btn-dark" to="/blogs">
+                            <button class="btn btn-dark" @click="confirmCreateVente(market)">
                                 <i class="fa-sharp fa-regular fa-handshake"></i>
-                            </router-link>
-                            
+                            </button>
                         </div>
 
                     </div>
@@ -131,6 +216,11 @@ export default {
     width: 100%;
     min-height: 100vh;
 }
+.bg-market .btn-group{
+    margin-bottom: 20px;
+    width: 100%;
+}
+
 .search-bar {
     margin-top: 20px;
     margin-bottom: 15px;

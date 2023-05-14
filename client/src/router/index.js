@@ -23,6 +23,8 @@ import PlanteView from '../views/PlanteView.vue'
 import MarketView from '../views/market/MarketView.vue'
 import MarketAddView from '../views/market/MarketAddView.vue'
 import MarketEditView from '../views/market/MarketEditView.vue'
+import MesVentesView from '../views/market/MesVentesView.vue'
+import MesAchatsView from '../views/market/MesAchatsView.vue'
 
 import AdminUsersView from '../views/admin/Users/AdminUsersView.vue';
 import AdminUsersEditView from '../views/admin/Users/AdminUsersEditView.vue';
@@ -142,6 +144,18 @@ const router = createRouter({
       path: '/market/edit/:id',
       name: 'market-edit',
       component: MarketEditView,
+      beforeEnter: isAuthenticated
+    },
+    {
+      path: '/market/ventes',
+      name: 'market-ventes',
+      component: MesVentesView,
+      beforeEnter: isAuthenticated
+    },
+    {
+      path: '/market/achats',
+      name: 'market-achats',
+      component: MesAchatsView,
       beforeEnter: isAuthenticated
     },
     {

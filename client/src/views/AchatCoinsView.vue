@@ -31,7 +31,7 @@ export default {
             'accept': 'application/ld+json'
           }
         });
-        console.log(response);
+        
         if (response.status === 200) {
           window.location.href = '/success-achat'
         }else{

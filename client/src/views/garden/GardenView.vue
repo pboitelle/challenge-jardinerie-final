@@ -300,7 +300,7 @@ export default {
                 {{ itemSelected ? itemSelected.niveau.niveau : '' }}
               </span>
             </p>
-            <p>
+            <p v-if="itemSelected && !itemSelected.isPlanted">
               <strong>Vendre : </strong>
               <router-link :to="{ name: 'market-create', params: { id: itemSelected ? itemSelected.id : '1' } }" class="btn btn-dark">
                 <i class="fa-regular fa-handshake"></i> Vendre l'item
@@ -356,7 +356,7 @@ export default {
 }
 
 .plantations{
-  width: 40%;
+  /* width: 40%; */
   height: 93vh;
   color: white;
 }
@@ -418,7 +418,7 @@ export default {
 }
 
 .inventory{
-  width: 100%;
+  /* width: 100%; */
   height: 93vh;
   background-color: #3b2804;
   color : white;
@@ -503,26 +503,45 @@ export default {
   display: none;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 30px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(62, 97, 43);
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 @media screen and (max-width: 768px) {
   .garden{
-    display: flex;
-    flex-direction: column-reverse;
-    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
   }
+
   .plantations{
     width: 100%;
-    height: 80vh;
+    height: 100%;
   }
+
   .inventory{
     width: 100%;
-    height: 20vh;
+    height: 100%;
+    order: -1;
+    border-bottom: #3b2804 10px solid;
   }
+
   .list-plants{
-    display: flex;
-    flex-direction: column;
-  }
-  .item-plant{
-    width: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
   }
 }
 </style>

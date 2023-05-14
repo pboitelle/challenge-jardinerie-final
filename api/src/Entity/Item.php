@@ -12,13 +12,35 @@ use ApiPlatform\Metadata\GetCollection;
 
 use Symfony\Component\Serializer\Annotation\Groups;
 
+use App\Controller\ItemChangeUserController;
+
 use App\Repository\ItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 #[ApiResource(
     denormalizationContext: ['groups' => ['item:write']],
-    normalizationContext: ['groups' => ['item:read']]
+    normalizationContext: ['groups' => ['item:read']],
+    operations:[
+        new Patch(
+            uriTemplate: '/items/{id}/user',
+            name: 'item_change_user',
+            controller: ItemChangeUserController::class,
+            openapiContext: [
+                'summary' => 'Changer le propriétaire d\'un item',
+                'description' => 'Changer le propriétaire d\'un item',
+            ],
+            denormalizationContext: ['groups' => 'item:write'],
+            normalizationContext: [
+                'groups' => 'item:write',
+                'skip_null_values' => false,
+                'openapi_definition_name' => 'Detail<users>',
+                'include_user_id' => true,
+                'max_depth' => 1,
+            ],
+            security: 'is_granted("ROLE_USER") and object.getUserId() == user',
+        )
+    ]
 )]
 #[Patch(
     uriTemplate: '/items/{id}',
@@ -27,7 +49,7 @@ use Doctrine\ORM\Mapping as ORM;
         'summary' => 'Modifier un item',
         'description' => 'Modifier un item',
     ],
-    denormalizationContext: ['groups' => 'item:write'],
+    denormalizationContext: ['groups' => 'item:write:isPlanted'],
     security: 'is_granted("ROLE_USER") and object.getUserId() == user',
 )]
 #[Get(
@@ -44,11 +66,11 @@ class Item
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['item:read', 'market:write'])]
+    #[Groups(['item:read', 'market:write', 'market:read', 'user:vente:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['item:read', 'item:write'])]
+    #[Groups(['item:read', 'item:write:isPlanted'])]
     private ?bool $isPlanted = null;
 
     #[ORM\Column]
@@ -57,22 +79,24 @@ class Item
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['item:read', 'market:read'])]
+    #[Groups(['item:read', 'market:read', 'user:vente:read'])]
     private ?Niveau $niveau = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['item:read', 'market:read'])]
+    #[Groups(['item:read', 'market:read', 'user:vente:read'])]
     private ?Plante $plante = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
+    #[Groups(['item:write'])]
     private ?User $user_id = null;
 
     #[ORM\OneToOne(mappedBy: 'item_id', cascade: ['persist', 'remove'])]
-    #[Groups(['item:read'])]
+    #[Groups(['item:read', 'user:vente:read'])]
     private ?Market $market = null;
 
     #[ORM\OneToOne(mappedBy: 'item', cascade: ['persist', 'remove'])]
+    #[Groups(['vente:read', 'vente:write'])]
     private ?Vente $vente = null;
 
     public function getId(): ?int

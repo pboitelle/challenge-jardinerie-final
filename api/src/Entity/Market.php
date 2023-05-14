@@ -27,7 +27,7 @@ use Doctrine\ORM\Mapping as ORM;
         'summary' => 'Récupérer un item sur le market de l\'utilisateur connecté',
         'description' => 'Récupérer un item sur le market de l\'utilisateur connecté',
     ],
-    security: 'is_granted("ROLE_USER") and object.getUserId() == user',
+    security: 'is_granted("ROLE_USER") and is_granted("MARKET_GET", object)',
     normalizationContext: [
         'groups' => ['item:read'],
         'openapi_definition_name' => 'Collection<market>',
@@ -74,7 +74,7 @@ use Doctrine\ORM\Mapping as ORM;
         'summary' => 'Editer son item sur le market',
         'description' => 'Editer son item sur le market',
     ],
-    security: 'is_granted("ROLE_USER") and object.getUserId() == user',
+    security: 'is_granted("ROLE_USER") and is_granted("MARKET_GET", object)',
     denormalizationContext: ['groups' => 'market:write:prix'],
 )]
 #[Delete(
@@ -84,14 +84,14 @@ use Doctrine\ORM\Mapping as ORM;
         'summary' => 'Supprimer son item sur le market',
         'description' => 'Supprimer son item sur le market',
     ],
-    security: 'is_granted("ROLE_USER") and object.getUserId() == user',
+    security: 'is_granted("ROLE_USER") and is_granted("MARKET_GET", object)',
 )]
 class Market
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['market:read', 'item:read'])]
+    #[Groups(['market:read', 'item:read', 'user:vente:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'markets')]
@@ -99,7 +99,7 @@ class Market
     #[Groups(['market:read'])]
     private ?User $user_id = null;
 
-    #[ORM\OneToOne(inversedBy: 'market', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'market')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['market:read', 'item:read', 'market:write', 'user:read'])]
     private ?Item $item_id = null;
