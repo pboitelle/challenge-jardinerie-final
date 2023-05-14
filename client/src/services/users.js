@@ -272,4 +272,22 @@ const updateCoins = async (id, data, type) => {
 
 }
 
-export { getUsers, getUser, getBlogsUser, getItemsUser, getVentesUser, getAchatsUser, getItemsMarketUser, editUser, createUser, deleteUser, updateRole, updateCoins }
+const confirmUser = async (data) => {
+
+    try {
+        const response = await axios.post(`https://localhost/users/confirm-account`, 
+        data, 
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return response
+
+    } catch (error) {
+        return error.response
+    }
+}
+
+export { getUsers, getUser, getBlogsUser, getItemsUser, getVentesUser, getAchatsUser, getItemsMarketUser, editUser, createUser, deleteUser, updateRole, updateCoins, confirmUser }

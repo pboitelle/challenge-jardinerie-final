@@ -41,7 +41,8 @@ class CreateUserController extends AbstractController
         $password_hashed = $this->passwordEncoder->hashPassword($user, $password);
         $user->setPassword($password_hashed);
         $user->setRoles(['ROLE_USER']);
-        $user->setIsValid(false);
+        $user->setNbCoins(50);
+        $user->setTokenAccount(bin2hex(random_bytes(32)));
 
         $em->persist($user);
         $em->flush();
@@ -60,7 +61,7 @@ class CreateUserController extends AbstractController
 
         return new JsonResponse([
             'status' => 201,
-            'message' => 'User created ! Please confirm your account by clicking on the link sent to your email.'
+            'message' => 'Votre compte a bien été créé. Vous allez recevoir un email de confirmation.'
         ]);
     }
 }

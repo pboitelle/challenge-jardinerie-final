@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 
 use App\Controller\ResetPasswordController;
 use App\Controller\ChangePasswordController;
+use App\Controller\ConfirmAccountController;
 use App\Controller\MailAchatCoinsController;
 use App\Controller\UpdateRoleController;
 use App\Controller\UpdateCreditCoinsController;
@@ -57,6 +58,12 @@ use App\Controller\MeController;
             controller: ChangePasswordController::class,
             name: 'change-password',
             denormalizationContext: ['groups' => 'change-password']
+        ),
+        new Post(
+            uriTemplate: '/users/confirm-account',
+            controller: ConfirmAccountController::class,
+            name: 'confirm-account',
+            denormalizationContext: ['groups' => 'confirm-account']
         ),
         new Patch(
             uriTemplate: '/users/achat-coins/{id}/{coins}',
@@ -271,7 +278,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'achat-coins', 'user:coin'])]
     private ?int $nb_coins = null;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Item::class)]
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Item::class, orphanRemoval: true)]
     private Collection $items;
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Blog::class, orphanRemoval: true)]
@@ -287,8 +294,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'acheteur', targetEntity: Vente::class, orphanRemoval: true)]
     private Collection $achats;
 
-    #[ORM\Column]
-    private ?bool $isValid = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['confirm-account'])]
+    private ?string $token_account = null;
 
     public function __construct()
     {
@@ -515,8 +523,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->ventes;
     }
 
-
-
     /**
      * @return Collection<int, Vente>
      */
@@ -525,14 +531,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->achats;
     }
 
-    public function isIsValid(): ?bool
+    public function getTokenAccount(): ?string
     {
-        return $this->isValid;
+        return $this->token_account;
     }
 
-    public function setIsValid(bool $isValid): self
+    public function setTokenAccount(?string $token_account): self
     {
-        $this->isValid = $isValid;
+        $this->token_account = $token_account;
 
         return $this;
     }

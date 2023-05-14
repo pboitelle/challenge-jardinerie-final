@@ -20,7 +20,7 @@ class JWTEventSubscriber implements EventSubscriberInterface
     public function onJWTCreated(JWTCreatedEvent $event)
     {
         $user = $event->getUser();
-        if ($user instanceof User && !$user->isIsValid()) {
+        if ($user instanceof User && $user->getTokenAccount() !== null) {
             $event->markAsInvalid();
         }
     }
@@ -28,7 +28,7 @@ class JWTEventSubscriber implements EventSubscriberInterface
     public function onJWTInvalidated(JWTInvalidatedEvent $event)
     {
         $user = $event->getUser();
-        if ($user instanceof User && !$user->isIsValid()) {
+        if ($user instanceof User && $user->getTokenAccount() !== null) {
             $event->setCancelled(true);
         }
     }

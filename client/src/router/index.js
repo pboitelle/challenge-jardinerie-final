@@ -70,7 +70,7 @@ const router = createRouter({
       component: SendEmailResetPasswordView,
     },
     {
-      path: '/confirmation-account',
+      path: '/confirmation-account/:token',
       name: 'confirmation-account',
       component: ConfirmationAccountView
     },

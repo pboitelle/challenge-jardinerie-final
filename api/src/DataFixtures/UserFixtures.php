@@ -19,17 +19,7 @@ class UserFixtures extends Fixture
             ->setRoles(['ROLE_USER'])
             ->setLastname('Boitelle')
             ->setFirstname('Pierre')
-            ->setIsValid(true)
-            ->setPassword($pwd)
-        ;
-        $manager->persist($user);
-
-        $user = (new User())
-            ->setEmail('pierre.boitelle@gmail.com')
-            ->setRoles(['ROLE_USER'])
-            ->setLastname('Dan')
-            ->setFirstname('Levy')
-            ->setIsValid(false)
+            ->setNbCoins(50)
             ->setPassword($pwd)
         ;
         $manager->persist($user);
@@ -39,7 +29,7 @@ class UserFixtures extends Fixture
             ->setLastname('admin')
             ->setFirstname('admin')
             ->setRoles(['ROLE_ADMIN'])
-            ->setIsValid(true)
+            ->setNbCoins(1000000)
             ->setPassword($pwd_admin)
         ;
         $manager->persist($admin);
@@ -49,7 +39,7 @@ class UserFixtures extends Fixture
             ->setLastname('Victor')
             ->setFirstname('Valee')
             ->setRoles(['ROLE_BLOGER'])
-            ->setIsValid(true)
+            ->setNbCoins(50)
             ->setPassword($pwd)
         ;
         $manager->persist($bloger);
@@ -59,7 +49,7 @@ class UserFixtures extends Fixture
             ->setLastname('Ulysse')
             ->setFirstname('MF')
             ->setRoles(['ROLE_BLOGER'])
-            ->setIsValid(true)
+            ->setNbCoins(50)
             ->setPassword($pwd)
         ;
         $manager->persist($bloger);

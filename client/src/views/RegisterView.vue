@@ -35,13 +35,6 @@ export default {
         return
       }
 
-      console.log({
-          email: email.value,
-          password: password.value,
-          lastname: lastname.value,
-          firstname: firstname.value
-        })
-
       try {
         const response = await createUser({
           email: email.value,
@@ -50,8 +43,15 @@ export default {
           firstname: fistname.value
         })
 
-        console.log(response)
-        
+        if (response.status === 201) {
+          popupTitle.value = response.message
+          popupVisible.value = true
+        }
+        else {
+          popupTitle.value = 'Une erreur est survenue.'
+          popupType.value = 'danger'
+          popupVisible.value = true
+        }
       }
       catch (error) {
         console.log(error)
