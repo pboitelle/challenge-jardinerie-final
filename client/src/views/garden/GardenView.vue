@@ -418,7 +418,7 @@ export default {
 }
 
 .inventory{
-  /* width: 100%; */
+  width: 100%;
   height: 93vh;
   background-color: #3b2804;
   color : white;

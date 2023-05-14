@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 
 use App\Controller\ResetPasswordController;
 use App\Controller\ChangePasswordController;
+use App\Controller\ConfirmAccountController;
 use App\Controller\MailAchatCoinsController;
 use App\Controller\UpdateRoleController;
 use App\Controller\UpdateCreditCoinsController;
@@ -21,6 +22,7 @@ use App\Controller\GetItemsController;
 use App\Controller\GetItemsMarketController;
 use App\Controller\GetVentesController;
 use App\Controller\GetAchatsController;
+use App\Controller\CreateUserController;
 
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -56,6 +58,12 @@ use App\Controller\MeController;
             controller: ChangePasswordController::class,
             name: 'change-password',
             denormalizationContext: ['groups' => 'change-password']
+        ),
+        new Post(
+            uriTemplate: '/users/confirm-account',
+            controller: ConfirmAccountController::class,
+            name: 'confirm-account',
+            denormalizationContext: ['groups' => 'confirm-account']
         ),
         new Patch(
             uriTemplate: '/users/achat-coins/{id}/{coins}',
@@ -188,7 +196,16 @@ use App\Controller\MeController;
     ],
     normalizationContext: ['groups' => ['user:read']],
 )]
-#[Post()]
+#[Post(
+    uriTemplate: '/users',
+    name: 'user_add',
+    controller: CreateUserController::class,
+    openapiContext: [
+        'summary' => 'Ajouter un utilisateur',
+        'description' => 'Ajoute un utilisateur',
+    ],
+    denormalizationContext: ['groups' => 'user:register'],
+)]
 #[Get()]
 #[Patch()]
 #[Put(
@@ -231,7 +248,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user:read', 'user:write', 'reset-password'])]
+    #[Groups(['user:read', 'user:write', 'reset-password', 'user:register'])]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -242,7 +259,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Groups(['change-password'])]
+    #[Groups(['change-password', 'user:register'])]
     private ?string $password = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -250,18 +267,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $token = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'user:write', 'market:read', 'user:vente:read'])]
+    #[Groups(['user:read', 'user:write', 'market:read', 'user:register', 'user:vente:read'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'user:write', 'market:read', 'user:vente:read'])]
+    #[Groups(['user:read', 'user:write', 'user:register', 'market:read', 'user:vente:read'])]
     private ?string $firstname = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups(['user:read', 'achat-coins', 'user:coin'])]
     private ?int $nb_coins = null;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Item::class)]
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Item::class, orphanRemoval: true)]
     private Collection $items;
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Blog::class, orphanRemoval: true)]
@@ -276,6 +293,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'acheteur', targetEntity: Vente::class, orphanRemoval: true)]
     private Collection $achats;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['confirm-account'])]
+    private ?string $token_account = null;
 
     public function __construct()
     {
@@ -502,13 +523,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->ventes;
     }
 
-
-
     /**
      * @return Collection<int, Vente>
      */
     public function getAchats(): Collection
     {
         return $this->achats;
+    }
+
+    public function getTokenAccount(): ?string
+    {
+        return $this->token_account;
+    }
+
+    public function setTokenAccount(?string $token_account): self
+    {
+        $this->token_account = $token_account;
+
+        return $this;
     }
 }
