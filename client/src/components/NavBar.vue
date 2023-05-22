@@ -65,7 +65,7 @@ export default {
 <template>
     <nav class="navbar navbar-expand-sm">
         <div class="container-fluid">
-            <div><RouterLink to="/garden" class="navbar-brand"><img src="../assets/img/logo.png" ></RouterLink></div>
+            <div><RouterLink to="/garden" class="navbar-brand"><img src="@/assets/img/logo.png" ></RouterLink></div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -101,7 +101,7 @@ export default {
 
                     <li id="nb_coins" class="nav-item">
                         <a class="nav-link" href="#">
-                            <img src="../assets/img/coin.png">
+                            <img src="@/assets/img/coin.png">
                             <span id="number_coins">
                                 {{ formatNumber(user_coins) }}
                             </span>
