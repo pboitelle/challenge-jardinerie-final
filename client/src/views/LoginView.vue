@@ -11,7 +11,7 @@ export default {
     const login = async () => {
 
       try {
-        const response = await axios.post('https://localhost/authentication_token', JSON.stringify({
+        const response = await axios.post('https://challenge-jardinerie.site/authentication_token', JSON.stringify({
           email: email.value,
           password: password.value
         }), {
