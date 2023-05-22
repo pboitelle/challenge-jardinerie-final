@@ -25,7 +25,7 @@ class GetValidateBlogsController extends AbstractController
         
         /** @var Blog $blog */
         if (!$blogs = $em->getRepository(Blog::class)->findBy(['isValidate' => true])) {
-            throw new NotFoundHttpException();
+            return [];
         }
 
 

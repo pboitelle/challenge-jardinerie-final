@@ -20,8 +20,6 @@ export default {
             token_account: token.value
         })
 
-        console.log(response)
-
         if (response.status === 200) {
             load.value = true
         }else {

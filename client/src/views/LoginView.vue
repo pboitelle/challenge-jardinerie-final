@@ -12,7 +12,7 @@ export default {
     const login = async () => {
 
       try {
-        const response = await request.post('https://challenge-jardinerie.site/authentication_token', JSON.stringify({
+        const response = await request.post('/authentication_token', JSON.stringify({
           email: email.value,
           password: password.value
         }), {
