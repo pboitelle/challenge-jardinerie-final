@@ -44,7 +44,7 @@ import AdminView from '../views/admin/AdminView.vue';
 import { isAuthenticated, isAuthenticatedAdmin } from '../middleware/userAuth'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
@@ -239,7 +239,18 @@ const router = createRouter({
         }
       ],
     },
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    return (
+      savedPosition ||
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ top: 0, left: 0 });
+        }, 200);
+        // TIMING DEPENDS ON CSS TRANSITION ANIMATION
+      })
+    );
+  }
 })
 
 export default router
