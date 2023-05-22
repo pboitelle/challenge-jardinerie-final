@@ -38,12 +38,14 @@ const isAuthenticatedAdmin = async (to, from, next) => {
         next({ name: 'login' })
     } else {
         try {
+            console.log("ok")
             // send a request to /users/me to check if token is valid
             const response = await request.get('/users/me', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
+            console.log(response)
             localStorage.setItem('email', response.data.email)
             localStorage.setItem('firstname', response.data.firstname)
             localStorage.setItem('lastname', response.data.lastname)
@@ -52,12 +54,13 @@ const isAuthenticatedAdmin = async (to, from, next) => {
 
             // if response is successful, user is authenticated
             if (response.data.roles.includes('ROLE_ADMIN')) {
-            next()
+                next()
             } else {
                 next({ name: 'login' })
             }   
         } catch (error) {
             // if there's an error, redirect to login page
+            console.log(error)
             next({ name: 'login' })
         }
     }
