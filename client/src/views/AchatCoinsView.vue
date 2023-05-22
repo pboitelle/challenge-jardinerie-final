@@ -1,7 +1,7 @@
 <script>
 import NavBar from '@/components/NavBar.vue'
 import ListCards from '@/components/ListCards.vue'
-import axios from 'axios';
+import {createRequest} from '@/middleware/api.js'
 import { watchEffect, ref } from 'vue'
 
 import { userConnected } from '@/middleware/userAuth.js'
@@ -15,6 +15,7 @@ export default {
   setup () {
 
     const user = ref(null)
+    const request = createRequest();
 
     watchEffect(async () => {
       user.value = await userConnected()
@@ -22,7 +23,7 @@ export default {
 
     const handleAchatCoins = async (item) => {
       try {
-        const response = await axios.patch('https://localhost/users/achat-coins/' + user.value.id + '/' + item.nb_coins, JSON.stringify({
+        const response = await request.patch('/users/achat-coins/' + user.value.id + '/' + item.nb_coins, JSON.stringify({
             
         }),
         {

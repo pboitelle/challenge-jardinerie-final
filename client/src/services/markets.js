@@ -1,11 +1,14 @@
 import axios from "axios";
+import {createRequest} from '../middleware/api'
+
+const request = createRequest();
 
 const getMarkets = async () => {
 
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.get('https://localhost/markets', {
+        const response = await request.get('/markets', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -26,7 +29,7 @@ const getMarket = async (id) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.get('https://localhost/markets/'+id, {
+        const response = await request.get('/markets/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -48,7 +51,7 @@ const createMarket = async (data) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.post('https://localhost/markets', 
+        const response = await request.post('/markets', 
         data, 
         {
             headers: {
@@ -74,7 +77,7 @@ const editMarket = async (id, data) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.patch('https://localhost/markets/'+id, 
+        const response = await request.patch('/markets/'+id, 
         data, 
         {
             headers: {
@@ -96,7 +99,7 @@ const deleteMarket = async (id) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.delete('https://localhost/markets/'+id, {
+        const response = await request.delete('/markets/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

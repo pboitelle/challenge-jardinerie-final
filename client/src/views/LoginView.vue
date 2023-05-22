@@ -1,17 +1,18 @@
 <script>
 import {ref} from 'vue'
-import axios from 'axios'
+import {createRequest} from '@/middleware/api.js'
 
 export default {
   name: 'LoginView',
   setup() {
     const email = ref('')
     const password = ref('')
+    const request = createRequest();
 
     const login = async () => {
 
       try {
-        const response = await axios.post('https://challenge-jardinerie.site/authentication_token', JSON.stringify({
+        const response = await request.post('https://challenge-jardinerie.site/authentication_token', JSON.stringify({
           email: email.value,
           password: password.value
         }), {

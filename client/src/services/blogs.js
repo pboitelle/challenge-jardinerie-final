@@ -1,11 +1,14 @@
 import axios from "axios";
+import {createRequest} from '../middleware/api'
+
+const request = createRequest();
 
 const getBlogsValidate = async () => {
 
     const token = localStorage.getItem('token_jwt')
     
     try {
-        const response = await axios.get('https://localhost/blogs-validate', {
+        const response = await request.get('/blogs-validate', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -26,7 +29,7 @@ const getBlogs = async () => {
     const token = localStorage.getItem('token_jwt')
     
     try {
-        const response = await axios.get('https://localhost/blogs', {
+        const response = await request.get('/blogs', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -47,7 +50,7 @@ const getBlog = async (id) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.get('https://localhost/blogs/'+id, {
+        const response = await request.get('/blogs/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -69,7 +72,7 @@ const createBlog = async (data) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.post('https://localhost/blogs', 
+        const response = await request.post('/blogs', 
         data, 
         {
             headers: {
@@ -97,7 +100,7 @@ const editBlog = async (id, data) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.put('https://localhost/blogs/'+id, 
+        const response = await request.put('/blogs/'+id, 
         data, 
         {
             headers: {
@@ -121,7 +124,7 @@ const deleteBlog = async (id) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.delete('https://localhost/blogs/'+id, {
+        const response = await request.delete('/blogs/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
