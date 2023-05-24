@@ -1,0 +1,41 @@
+{% apply inline_css %}
+    <style>
+        h1 {
+            font-size: 28px;
+            margin-top: 0;
+        }
+
+        p{
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 0 20px;
+        }
+
+        a {
+            color: #8BC34A;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #8BC34A;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+    </style>
+
+    <h1>Bonjour {{ user.firstname }} {{ user.lastname }},</h1>
+    
+    <p>Vous venez de créer un compte sur Jardinerie Online.</p>
+    
+    <p><a href="https://challenge-jardinerie-final-alpha.vercel.app/confirmation-account/{{user.tokenAccount}}" class="btn">Confirmer mon compte</a></p>
+
+    <p>Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet e-mail.</p>
+
+    <p>Cordialement,</p>
+    <p>Jardinerie Online</p>
+{% endapply %}

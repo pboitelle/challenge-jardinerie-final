@@ -1,6 +1,6 @@
 <script>
 import {ref} from 'vue'
-import axios from 'axios';
+import {createRequest} from '@/middleware/api.js'
 
 import Popup from '@/components/Popup.vue';
 
@@ -12,13 +12,14 @@ export default {
     setup() {
         const email = ref('')
         const popupVisible = ref(false)
-        const popupTitle = 'Un email vous a été envoyé !'
+        const popupTitle = 'Un email de réinitialisation vous a été envoyé.'
+        const request = createRequest();
 
         const submitForm = async () => {
 
             try {
 
-                const response = await axios.post('https://localhost/users/reset-password', JSON.stringify({
+                const response = await request.post('/users/reset-password', JSON.stringify({
                     email: email.value
                 }), {
                     headers: {

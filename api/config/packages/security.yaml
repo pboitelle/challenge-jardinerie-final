@@ -32,10 +32,24 @@ security:
     access_control:
         - { path: ^/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
+
         - { path: ^/users, methods: POST, roles: PUBLIC_ACCESS }
         - { path: ^/users, methods: PATCH, roles: PUBLIC_ACCESS }
         - { path: ^/users, methods: GET, roles: PUBLIC_ACCESS }
         - { path: ^/users/me, roles: ROLE_USER }
+
+        - { path: ^/plantes, methods: [PUT, POST, PATCH, DELETE], roles: ROLE_ADMIN }
+        - { path: ^/plantes, methods: GET, roles: ROLE_BLOGER }
+
+        - { path: ^/blogs, methods: [PATCH, PUT, DELETE], roles: ROLE_ADMIN }
+        - { path: ^/blogs, methods: POST, roles: ROLE_BLOGER }
+        - { path: ^/blogs, methods: GET, roles: ROLE_USER }
+
+        - { path: ^/items, roles: PUBLIC_ACCESS }
+
+        - { path: ^/demande_bloggers, methods: GET, roles: ROLE_ADMIN }
+        - { path: ^/demande_bloggers, methods: POST, roles: ROLE_USER }
+
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
     role_hierarchy:

@@ -24,7 +24,7 @@ export default {
       <div class="col-4" v-for="item in items"
         :key="item.id">
         <div class="card mb-3">
-            <img class="card-img-bottom" :src="item.img" :alt="item.title">
+            <img class="card-img-bottom" src="@/assets/img/coin.png" :alt="item.title">
             <div class="card-body">
                 <h5 class="card-title">{{ item.title }}</h5>
                 <p class="card-text">{{ item.text }}</p>

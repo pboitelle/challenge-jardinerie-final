@@ -1,6 +1,6 @@
 <script>
 import {ref} from 'vue'
-import axios from 'axios';
+import {createRequest} from '@/middleware/api.js'
 import { useRoute } from 'vue-router'
 
 import Popup from '@/components/Popup.vue';
@@ -17,6 +17,7 @@ export default {
         const route = useRoute()
         const popupVisible = ref(false)
         const popupTitle = ref('Votre mot de passe a bien été modifié, vous allez être redirigé vers la page de connexion !')
+        const request = createRequest();
 
         const submitForm = async () => {
 
@@ -27,7 +28,7 @@ export default {
 
             try {
 
-                const response = await axios.post(`https://localhost/users/change-password`, JSON.stringify({
+                const response = await request.post(`/users/change-password`, JSON.stringify({
                     password: password.value,
                     token: route.params.token
                 }), {
@@ -35,7 +36,6 @@ export default {
                         'Content-Type': 'application/json'
                     }
                 })
-                console.log(response.response)
                 if (response.status === 200) {
                     popupVisible.value = true
                     setTimeout(() => {

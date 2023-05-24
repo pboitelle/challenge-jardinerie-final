@@ -36,7 +36,7 @@ class ResetPasswordController extends AbstractController
         $user->setToken(bin2hex(random_bytes(32)));
         $em->flush();
 
-        // TODO: send Email
+        
         $message = (new TemplatedEmail())
             ->from('jardinerie.challenge@gmail.com')
             ->to($email)
