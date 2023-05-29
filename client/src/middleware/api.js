@@ -5,7 +5,7 @@ const URL_PROD = "https://challenge-jardinerie.site";
 
 const createRequest = () => {
     return axios.create({
-        baseURL: URL_PROD
+        baseURL: URL_DEV
     });
 }
 
