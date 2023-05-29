@@ -2,13 +2,16 @@ import axios from "axios";
 import { deleteVente } from '@/services/ventes.js'
 import { updateCoins } from '@/services/users.js'
 import { deleteMarket } from '@/services/markets.js'
+import {createRequest} from '../middleware/api'
+
+const request = createRequest();
 
 const getItem = async (id) => {
 
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.get('https://localhost/items/'+id, {
+        const response = await request.get('/items/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -30,7 +33,7 @@ const updateIsPlantedItem = async (id, data) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.patch('https://localhost/items/'+id,
+        const response = await request.patch('/items/'+id,
         data,
         {
             headers: {
@@ -62,7 +65,7 @@ const updateUserItem = async (vente, vendeur_id) => {
     const vente_market = vente.item.market.id
 
     try {
-        const response = await axios.patch('https://localhost/items/'+id+'/user',
+        const response = await request.patch('/items/'+id+'/user',
         {
             userId: acheteur
         },

@@ -1,6 +1,6 @@
 <script>
 import {ref, watchEffect} from 'vue'
-import axios from 'axios'
+import {createRequest} from '@/middleware/api.js'
 import NavBar from '@/components/NavBar.vue'
 
 import { userConnected } from '@/middleware/userAuth.js'
@@ -12,6 +12,7 @@ export default {
     components: { NavBar, Popup },
     setup() {
         const user = ref(null)
+        const request = createRequest();
 
         watchEffect(async () => {
             user.value = await userConnected()
@@ -26,7 +27,7 @@ export default {
         const handleForm = async () => {
 
             try {
-                const response = await axios.post('https://localhost/demande-bloggers', JSON.stringify({
+                const response = await request.post('/demande-bloggers', JSON.stringify({
                     motif: motif.value
                 }), {
                 headers: {

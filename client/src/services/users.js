@@ -1,11 +1,14 @@
 import axios from "axios";
+import {createRequest} from '../middleware/api'
+
+const request = createRequest();
 
 const getUsers = async () => {
 
     const token = localStorage.getItem('token_jwt')
     
     try {
-        const response = await axios.get('https://localhost/users', {
+        const response = await request.get('/users', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -26,7 +29,7 @@ const getUser = async (id) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.get('https://localhost/users/'+id, {
+        const response = await request.get('/users/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -48,7 +51,7 @@ const getBlogsUser = async (id) => {
     const token = localStorage.getItem('token_jwt')
     
     try {
-        const response = await axios.get('https://localhost/users/'+id+'/blogs', {
+        const response = await request.get('/users/'+id+'/blogs', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -71,7 +74,7 @@ const getItemsUser = async (id) => {
     const token = localStorage.getItem('token_jwt')
     
     try {
-        const response = await axios.get('https://localhost/users/'+id+'/items', {
+        const response = await request.get('/users/'+id+'/items', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -92,7 +95,7 @@ const getVentesUser = async (id) => {
     const token = localStorage.getItem('token_jwt')
     
     try {
-        const response = await axios.get('https://localhost/users/'+id+'/ventes', {
+        const response = await request.get('/users/'+id+'/ventes', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -113,7 +116,7 @@ const getAchatsUser = async (id) => {
     const token = localStorage.getItem('token_jwt')
     
     try {
-        const response = await axios.get('https://localhost/users/'+id+'/achats', {
+        const response = await request.get('/users/'+id+'/achats', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -134,7 +137,7 @@ const getItemsMarketUser = async (id) => {
     const token = localStorage.getItem('token_jwt')
     
     try {
-        const response = await axios.get('https://localhost/users/'+id+'/markets', {
+        const response = await request.get('/users/'+id+'/markets', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -153,7 +156,7 @@ const getItemsMarketUser = async (id) => {
 const createUser = async (data) => {
 
     try {
-        const response = await axios.post('https://localhost/users', 
+        const response = await request.post('/users', 
         data, 
         {
             headers: {
@@ -180,7 +183,7 @@ const editUser = async (id, data) => {
     console.log(data)
 
     try {
-        const response = await axios.put('https://localhost/users/'+id, 
+        const response = await request.put('/users/'+id, 
         data, 
         {
             headers: {
@@ -206,7 +209,7 @@ const deleteUser = async (id) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.delete('https://localhost/users/'+id, {
+        const response = await request.delete('/users/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -230,7 +233,7 @@ const updateRole = async (id, data) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.patch('https://localhost/users/'+id+'/role',
+        const response = await request.patch('/users/'+id+'/role',
         data,
         {
             headers: {
@@ -255,7 +258,7 @@ const updateCoins = async (id, data, type) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.patch('https://localhost/users/'+id+'/'+type+'-coins',
+        const response = await request.patch('/users/'+id+'/'+type+'-coins',
         data,
         {
             headers: {
@@ -275,7 +278,7 @@ const updateCoins = async (id, data, type) => {
 const confirmUser = async (data) => {
 
     try {
-        const response = await axios.post(`https://localhost/users/confirm-account`, 
+        const response = await request.post(`/users/confirm-account`, 
         data, 
         {
             headers: {

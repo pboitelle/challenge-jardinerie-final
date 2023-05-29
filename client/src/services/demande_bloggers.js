@@ -1,11 +1,14 @@
 import axios from "axios";
+import {createRequest} from '../middleware/api'
+
+const request = createRequest();
 
 const getDemandeBloggers = async () => {
 
     const token = localStorage.getItem('token_jwt')
     
     try {
-        const response = await axios.get('https://localhost/demande-bloggers', {
+        const response = await request.get('/demande-bloggers', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -26,7 +29,7 @@ const deleteDemandeBloggers = async (id) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.delete('https://localhost/demande-bloggers/'+id, {
+        const response = await request.delete('/demande-bloggers/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

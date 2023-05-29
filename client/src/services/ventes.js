@@ -1,12 +1,15 @@
 import axios from "axios";
 import { updateCoins } from "./users";
+import {createRequest} from '../middleware/api'
+
+const request = createRequest();
 
 const getMarkets = async () => {
 
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.get('https://localhost/markets', {
+        const response = await request.get('/markets', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -29,7 +32,7 @@ const getMarket = async (id) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.get('https://localhost/markets/'+id, {
+        const response = await request.get('/markets/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -51,7 +54,7 @@ const createVente = async (user_id, data) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.post('https://localhost/ventes', 
+        const response = await request.post('/ventes', 
         data, 
         {
             headers: {
@@ -85,7 +88,7 @@ const deleteVente = async (id) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.delete('https://localhost/ventes/'+id, {
+        const response = await request.delete('/ventes/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

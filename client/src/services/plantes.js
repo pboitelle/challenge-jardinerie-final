@@ -1,11 +1,14 @@
 import axios from "axios";
+import {createRequest} from '../middleware/api'
+
+const request = createRequest();
 
 const getPlantes = async () => {
 
     const token = localStorage.getItem('token_jwt')
     
     try {
-        const response = await axios.get('https://localhost/plantes', {
+        const response = await request.get('/plantes', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -26,7 +29,7 @@ const getPlante = async (id) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.get('https://localhost/plantes/'+id, {
+        const response = await request.get('/plantes/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -45,7 +48,7 @@ const editPlante = async (id, data) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.put('https://localhost/plantes/'+id, 
+        const response = await request.put('/plantes/'+id, 
         data, 
         {
             headers: {
@@ -69,7 +72,7 @@ const deletePlante = async (id) => {
     const token = localStorage.getItem('token_jwt')
 
     try {
-        const response = await axios.delete('https://localhost/plantes/'+id, {
+        const response = await request.delete('/plantes/'+id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
