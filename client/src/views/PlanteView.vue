@@ -78,7 +78,6 @@ export default {
 
       <div class="search-bar text-center">
           <input type="text" placeholder="Rechercher une plante" v-model="searchTerm" @input="searchPlantes" />
-          <button @click="searchPlantes" class="button">Rechercher</button>
       </div>
 
       <div class="plantes-container">
@@ -111,8 +110,7 @@ export default {
   
 </template>
 
-<style>
-
+<style scoped>
 .bg-plante {
     width: 100%;
     height: 100%;
@@ -127,20 +125,7 @@ export default {
     border: 1px solid black;
     border-radius: 5px;
     margin-right: 10px;
-}
-
-.search-bar button {
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: white;
-    cursor: pointer;
-}
-
-.search-bar button:hover {
-    background-color: white;
-    color: #28a745;
+    width: 80%;
 }
 
 .buttons {

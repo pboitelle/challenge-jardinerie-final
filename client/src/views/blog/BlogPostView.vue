@@ -73,7 +73,7 @@ import { getBlog } from '@/services/blogs'
 </template>
 
 
-<style>
+<style scoped>
 
 .bg-block {
   background-image: url('@/assets/img/background.jpg');
@@ -81,7 +81,7 @@ import { getBlog } from '@/services/blogs'
   background-size: cover;
   height: 100%;
   color: white;
-  height: 100vh;
+  height: auto;
 }
 
 h1{
@@ -146,5 +146,28 @@ hr {
 }
 button {
   margin-bottom: 20px;
+}
+
+/* Add styles here for small screens */
+@media screen and (max-width: 768px)
+{
+  .article-container {
+    flex-direction: column;
+  }
+
+  .article-image {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .article-image img {
+    width: 100%;
+    height: auto;
+  }
+
+  .article-info {
+    width: 100%;
+    margin-right: 0;
+  }
 }
 </style>

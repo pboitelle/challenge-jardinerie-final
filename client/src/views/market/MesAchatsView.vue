@@ -148,7 +148,7 @@ export default {
   
 </template>
 
-<style>
+<style scoped>
 .bg-achat {
     width: 100%;
     min-height: 100vh;
@@ -165,7 +165,7 @@ export default {
     color: black;
 }
 .achat-item {
-    width: 80%;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -240,5 +240,59 @@ export default {
     align-items: center;
     padding: 0 10px;
     margin-bottom: 5px;
+}
+
+/* Add styles here for small screens */
+@media screen and (max-width: 768px)
+{
+    .achat-item{
+        width: 100%;
+    }
+    .achat-item .img-planted{
+        width: 120px;
+        border: 5px solid;
+    }
+    .achat-item .img-planted img {
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+    }
+
+    .achat-item .espece {
+        font-size: 18px;
+    }
+    .achat-item .infos {
+        font-size: 12px;
+    }
+
+    hr {
+        margin: 4px 0;
+        border: 0;
+        border-top: none;
+    }
+
+    .info-item{
+        height: 120px;
+        width: 100%;
+    }
+    .info-item .header-item{
+        height: 20%;
+    }
+    .info-item .footer-item .prix{
+        font-size: 16px;
+    }
+    .info-item .footer-item .prix img{
+        width: 30px;
+    }
+
+    .info-item .footer-item .badge{
+        display: none;
+    }
+
+    .info-item .footer-item .btn{
+        width: 100%;
+        font-size: 14px;
+        height: auto;
+    }
 }
 </style>

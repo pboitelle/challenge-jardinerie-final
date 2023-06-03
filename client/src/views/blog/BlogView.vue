@@ -82,11 +82,10 @@ export default {
 
       <div class="search-bar text-center">
           <input type="text" placeholder="Rechercher un blog" v-model="searchTerm" @input="searchBlogs" />
-          <button @click="searchBlogs" class="button">Rechercher</button>
       </div>
 
-      <div class="blogs-container">
-          <div class="blog-item" v-for="blog in displayedBlogs" :key="blog.id">
+      <div class="blogs-container row">
+          <div class="blog-item col-md-6" v-for="blog in displayedBlogs" :key="blog.id">
               <img :src="blog.plante.image_url" alt="Blog Image" />
               <h2>{{ blog.title }}</h2>
               <p>{{ blog.description }}</p>
@@ -109,7 +108,7 @@ export default {
   
 </template>
 
-<style>
+<style scoped>
 
 .bg-blog {
   width: 100%;
@@ -121,24 +120,11 @@ export default {
 }
 
 .search-bar input {
+  width: 60%;
   padding: 10px;
   border: 1px solid black;
   border-radius: 5px;
   margin-right: 10px;
-}
-
-.search-bar button {
-  padding: 10px;
-  border: 1px solid black;
-  border-radius: 5px;
-  background-color: #28a745;
-  color: white;
-  cursor: pointer;
-}
-
-.search-bar button:hover {
-  background-color: white;
-  color: #28a745;
 }
 
 .buttons {
@@ -168,25 +154,20 @@ export default {
 }
 
 .blogs-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
+  margin-top: 20px;
 }
 
 .blog-item {
-  width: 25%;
   padding: 20px;
   border: 1px solid black;
   box-shadow: 2px 2px 10px 2px rgba(0,0,0,0.75);
-  margin: 40px; 
   border-radius: 10px;
   background-color: white;
 }
 .blog-item img {
   width: 100%;
   height: 400px;
-  margin-bottom: 10px;
+  margin-bottom: 10px;;
   object-fit: cover;
 }
 .blog-item h2 {

@@ -132,7 +132,7 @@ export default {
   }
 
   .navbar-brand img {
-    width: 50px;
+    width: 40px;
   }
 
   .navbar {
@@ -220,7 +220,6 @@ export default {
   .show {
     background-color: #28a745;
     width: 100%;
-    position: absolute;
     z-index: 100000;
     top: 7vh;
     left: 0;
@@ -233,7 +232,7 @@ export default {
     z-index: 1000000;
     top: 15vh;
     left: 0;
-    
+
   }  
 
 }
