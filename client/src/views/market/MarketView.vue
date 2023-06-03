@@ -162,7 +162,7 @@ export default {
 
             <div class="search-bar text-center">
                 <input type="text" placeholder="Rechercher une plante" v-model="searchTerm" @input="searchMarkets" />
-                <button @click="searchMarkets" class="button">Rechercher</button>
+                <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
             </div>
 
             <div class="market-container row">
@@ -228,24 +228,11 @@ export default {
 }
 
 .search-bar input {
+    width: 100%;
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
     margin-right: 10px;
-}
-
-.search-bar button {
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: white;
-    cursor: pointer;
-}
-
-.search-bar button:hover {
-    background-color: white;
-    color: #28a745;
 }
 
 .buttons {
@@ -321,7 +308,7 @@ export default {
     align-items: center;
     background-color: #fff;
     width: 100%;
-    height: 200px;
+    height: 100px;
 }
 .info-item .header-item{
     width: 100%;
@@ -352,5 +339,42 @@ export default {
 .info-item .footer-item .prix img{
     width: 50px;
     vertical-align: middle;
+}
+
+/* Add styles here for small screens */
+@media screen and (max-width: 768px)
+{
+    .market-item{
+        width: 80%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .market-item .img-planted{
+        width: 120px;
+        border: 5px solid;
+    }
+    .market-item .img-planted img {
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+    }
+
+    .market-item .espece {
+        font-size: 18px;
+    }
+    .market-item .infos {
+        font-size: 12px;
+    }
+
+    .info-item .footer-item .prix{
+        font-size: 16px;
+    }
+    .info-item .footer-item .prix img{
+        width: 30px;
+    }
 }
 </style>
