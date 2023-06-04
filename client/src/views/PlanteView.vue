@@ -88,11 +88,11 @@ export default {
                         <span class="espece">{{ plante.espece }}</span><br/>
                         <span class="genre">{{ plante.genre }}</span>
                     </p>
-                    <router-link class="btn btn-info" v-if="plante.blog && plante.blog.isValidate" :to="'blogs/'+plante.blog.id">
+                    <router-link class="btn btn-info" v-if="plante.blog && plante.blog.isValidate" :to="'blogs/'+plante.blog.id" data-bs-toggle="tooltip" data-placement="top" title="Voir le blog">
                         <i class="fa-solid fa-newspaper"></i>
                     </router-link>
-                    <button v-else-if="plante.blog && !plante.blog.isValidate" class="btn btn-warning"><i class="fa-solid fa-rotate"></i></button>
-                    <RouterLink v-else :to="{ name: 'plantes-create-blog', params: { id: plante.id } }" class="btn btn-primary">
+                    <button v-else-if="plante.blog && !plante.blog.isValidate" class="btn btn-warning" data-bs-toggle="tooltip" data-placement="top" title="En cours d'analyse"><i class="fa-solid fa-rotate"></i></button>
+                    <RouterLink v-else :to="{ name: 'plantes-create-blog', params: { id: plante.id } }" class="btn btn-primary" data-bs-toggle="tooltip" data-placement="top" title="Créer le blog">
                         <i class="fa-solid fa-pen-clip"></i>
                     </RouterLink>
                 </div>
@@ -162,23 +162,24 @@ export default {
 }
 
 .plante-item {
+    display: flex;
     width: 300px;
     height: 200px;
-    padding: 20px;
+    padding: 0px;
     border: 1px solid black;
     box-shadow: 2px 2px 10px 2px rgba(0,0,0,0.75);
-    margin: 40px; 
+    margin: 50px;
     border-radius: 10px;
     background-color: white;
 }
 .plante-item img {
-    width: 100%;
-    height: 100px;
-    margin-bottom: 10px;
+    width: 60%;
+    height: auto;
+    border-radius: 10px 0px 0 10px;
     object-fit: cover;
 }
 .plante-item .espece {
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 5px;
 }
 .plante-item .genre {
@@ -187,7 +188,17 @@ export default {
 
 .footer-item{
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
+}
+
+.footer-item p{
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.footer-item .btn{
+  margin-bottom: 10px;
 }
 </style>

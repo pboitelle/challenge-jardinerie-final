@@ -96,7 +96,7 @@ export default {
 
     </div>
 
-    <div v-else class="main">
+    <div v-else-if="user" class="main">
 
         <div>
             <popup :type="popupType" :title="popupTitle" v-if="popupVisible" @close="closePopup" />

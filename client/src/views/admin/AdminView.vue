@@ -11,7 +11,7 @@ export default {
 
     <div class="row" style="margin-top: 50px;">
 
-        <router-link to="/admin/users" class="card text-center text-white bg-dark col-md-3 p-4">
+        <router-link to="/admin/users" class="card text-center text-white bg-dark">
 
           <i class="fa-solid fa-user logo"></i>
 
@@ -22,7 +22,7 @@ export default {
           </div>
         </router-link>
 
-        <router-link to="/admin/plantes" class="card text-center text-white bg-dark col-md-3 p-4">
+        <router-link to="/admin/plantes" class="card text-center text-white bg-dark">
 
           <i class="fa-solid fa-plant-wilt logo"></i>
           
@@ -33,7 +33,7 @@ export default {
           </div>
         </router-link>
 
-        <router-link to="/admin/blog" class="card text-center text-white bg-dark col-md-3">
+        <router-link to="/admin/blog" class="card text-center text-white bg-dark">
           
           <i class="fa-regular fa-newspaper logo"></i>
 
@@ -44,7 +44,7 @@ export default {
           </div>
         </router-link>
 
-        <router-link to="/admin/demande-bloggers" class="card text-center text-white bg-dark col-md-3">
+        <router-link to="/admin/demande-bloggers" class="card text-center text-white bg-dark">
           
           <i class="fa-brands fa-blogger logo"></i>
 
@@ -60,6 +60,11 @@ export default {
 </template>
 
 <style scoped>
+.card {
+  margin: 20px;
+  width: 45%;
+  padding: 20px;
+}
 .card .logo{
   font-size: 100px;
   margin-top: 20px;
@@ -89,5 +94,14 @@ ul{
 
 a{
   text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  h1{
+    font-size: 35px;
+  }
+  .card {
+    width: 90%;
+  }
 }
 </style>
