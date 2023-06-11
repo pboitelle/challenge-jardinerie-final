@@ -24,16 +24,20 @@ export default {
 <template>
   
   <NavBar />
- 
-  <div class="container">
 
-    <div class="row">
-      <div class="col-md-12">
-        
-        <h1 class="alert alert-danger">Votre achat n'a pas été effectué, vous allez être redirigé vers votre jardin.</h1>
+  <div class="main">
+ 
+      <div class="container">
+
+        <div class="row">
+          <div class="col-md-12">
+            
+            <h1 class="alert alert-danger">Votre achat n'a pas été effectué, vous allez être redirigé vers votre jardin.</h1>
+
+          </div>
+        </div>
 
       </div>
-    </div>
 
   </div>
 

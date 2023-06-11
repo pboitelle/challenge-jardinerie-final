@@ -89,11 +89,11 @@ export default {
                         <span class="genre">{{ plante.genre }}</span>
                     </p>
                     <router-link class="btn btn-info" v-if="plante.blog && plante.blog.isValidate" :to="'blogs/'+plante.blog.id" data-bs-toggle="tooltip" data-placement="top" title="Voir le blog">
-                        <i class="fa-solid fa-newspaper"></i>
+                        <i class="fa-solid fa-newspaper"></i> Lire
                     </router-link>
                     <button v-else-if="plante.blog && !plante.blog.isValidate" class="btn btn-warning" data-bs-toggle="tooltip" data-placement="top" title="En cours d'analyse"><i class="fa-solid fa-rotate"></i></button>
                     <RouterLink v-else :to="{ name: 'plantes-create-blog', params: { id: plante.id } }" class="btn btn-primary" data-bs-toggle="tooltip" data-placement="top" title="Créer le blog">
-                        <i class="fa-solid fa-pen-clip"></i>
+                        <i class="fa-solid fa-pen-clip"></i> Créer
                     </RouterLink>
                 </div>
                 

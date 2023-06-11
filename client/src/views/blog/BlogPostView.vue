@@ -80,8 +80,8 @@ import { getBlog } from '@/services/blogs'
   background-repeat: repeat;
   background-size: cover;
   height: 100%;
+  min-height: 100vh;
   color: white;
-  height: auto;
 }
 
 h1{

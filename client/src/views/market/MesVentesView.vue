@@ -70,7 +70,7 @@ export default {
                 const responseUpdateCoins = await updateCoins(vente.acheteur.id, {nbCoins: vente.prix}, 'debit')
             
                 if (responseUpdateCoins.status === 200){
-                    popupTitle.value = 'La vente a bien été annulée !'
+                    popupTitle.value = 'La vente a bien été annulée ! L\'item a été remis en vente sur le market.'
                     popupType.value = 'success'
                     popupVisible.value = true
                     setTimeout(() => {

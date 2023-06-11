@@ -38,7 +38,7 @@ export default {
     });
 
     const currentPage = ref(1);
-    const blogsPerPage = ref(3);
+    const blogsPerPage = ref(4);
 
     const searchBlogs = () => {
       // Mettre à jour la page courante pour afficher le premier page de résultats
@@ -114,6 +114,7 @@ export default {
   width: 100%;
   min-height: 100vh;
   height: 100%;
+  margin: 50px;
 }
 .search-bar {
   margin-top: 20px;
@@ -158,10 +159,9 @@ export default {
 }
 
 .blog-item {
-  padding: 20px;
+  padding: 10px;
   border: 1px solid black;
   box-shadow: 2px 2px 10px 2px rgba(0,0,0,0.75);
-  border-radius: 10px;
   background-color: white;
 }
 .blog-item img {
