@@ -68,33 +68,36 @@ export default {
 
     <h1>Liste des demandes pour devenir Blogger</h1>
 
-    <table class="table table-success table-striped table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">User</th>
-          <th scope="col">Motif</th>
-          <th scope="col">Date demande</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody class="table-group-divider">
-        <tr v-for="demande in demandes" :key="demande.id">
-          <td>{{ demande.id }}</td>
-          <td>{{ demande.user_id.email }}</td>
-          <td>{{ demande.motif }}</td>
-          <td>{{ moment(demande.created_at).format('DD/MM/YYYY HH:mm') }}</td>
-          <td>
-            <button class="btn btn-success" @click="handleAccept(demande.id, demande.user_id.id)">
-              <i class="fa-sharp fa-regular fa-square-check"></i> Accepter
-            </button>
-            <button class="btn btn-danger" @click="handleDelete(demande.id)">
-              <i class="fa-sharp fa-regular fa-square-xmark"></i> Refuser
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-success table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">User</th>
+            <th scope="col">Motif</th>
+            <th scope="col">Date demande</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr v-for="demande in demandes" :key="demande.id">
+            <td>{{ demande.id }}</td>
+            <td>{{ demande.user_id.email }}</td>
+            <td>{{ demande.motif }}</td>
+            <td>{{ moment(demande.created_at).format('DD/MM/YYYY HH:mm') }}</td>
+            <td>
+              <button class="btn btn-success" @click="handleAccept(demande.id, demande.user_id.id)">
+                <i class="fa-sharp fa-regular fa-square-check"></i> Accepter
+              </button>
+              <button class="btn btn-danger" @click="handleDelete(demande.id)">
+                <i class="fa-sharp fa-regular fa-square-xmark"></i> Refuser
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <RouterLink to="/admin" class="btn btn-primary">Retour</RouterLink>
   </div>
 </template>
 

@@ -147,7 +147,7 @@ export default {
 
         <div class="container bg-market bg-dark">
 
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <div id="menu" class="btn-group" role="group" aria-label="Basic radio toggle button group">
 
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
                 <router-link to="/market" class="btn btn-outline-light" for="btnradio1">Market ({{ markets.length }})</router-link>
@@ -162,7 +162,6 @@ export default {
 
             <div class="search-bar text-center">
                 <input type="text" placeholder="Rechercher une plante" v-model="searchTerm" @input="searchMarkets" />
-                <button @click="searchMarkets" class="button">Rechercher</button>
             </div>
 
             <div class="market-container row">
@@ -211,7 +210,7 @@ export default {
   
 </template>
 
-<style>
+<style scoped>
 .bg-market {
     width: 100%;
     min-height: 100vh;
@@ -220,32 +219,22 @@ export default {
     margin-bottom: 20px;
     width: 100%;
 }
+.bg-market #menu{
+    margin-bottom: 20px;
+    width: 100%;
+    margin-top: 60px;
+}
 
 .search-bar {
     margin-top: 20px;
     margin-bottom: 15px;
     width: 100%;
 }
-
 .search-bar input {
+    width: 80%;
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
-    margin-right: 10px;
-}
-
-.search-bar button {
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: white;
-    cursor: pointer;
-}
-
-.search-bar button:hover {
-    background-color: white;
-    color: #28a745;
 }
 
 .buttons {
@@ -280,7 +269,7 @@ export default {
     color: black;
 }
 .market-item {
-    width: 80%;
+    /* width: 80%; */
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -352,5 +341,49 @@ export default {
 .info-item .footer-item .prix img{
     width: 50px;
     vertical-align: middle;
+}
+
+/* Add styles here for small screens */
+@media screen and (max-width: 768px)
+{
+    .market-item{
+        width: 100%;
+    }
+    .market-item .img-planted{
+        width: 120px;
+        border: 5px solid;
+    }
+    .market-item .img-planted img {
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+    }
+
+    .market-item .espece {
+        font-size: 18px;
+    }
+    .market-item .infos {
+        font-size: 12px;
+    }
+
+    hr {
+        margin: 4px 0;
+        border: 0;
+        border-top: none;
+    }
+
+    .info-item{
+        height: 120px;
+        width: 100%;
+    }
+    .info-item .header-item{
+        height: 20%;
+    }
+    .info-item .footer-item .prix{
+        font-size: 16px;
+    }
+    .info-item .footer-item .prix img{
+        width: 30px;
+    }
 }
 </style>

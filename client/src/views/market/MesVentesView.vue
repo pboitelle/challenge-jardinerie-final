@@ -70,7 +70,7 @@ export default {
                 const responseUpdateCoins = await updateCoins(vente.acheteur.id, {nbCoins: vente.prix}, 'debit')
             
                 if (responseUpdateCoins.status === 200){
-                    popupTitle.value = 'La vente a bien été annulée !'
+                    popupTitle.value = 'La vente a bien été annulée ! L\'item a été remis en vente sur le market.'
                     popupType.value = 'success'
                     popupVisible.value = true
                     setTimeout(() => {
@@ -179,7 +179,7 @@ export default {
   
 </template>
 
-<style>
+<style scoped>
 .bg-vente {
     width: 100%;
     min-height: 100vh;
@@ -196,7 +196,7 @@ export default {
     color: black;
 }
 .vente-item {
-    width: 80%;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -271,5 +271,60 @@ export default {
     align-items: center;
     padding: 0 10px;
     margin-bottom: 5px;
+}
+
+
+/* Add styles here for small screens */
+@media screen and (max-width: 768px)
+{
+    .vente-item{
+        width: 100%;
+    }
+    .vente-item .img-planted{
+        width: 120px;
+        border: 5px solid;
+    }
+    .vente-item .img-planted img {
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+    }
+
+    .vente-item .espece {
+        font-size: 18px;
+    }
+    .vente-item .infos {
+        font-size: 12px;
+    }
+
+    hr {
+        margin: 4px 0;
+        border: 0;
+        border-top: none;
+    }
+
+    .info-item{
+        height: 120px;
+        width: 100%;
+    }
+    .info-item .header-item{
+        height: 20%;
+    }
+    .info-item .footer-item .prix{
+        font-size: 16px;
+    }
+    .info-item .footer-item .prix img{
+        width: 30px;
+    }
+
+    .info-item .footer-item .badge{
+        display: none;
+    }
+
+    .info-item .footer-item .btn{
+        width: 100%;
+        font-size: 8px;
+        height: auto;
+    }
 }
 </style>

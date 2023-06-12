@@ -86,7 +86,6 @@ export default {
 
         <div class="search-bar text-center">
             <input type="text" placeholder="Rechercher un de mes blogs" v-model="searchTerm" @input="searchBlogs" />
-            <button @click="searchBlogs" class="button">Rechercher</button>
         </div>
 
         <div class="blogs-container">
@@ -117,8 +116,7 @@ export default {
   
 </template>
 
-<style>
-
+<style scoped>
 .bg-blog {
     width: 100%;
     height: 100%;
@@ -129,25 +127,11 @@ export default {
 }
 
 .search-bar input {
-    width: 30%;
+    width: 70%;
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
     margin-right: 10px;
-}
-
-.search-bar button {
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: white;
-    cursor: pointer;
-}
-
-.search-bar button:hover {
-    background-color: white;
-    color: #28a745;
 }
 
 .btn-group {
@@ -255,5 +239,36 @@ export default {
     font-size: 20px;
     margin-right: 20px;
     margin-top: 20px;
+}
+
+/* Add styles here for small screens */
+@media screen and (max-width: 768px)
+{
+    .search-bar input {
+        width: 60%;
+    }
+    .blogs-container {
+        flex-direction: column;
+    }
+    .blog-item {
+        width: 80%;
+        margin: 20px auto;
+    }
+    .blog-item img {
+        height: 200px;
+    }
+    .pagination {
+        margin-top: 10px;
+    }
+    .pagination button {
+        padding: 5px;
+    }
+    .btn-group {
+        flex-direction: column;
+    }
+    #devenir-bloger{
+        float: none;
+        margin: 20px auto;
+    }
 }
 </style>

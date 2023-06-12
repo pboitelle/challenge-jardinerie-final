@@ -103,7 +103,7 @@ export default {
   
 </template>
 
-<style>
+<style scoped>
 .bg-market {
     width: 100%;
     display: flex;

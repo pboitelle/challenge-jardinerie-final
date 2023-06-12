@@ -64,19 +64,18 @@ export default {
 <template>
   
   <NavBar />
-
-  <div class="container">
-    <h1>{{ title }}</h1>
-    <ListCards :items="items" @itemSelected="handleAchatCoins"/>
+  <div class="main">
+      <ListCards :items="items" @itemSelected="handleAchatCoins"/>
   </div>
 
 </template>
 
 <style scoped>
+.main{
+  flex-direction: column;
+}
 
 h1{
-    text-align: center;
-    margin-top: 100px;
-    margin-bottom: 30px;
+  text-align: center;
 }
 </style>

@@ -24,32 +24,35 @@ export default {
 
     <h1>Liste des utilisateurs</h1>
 
-    <table class="table table-success table-striped table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Nom</th>
-          <th scope="col">Prénom</th>
-          <th scope="col">Mail</th>
-          <th scope="col">Roles</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody class="table-group-divider">
-        <tr v-for="user in users" :key="user.id">
-          <td>{{ user.id }}</td>
-          <td>{{ user.lastname }}</td>
-          <td>{{ user.firstname }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.roles }}</td>
-          <td>
-            <router-link :to="{ name: 'admin-users-edit', params: { id: user.id } }" class="btn btn-warning">
-              <i class="fas fa-edit"></i> Éditer
-            </router-link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-success table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Mail</th>
+            <th scope="col">Roles</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr v-for="user in users" :key="user.id">
+            <td>{{ user.id }}</td>
+            <td>{{ user.lastname }}</td>
+            <td>{{ user.firstname }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.roles }}</td>
+            <td>
+              <router-link :to="{ name: 'admin-users-edit', params: { id: user.id } }" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Éditer
+              </router-link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <RouterLink to="/admin" class="btn btn-primary">Retour</RouterLink>
   </div>
 </template>
 

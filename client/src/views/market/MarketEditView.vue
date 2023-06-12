@@ -109,12 +109,12 @@ export default {
 
             <h1 class="title">Gérer la vente de l'item n° {{ market ? market.item_id.id : '' }}</h1>
 
-            <div class="market-item col-md-6 col-xs-12">
-                <a class="img-planted" :style="{ 'border-color': market ? market.item_id.niveau.color : 'grey' }">
+            <div class="market-item">
+                <a class="col-md-6 col-xs-12 img-planted" :style="{ 'border-color': market ? market.item_id.niveau.color : 'grey' }">
                     <img :src="market ? market.item_id.plante.image_url : '' " alt="plante Image" />
                 </a>
 
-                <form class="form" @submit.prevent="handleEdit">
+                <form class="form col-md-6 col-xs-12" @submit.prevent="handleEdit">
 
                     <div class="form__group">
                         <label for="prix" class="form__label">Prix</label>
@@ -144,7 +144,7 @@ export default {
   
 </template>
 
-<style>
+<style scoped>
 .bg-market {
     width: 100%;
     display: flex;
@@ -161,7 +161,7 @@ export default {
     width: 80%;
     height: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;

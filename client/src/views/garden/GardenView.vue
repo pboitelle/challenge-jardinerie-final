@@ -71,6 +71,8 @@ export default {
         if (response) {
           itemsInventory.value = itemsInventory.value.filter(i => i.id !== item.id)
           itemsPlanted.value.push(item)
+          items.value = await getItemsUser(user.value.id)
+          itemsPlanted.value = items.value.filter(item => item.isPlanted)
           closeModal()
           popupVisible.value = true
         }

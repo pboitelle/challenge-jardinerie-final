@@ -21,7 +21,7 @@ export default {
 
 <template>
     <div class="row">
-      <div class="col-4" v-for="item in items"
+      <div class="col-md-4" v-for="item in items"
         :key="item.id">
         <div class="card mb-3">
             <img class="card-img-bottom" src="@/assets/img/coin.png" :alt="item.title">
@@ -42,10 +42,11 @@ export default {
 }
 .card{
   border: none;
-  border-radius: 0;
+  border-radius: 10px;
   margin: 0;
   padding: 0;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.8);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 .card-img-top{
   width: 100%;

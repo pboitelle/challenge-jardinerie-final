@@ -108,7 +108,7 @@ export default {
 
 <style scoped>
 img{
-  width: 50%;
+  width: 90%;
   height: 80vh;
   object-fit: cover;
   border-radius: 10px;
@@ -121,6 +121,7 @@ img{
   background-color: rgb(86, 145, 81);
   padding: 20px;
   border-radius: 10px;
+  margin: 50px;
 }
 
 h1 {
