@@ -85,7 +85,7 @@ export default {
       </div>
 
       <div class="blogs-container row">
-          <div class="blog-item col-md-6" v-for="blog in displayedBlogs" :key="blog.id">
+          <div class="blog-item col-md-5" v-for="blog in displayedBlogs" :key="blog.id">
               <img :src="blog.plante.image_url" alt="Blog Image" />
               <h2>{{ blog.title }}</h2>
               <p>{{ blog.description }}</p>
@@ -163,6 +163,7 @@ export default {
   border: 1px solid black;
   box-shadow: 2px 2px 10px 2px rgba(0,0,0,0.75);
   background-color: white;
+  margin: 3%;
 }
 .blog-item img {
   width: 100%;

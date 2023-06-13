@@ -92,4 +92,8 @@ defineProps({
 .show {
     display: block;
 }
+
+@media screen and (max-width: 768px) {
+    
+}
 </style>

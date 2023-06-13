@@ -174,6 +174,10 @@ export default {
   margin: 40px; 
   border-radius: 10px;
   background-color: white;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .blog-item img {
   width: 100%;
@@ -216,8 +220,8 @@ export default {
 }
 .image-container .btn-notpublish{
   position: absolute;
-  top: 12px;
-  right: 7px;
+  top: 5px;
+  right: 2px;
   padding: 5px;
   font-size: 18px;
   font-weight: bold;
