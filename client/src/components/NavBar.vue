@@ -120,7 +120,7 @@ export default {
 <style scoped>
   /* Add styles here for large screens */
   .navbar {
-    height: 7vh;
+    height: 10vh;
   }
 
   #navbarDropdown {
@@ -137,7 +137,7 @@ export default {
 
   .navbar {
     padding: 0 10%;
-    background-color: #28a745;
+    background-color: #4caf50;
   }
 
   .navbar-nav {
@@ -153,7 +153,7 @@ export default {
   }
 
   .dropdown-menu {
-    background-color: #28a745;
+    background-color: #4caf50;
   }
 
   .dropdown-item {
@@ -163,7 +163,7 @@ export default {
 
   .dropdown-item:hover {
     color: rgba(255, 255, 255, 0.61);
-    background-color: #28a745;
+    background-color: #4caf50;
   }
 
   .btn {
@@ -182,13 +182,13 @@ export default {
   }
 
   .btn-light {
-    color: #28a745;
+    color: #4caf50;
     background-color: white;
   }
 
   .btn-light:hover {
     color: white;
-    background-color: #28a745;
+    background-color: #4caf50;
   }
 
   #nb_coins {
@@ -218,7 +218,7 @@ export default {
     width: 40px;
   }
   .show {
-    background-color: #28a745;
+    background-color: #4caf50;
     width: 100%;
     z-index: 100000;
     top: 7vh;
@@ -226,7 +226,7 @@ export default {
   }
 
   .dropdown-menu {
-    background-color: #28a745;
+    background-color: #4caf50;
     width: 100%;
     position: absolute;
     z-index: 1000000;

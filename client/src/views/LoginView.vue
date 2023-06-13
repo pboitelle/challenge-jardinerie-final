@@ -112,10 +112,10 @@ export default {
 }
 
 /* Add styles here for small screens */
-@media screen and (max-width: 768px)
-{
-  .form{
+@media screen and (max-width: 768px) {
+  .form {
     width: 100%;
+    padding: 2rem;
   }
 }
 </style>

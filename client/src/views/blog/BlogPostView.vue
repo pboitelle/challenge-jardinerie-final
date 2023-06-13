@@ -35,6 +35,14 @@ import { getBlog } from '@/services/blogs'
   <div class="bg-block">
     
     <div class="text-center">
+      
+      <div class="container">
+        <div class="btn-group">
+          <RouterLink to="/blogs" class="btn btn-light btn-lg">Liste des blogs</RouterLink>
+
+          <RouterLink v-if="blog.user_id.roles.includes('ROLE_BLOGER')" to="/mes-blogs" class="btn btn-outline-light btn-lg">Liste de mes blogs</RouterLink>
+        </div>
+      </div>  
 
       <div class="article-container">
           <div class="article-image">
@@ -60,13 +68,6 @@ import { getBlog } from '@/services/blogs'
           </div>
       </div>
       
-      <div class="container">
-        <div class="btn-group">
-          <RouterLink to="/blogs" class="btn btn-light btn-lg">Liste des blogs</RouterLink>
-
-          <RouterLink v-if="blog.user_id.roles.includes('ROLE_BLOGER')" to="/mes-blogs" class="btn btn-outline-light btn-lg">Liste de mes blogs</RouterLink>
-        </div>
-      </div>
     </div>
 
   </div>
@@ -75,6 +76,39 @@ import { getBlog } from '@/services/blogs'
 
 <style scoped>
 
+.container {
+  text-align: center;
+}
+
+.btn {
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.btn-outline-primary {
+  background-color: transparent;
+  color: #007bff;
+  border: 2px solid #007bff;
+}
+
+.btn:hover {
+  transform: scale(0.95);
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: white;
+}
 .bg-block {
   background-image: url('@/assets/img/background.jpg');
   background-repeat: repeat;

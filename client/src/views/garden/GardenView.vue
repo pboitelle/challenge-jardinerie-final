@@ -263,20 +263,30 @@ export default {
 
     <div class="inventory">
 
-      <h1>Inventaire</h1>
+      <h1 class="title-container">Inventaire</h1>
 
-      <div class="list-items">
-        <div class="item" v-for="item in itemsInventory" :key="item.id" :style="{ 'border-color': item.niveau.color ? item.niveau.color : 'grey' }">
+      <div class="item-container">
+        <div
+          class="item"
+          v-for="item in itemsInventory"
+          :key="item.id"
+          :style="{ 'border-color': item.niveau.color ? item.niveau.color : 'grey' }"
+        >
           <a @click="openModal(item)" data-toggle="modal" data-target="#exampleModalCenter">
             <img :src="item.plante.image_url" alt="Plante" />
           </a>
         </div>
       </div>
 
-      <h1>Items en vente</h1>
+      <h1 class="title-container">Items en vente</h1>
 
-      <div class="list-ventes">
-        <div class="item" v-for="market in itemsMarket" :key="market.id" :style="{ 'border-color': market.item_id.niveau.color ? market.item_id.niveau.color : 'grey' }">
+      <div class="item-container">
+        <div
+          class="item"
+          v-for="market in itemsMarket"
+          :key="market.id"
+          :style="{ 'border-color': market.item_id.niveau.color ? market.item_id.niveau.color : 'grey' }"
+        >
           <router-link :to="{ name: 'market-edit', params: { id: market ? market.id : '1' } }">
             <img :src="market.item_id.plante.image_url" alt="Plante" />
           </router-link>
@@ -286,7 +296,7 @@ export default {
       <Modal :title="itemSelected ? 'Détails item n° '+itemSelected.id : '' " :showModal="showModal" :close="closeModal">
 
         <div class="details">
-          <img :src="itemSelected ? itemSelected.plante.image_url : '' " alt="Plante" :style="{ 'border-color': itemSelected ? itemSelected.niveau.color : 'grey' }" />
+          <img :src="itemSelected ? itemSelected.plante.image_url : '' " class="img-detail" alt="Plante" :style="{ 'border-color': itemSelected ? itemSelected.niveau.color : 'grey' }" />
           <div>
             <p>
               <strong>Espèce : </strong>
@@ -338,6 +348,17 @@ export default {
     </div>
 
   </div>
+    <div>
+      <footer class="footer">
+      <img class="logo" src="../../assets/img/logo.png" alt="Logo" />
+      <div class="footer-buttons">
+        <RouterLink to="/market" class="button">Marché des plantes</RouterLink>
+        <RouterLink to="/blog" class="button">Blog</RouterLink>
+        <RouterLink to="/plants" class="button">Plantes</RouterLink>
+        <RouterLink to="/coins" class="button">Acheter des coins</RouterLink>
+      </div>
+    </footer>
+    </div>
 
 </template>
 
@@ -349,6 +370,7 @@ export default {
   align-items: center;
   width: 100%;
   height: 93vh;
+  background: #3b2804;
 }
 
 .garden h1{
@@ -377,6 +399,13 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+.img-detail{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 5px solid;
+  margin-right: 20px;
 }
 
 .item-plant .img-planted{
@@ -426,37 +455,41 @@ export default {
   color : white;
 }
 
-.list-items{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+.item-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-gap: 10px;
+  justify-items: center;
   align-items: center;
-  width: 100%;
-  height: 400px;
-  flex-wrap: wrap;
+  max-height: 400px;
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS devices */
+  margin-top: 20px;
 }
 
-.item{
+.item {
   width: 150px;
   height: 150px;
   background-color: rgb(56, 54, 54);
   cursor: grab;
   border: 5px solid;
-  margin: 5px;
+  border-radius: 50%;
+
 }
-.item:hover{
+
+.item:hover {
   background-color: rgb(62, 97, 43);
   transform: scale(0.9);
   transition: all 0.2s ease-in-out;
 }
 
-.item img{
+.item img {
   width: 100%;
   height: 100%;
   cursor: grabbing;
-}
+  border-radius: 50%;
 
+}
 .details{
   display: flex;
   flex-direction: row;
@@ -489,6 +522,7 @@ export default {
   flex-wrap: wrap;
   overflow-y: scroll;
 }
+
 
 #arrosoir1, 
 #arrosoir2, 
@@ -527,23 +561,141 @@ export default {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
+    background: #3b2804;
   }
 
+  .img-detail{
+    border-radius: 20%;
+    margin-bottom: 20px;
+  }
+  .item {
+  width: 100px;
+  height: 100px;
+  background-color: rgb(56, 54, 54);
+  cursor: grab;
+  border: 5px solid;
+  border-radius: 50%;
+
+}
+
+.details{
+  display: flex;
+  flex-direction: column;
+}
   .plantations{
     width: 100%;
     height: 100%;
+    padding: 40px 0;
+    background: #3b2804;
   }
 
   .inventory{
     width: 100%;
     height: 100%;
     order: -1;
-    border-bottom: #3b2804 10px solid;
+    border-bottom: #3b2804 solid;
   }
+
+
 
   .list-plants{
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
   }
+
+  .footer {
+    display: none;
+  }
+  .item-container {
+    background: #523c12;   
+  }
+
+  .details-plant p{
+    margin-left: 20px;
+  }
+
+  .item-plant{
+    width: 100%;
+  }
+.item-plant img{
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+  .item-container::-webkit-scrollbar {
+    display: none; /* Hide the scrollbar on WebKit browsers (Chrome, Safari) */
+  }
+#arrosoir1, 
+#arrosoir2, 
+#arrosoir3, 
+#arrosoir4{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  z-index: 100000;
+  display: none;
+}
+
+  .item-container {
+    -ms-overflow-style: none; /* Hide the scrollbar on IE and Edge */
+    scrollbar-width: none; /* Hide the scrollbar on Firefox */
+    overflow: -moz-scrollbars-none; /* Hide the scrollbar on older versions of Firefox */
+  }
+
+  .title-container{
+    border-bottom: #4caf50 5px solid;
+    border-top: #4caf50 7px solid;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .garden h1{
+    margin-top: 0px;
+  }
+
+  .title-container{
+    margin-bottom: 0px;
+  }
+}
+
+.title-container{
+  border-bottom: #4caf50 5px solid;
+  margin-bottom: 0px;
+  padding-bottom: 15px;
+}
+
+.footer {
+  padding: 20% 0 5% 0;
+  background-color: #3b2804;
+  text-align: center;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.footer-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 </style>
